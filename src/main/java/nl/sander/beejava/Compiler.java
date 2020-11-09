@@ -2,7 +2,7 @@ package nl.sander.beejava;
 
 import nl.sander.beejava.api.BeeClass;
 import nl.sander.beejava.constantpool.ConstantPool;
-import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
+import nl.sander.beejava.constantpool.entry.NodeConstant;
 import nl.sander.beejava.util.ByteBuf;
 
 import java.util.Set;
@@ -28,7 +28,7 @@ public class Compiler {
         buf.add(beeClass.getClassFileVersion().getMinor());
         buf.add(beeClass.getClassFileVersion().getMajor());
 
-        Set<ConstantPoolEntry> constantTree = constantTreeCreator.createConstantTree(beeClass);
+        Set<NodeConstant> constantTree = constantTreeCreator.createConstantTree(beeClass);
         ConstantPool constantPool = constantPoolCreator.createConstantPool(constantTree);
 
         buf.add(constantPool.getBytes());

@@ -1,9 +1,9 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class ClassEntry extends ConstantPoolEntry {
-    private final Utf8Entry name;
+public class ConstantClass extends NodeConstant {
+    private final ConstantUtf8 name;
 
-    public ClassEntry(Utf8Entry name) {
+    public ConstantClass(ConstantUtf8 name) {
         super(name);
         this.name = name;
     }
@@ -17,5 +17,10 @@ public class ClassEntry extends ConstantPoolEntry {
         return "ClassEntry{" +
                 "nameIndex=" + getNameIndex() +
                 '}';
+    }
+
+    @Override
+    public int getTag() {
+        return 7;
     }
 }

@@ -1,10 +1,10 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class LongEntry extends LeafEntry {
+public class ConstantLong extends LeafConstant {
 
     private final long longVal;
 
-    public LongEntry(long longVal) {
+    public ConstantLong(long longVal) {
         this.longVal = longVal;
     }
 
@@ -13,5 +13,10 @@ public class LongEntry extends LeafEntry {
         return "LongEntry{" +
                 "longVal=" + longVal +
                 '}';
+    }
+
+    @Override
+    public int getTag() {
+        return 5;
     }
 }

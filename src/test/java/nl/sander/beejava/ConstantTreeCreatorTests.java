@@ -20,45 +20,45 @@ public class ConstantTreeCreatorTests {
     @Test // This is not a maintainable test
     public void testMethodRefEntryForSuperConstructor() {
         BeeClass classWithIntField = createEmptyClass();
-        Set<ConstantPoolEntry> constantTree = new ConstantTreeCreator().createConstantTree(classWithIntField);
+        Set<NodeConstant> constantTree = new ConstantTreeCreator().createConstantTree(classWithIntField);
         assertEquals(1, constantTree.size());
-        ConstantPoolEntry superConstructor = constantTree.iterator().next();
+        NodeConstant superConstructor = constantTree.iterator().next();
 
-        assertEquals(MethodRefEntry.class, superConstructor.getClass());
-        MethodRefEntry methodRefEntry = (MethodRefEntry) superConstructor;
+        assertEquals(ConstantMethodRef.class, superConstructor.getClass());
+        ConstantMethodRef constantMethodRef = (ConstantMethodRef) superConstructor;
 
-        Set<ConstantPoolEntry> methodRefEntryChildren = methodRefEntry.getChildren();
+        Set<NodeConstant> methodRefEntryChildren = constantMethodRef.getChildren();
         assertEquals(2, methodRefEntryChildren.size());
 
-        Iterator<ConstantPoolEntry> firstChildren = methodRefEntryChildren.iterator();
-        ConstantPoolEntry child1 = firstChildren.next();
-        assertEquals(ClassEntry.class, child1.getClass());
-        ClassEntry classEntry = (ClassEntry) child1;
+        Iterator<NodeConstant> firstChildren = methodRefEntryChildren.iterator();
+        NodeConstant child1 = firstChildren.next();
+        assertEquals(ConstantClass.class, child1.getClass());
+        ConstantClass constantClass = (ConstantClass) child1;
 
-        Set<ConstantPoolEntry> classEntryChildren = classEntry.getChildren();
+        Set<NodeConstant> classEntryChildren = constantClass.getChildren();
         assertEquals(1, classEntryChildren.size());
-        ConstantPoolEntry child2 = classEntryChildren.iterator().next();
+        NodeConstant child2 = classEntryChildren.iterator().next();
 
-        assertEquals(Utf8Entry.class, child2.getClass());
-        Utf8Entry className = (Utf8Entry) child2;
+        assertEquals(ConstantUtf8.class, child2.getClass());
+        ConstantUtf8 className = (ConstantUtf8) child2;
         assertEquals("java/lang/Object", className.getUtf8());
 
-        ConstantPoolEntry child3 = firstChildren.next();
-        assertEquals(NameAndTypeEntry.class, child3.getClass());
-        NameAndTypeEntry nameAndTypeEntry = (NameAndTypeEntry) child3;
+        NodeConstant child3 = firstChildren.next();
+        assertEquals(ConstantNameAndType.class, child3.getClass());
+        ConstantNameAndType constantNameAndType = (ConstantNameAndType) child3;
 
-        Set<ConstantPoolEntry> nameAndTypeEntryChildren = nameAndTypeEntry.getChildren();
+        Set<NodeConstant> nameAndTypeEntryChildren = constantNameAndType.getChildren();
         assertEquals(2, nameAndTypeEntryChildren.size());
-        Iterator<ConstantPoolEntry> nameAndTypeChildrenIterator = nameAndTypeEntryChildren.iterator();
+        Iterator<NodeConstant> nameAndTypeChildrenIterator = nameAndTypeEntryChildren.iterator();
 
-        ConstantPoolEntry child4 = nameAndTypeChildrenIterator.next();
-        assertEquals(Utf8Entry.class, child4.getClass());
-        Utf8Entry name = (Utf8Entry) child4;
+        NodeConstant child4 = nameAndTypeChildrenIterator.next();
+        assertEquals(ConstantUtf8.class, child4.getClass());
+        ConstantUtf8 name = (ConstantUtf8) child4;
         assertEquals("<init>", name.getUtf8());
 
-        ConstantPoolEntry child5 = nameAndTypeChildrenIterator.next();
-        assertEquals(Utf8Entry.class, child5.getClass());
-        Utf8Entry type = (Utf8Entry) child5;
+        NodeConstant child5 = nameAndTypeChildrenIterator.next();
+        assertEquals(ConstantUtf8.class, child5.getClass());
+        ConstantUtf8 type = (ConstantUtf8) child5;
         assertEquals("()V", type.getUtf8());
     }
 

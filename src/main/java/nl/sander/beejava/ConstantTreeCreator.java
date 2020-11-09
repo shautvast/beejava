@@ -18,7 +18,7 @@ import java.util.Set;
  * also TODO make sure entries aren't duplicates
  */
 public class ConstantTreeCreator {
-    private final Set<ConstantPoolEntry> constantTree = new LinkedHashSet<>();
+    private final Set<NodeConstant> constantTree = new LinkedHashSet<>();
     private BeeClass beeClass;
 
     /**
@@ -28,7 +28,7 @@ public class ConstantTreeCreator {
      * @param beeClass the Class object for which the constant pool needs to be created
      * @return a Set of constant pool entries
      */
-    public Set<ConstantPoolEntry> createConstantTree(BeeClass beeClass) {
+    public Set<NodeConstant> createConstantTree(BeeClass beeClass) {
         constantTree.clear();
         this.beeClass = beeClass;
         beeClass.getConstructors().forEach(this::updateConstantTree);
@@ -55,23 +55,23 @@ public class ConstantTreeCreator {
     }
 
     private void addMethod(CodeLine codeline) {
-        constantTree.add(new MethodRefEntry(createClassName(codeline), createMethodNameAndType(codeline)));
+        constantTree.add(new ConstantMethodRef(createClassName(codeline), createMethodNameAndType(codeline)));
     }
 
     private void addField(CodeLine codeline) {
-        constantTree.add(new FieldRefEntry(createClassName(codeline), createFieldNameAndType(codeline)));
+        constantTree.add(new ConstantFieldRef(createClassName(codeline), createFieldNameAndType(codeline)));
     }
 
-    private NameAndTypeEntry createMethodNameAndType(CodeLine codeline) {
-        return new NameAndTypeEntry(new Utf8Entry(codeline.getMethodName()), new Utf8Entry(codeline.getMethodSignature()));
+    private ConstantNameAndType createMethodNameAndType(CodeLine codeline) {
+        return new ConstantNameAndType(new ConstantUtf8(codeline.getMethodName()), new ConstantUtf8(codeline.getMethodSignature()));
     }
 
-    private NameAndTypeEntry createFieldNameAndType(CodeLine codeline) {
-        return new NameAndTypeEntry(new Utf8Entry(codeline.getField().getName()), new Utf8Entry(TypeMapper.map(codeline.getField().getType())));
+    private ConstantNameAndType createFieldNameAndType(CodeLine codeline) {
+        return new ConstantNameAndType(new ConstantUtf8(codeline.getField().getName()), new ConstantUtf8(TypeMapper.map(codeline.getField().getType())));
     }
 
-    private ClassEntry createClassName(CodeLine codeline) {
-        return new ClassEntry(new Utf8Entry(internalName(getNameOfClass(codeline))));
+    private ConstantClass createClassName(CodeLine codeline) {
+        return new ConstantClass(new ConstantUtf8(internalName(getNameOfClass(codeline))));
     }
 
     private String getNameOfClass(CodeLine codeline) {

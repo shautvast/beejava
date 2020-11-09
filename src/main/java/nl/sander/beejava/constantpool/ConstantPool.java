@@ -1,14 +1,14 @@
 package nl.sander.beejava.constantpool;
 
-import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
+import nl.sander.beejava.constantpool.entry.NodeConstant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConstantPool {
-    private final List<ConstantPoolEntry> entries=new ArrayList<>();
+    private final List<NodeConstant> entries=new ArrayList<>();
 
-    public int getIndex(ConstantPoolEntry entry){
+    public int getIndex(NodeConstant entry){
         for (int i=0; i<entries.size(); i++){
             if (entries.get(i)==entry){
                 return i+1;
@@ -17,11 +17,7 @@ public class ConstantPool {
         return -1;
     }
 
-    public void add(int index, ConstantPoolEntry entry){
-        entries.add(index, entry);
-    }
-
-    public void add(ConstantPoolEntry entry){
+    public void add(NodeConstant entry){
         entries.add(entry);
     }
 
