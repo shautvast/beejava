@@ -1,11 +1,11 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class ConstantInteger extends LeafConstant {
+public class IntegerEntry extends LeafConstant {
     private static final byte TAG = 3;
 
     private final int intVal;
 
-    public ConstantInteger(int integer) {
+    public IntegerEntry(int integer) {
         this.intVal = integer;
     }
 

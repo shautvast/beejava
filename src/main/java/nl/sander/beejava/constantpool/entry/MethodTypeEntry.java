@@ -1,11 +1,11 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class ConstantMethodType extends NodeConstant {
+public class MethodTypeEntry extends NodeConstant {
     private static final byte TAG = 16;
 
-    private final ConstantUtf8 methodDescriptor;
+    private final Utf8Entry methodDescriptor;
 
-    public ConstantMethodType(ConstantUtf8 methodDescriptor) {
+    public MethodTypeEntry(Utf8Entry methodDescriptor) {
         this.methodDescriptor = methodDescriptor;
     }
 

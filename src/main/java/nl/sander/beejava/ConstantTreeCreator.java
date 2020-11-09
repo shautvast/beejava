@@ -34,6 +34,7 @@ public class ConstantTreeCreator {
         beeClass.getConstructors().forEach(this::updateConstantTree);
         // TODO update constantTree for fields ?
         // TODO update constantTree for methods
+        constantTree.add(new ClassEntry(new Utf8Entry(internalName(beeClass.getName()))));
         return constantTree;
     }
 
@@ -55,23 +56,23 @@ public class ConstantTreeCreator {
     }
 
     private void addMethod(CodeLine codeline) {
-        constantTree.add(new ConstantMethodRef(createClassName(codeline), createMethodNameAndType(codeline)));
+        constantTree.add(new MethodRefEntry(createClassName(codeline), createMethodNameAndType(codeline)));
     }
 
     private void addField(CodeLine codeline) {
-        constantTree.add(new ConstantFieldRef(createClassName(codeline), createFieldNameAndType(codeline)));
+        constantTree.add(new FieldRefEntry(createClassName(codeline), createFieldNameAndType(codeline)));
     }
 
-    private ConstantNameAndType createMethodNameAndType(CodeLine codeline) {
-        return new ConstantNameAndType(new ConstantUtf8(codeline.getMethodName()), new ConstantUtf8(codeline.getMethodSignature()));
+    private NameAndTypeEntry createMethodNameAndType(CodeLine codeline) {
+        return new NameAndTypeEntry(new Utf8Entry(codeline.getMethodName()), new Utf8Entry(codeline.getMethodSignature()));
     }
 
-    private ConstantNameAndType createFieldNameAndType(CodeLine codeline) {
-        return new ConstantNameAndType(new ConstantUtf8(codeline.getField().getName()), new ConstantUtf8(TypeMapper.map(codeline.getField().getType())));
+    private NameAndTypeEntry createFieldNameAndType(CodeLine codeline) {
+        return new NameAndTypeEntry(new Utf8Entry(codeline.getField().getName()), new Utf8Entry(TypeMapper.map(codeline.getField().getType())));
     }
 
-    private ConstantClass createClassName(CodeLine codeline) {
-        return new ConstantClass(new ConstantUtf8(internalName(getNameOfClass(codeline))));
+    private ClassEntry createClassName(CodeLine codeline) {
+        return new ClassEntry(new Utf8Entry(internalName(getNameOfClass(codeline))));
     }
 
     private String getNameOfClass(CodeLine codeline) {

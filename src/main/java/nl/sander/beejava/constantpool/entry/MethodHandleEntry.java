@@ -1,17 +1,17 @@
 package nl.sander.beejava.constantpool.entry;
 
 //TODO implement later
-public class ConstantMethodHandle extends NodeConstant {
+public class MethodHandleEntry extends NodeConstant {
     private static final byte TAG = 15;
 
     private final int referenceKind;
 
     // only 1 of these can be present:
-    private ConstantFieldRef constantFieldRef;
-    private ConstantMethodRef constantMethodRef;
-    private ConstantInterfaceMethodRef constantInterfaceMethodRef;
+    private FieldRefEntry fieldRefEntry;
+    private MethodRefEntry methodRefEntry;
+    private InterfaceMethodRefEntry interfaceMethodRefEntry;
 
-    public ConstantMethodHandle(int referenceKind) {
+    public MethodHandleEntry(int referenceKind) {
         this.referenceKind = referenceKind;
     }
 

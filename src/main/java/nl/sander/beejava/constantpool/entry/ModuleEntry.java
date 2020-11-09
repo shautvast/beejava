@@ -1,12 +1,12 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class ConstantModule extends NodeConstant {
+public class ModuleEntry extends NodeConstant {
 
     private static final byte TAG = 19;
 
-    private final ConstantUtf8 nameEntry;
+    private final Utf8Entry nameEntry;
 
-    public ConstantModule(ConstantUtf8 nameEntry) {
+    public ModuleEntry(Utf8Entry nameEntry) {
         super(nameEntry);
         this.nameEntry = nameEntry;
     }
@@ -16,6 +16,6 @@ public class ConstantModule extends NodeConstant {
     }
 
     public byte[] getBytes() {
-        return new byte[]{TAG, upperFraction(getNameIndex()), lowerFraction(getNameIndex())};
+        return new byte[]{TAG, upperByte(getNameIndex()), lowerByte(getNameIndex())};
     }
 }

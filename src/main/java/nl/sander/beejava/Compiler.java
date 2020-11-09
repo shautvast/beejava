@@ -24,15 +24,34 @@ public class Compiler {
 
     private byte[] doCompile() {
         ByteBuf buf = new ByteBuf();
-        buf.add(0xCA, 0xFE, 0xBA, 0xBE);
-        buf.add(beeClass.getClassFileVersion().getMinor());
-        buf.add(beeClass.getClassFileVersion().getMajor());
+        buf.addU8(0xCA, 0xFE, 0xBA, 0xBE);
+        buf.addU16(beeClass.getClassFileVersion().getMinor());
+        buf.addU16(beeClass.getClassFileVersion().getMajor());
 
         Set<NodeConstant> constantTree = constantTreeCreator.createConstantTree(beeClass);
         ConstantPool constantPool = constantPoolCreator.createConstantPool(constantTree);
 
-        buf.add(constantPool.getBytes());
+        buf.addU16(constantPool.getLength());
+        buf.addU8(constantPool.getBytes());
+
+
+
+        printBytes(buf);
+
         return buf.toBytes();
+    }
+
+    //TODO remove
+    private void printBytes(ByteBuf buf) {
+        byte[] bytes = buf.toBytes();
+        int count = 0;
+        for (byte b : bytes) {
+            System.out.print(String.format("%2s", Integer.toHexString(b & 0xFF)).replace(' ', '0') + (count % 2 == 0 ? "" : " "));
+            if (++count > 15) {
+                count = 0;
+                System.out.println();
+            }
+        }
     }
 
 

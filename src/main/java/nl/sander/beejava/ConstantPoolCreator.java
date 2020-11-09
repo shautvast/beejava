@@ -15,7 +15,7 @@ public class ConstantPoolCreator {
 
     public ConstantPool createConstantPool(Set<NodeConstant> constantTree) {
         constantPool = new ConstantPool();
-        constantPool.add(null); // dummy element to align it's index with the indexes in the elements themselves
+//        constantPool.add(null); // dummy element to align it's index with the indexes in the elements themselves
         index = 0;
         updateToplevelElements(constantTree);
         return constantPool;

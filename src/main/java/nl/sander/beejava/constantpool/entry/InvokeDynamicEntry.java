@@ -1,14 +1,14 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class ConstantInvokeDynamic extends NodeConstant {
+public class InvokeDynamicEntry extends NodeConstant {
     private static final byte TAG = 18;
 
     private final int bootstrapMethodAttrIndex; //??
-    private final ConstantNameAndType constantNameAndType;
+    private final NameAndTypeEntry nameAndTypeEntry;
 
-    public ConstantInvokeDynamic(int bootstrapMethodAttrIndex, ConstantNameAndType constantNameAndType) {
+    public InvokeDynamicEntry(int bootstrapMethodAttrIndex, NameAndTypeEntry nameAndTypeEntry) {
         this.bootstrapMethodAttrIndex = bootstrapMethodAttrIndex;
-        this.constantNameAndType = constantNameAndType;
+        this.nameAndTypeEntry = nameAndTypeEntry;
     }
 
 
@@ -16,7 +16,7 @@ public class ConstantInvokeDynamic extends NodeConstant {
     public String toString() {
         return "InvokeDynamicEntry{" +
                 "bootstrapMethodAttrIndex=" + bootstrapMethodAttrIndex +
-                ", nameAndTypeIndex=" + constantNameAndType.getIndex() +
+                ", nameAndTypeIndex=" + nameAndTypeEntry.getIndex() +
                 '}';
     }
 

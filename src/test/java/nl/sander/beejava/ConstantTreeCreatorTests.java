@@ -19,66 +19,47 @@ public class ConstantTreeCreatorTests {
     // creates simplest class possible and checks the tree, that the ConstantTreeCreator emits
     @Test // This is not a maintainable test
     public void testMethodRefEntryForSuperConstructor() {
-        BeeClass classWithIntField = createEmptyClass();
+        BeeClass classWithIntField = TestData.emptyClass();
         Set<NodeConstant> constantTree = new ConstantTreeCreator().createConstantTree(classWithIntField);
         assertEquals(1, constantTree.size());
         NodeConstant superConstructor = constantTree.iterator().next();
 
-        assertEquals(ConstantMethodRef.class, superConstructor.getClass());
-        ConstantMethodRef constantMethodRef = (ConstantMethodRef) superConstructor;
+        assertEquals(MethodRefEntry.class, superConstructor.getClass());
+        MethodRefEntry methodRefEntry = (MethodRefEntry) superConstructor;
 
-        Set<NodeConstant> methodRefEntryChildren = constantMethodRef.getChildren();
+        Set<NodeConstant> methodRefEntryChildren = methodRefEntry.getChildren();
         assertEquals(2, methodRefEntryChildren.size());
 
         Iterator<NodeConstant> firstChildren = methodRefEntryChildren.iterator();
         NodeConstant child1 = firstChildren.next();
-        assertEquals(ConstantClass.class, child1.getClass());
-        ConstantClass constantClass = (ConstantClass) child1;
+        assertEquals(ClassEntry.class, child1.getClass());
+        ClassEntry classEntry = (ClassEntry) child1;
 
-        Set<NodeConstant> classEntryChildren = constantClass.getChildren();
+        Set<NodeConstant> classEntryChildren = classEntry.getChildren();
         assertEquals(1, classEntryChildren.size());
         NodeConstant child2 = classEntryChildren.iterator().next();
 
-        assertEquals(ConstantUtf8.class, child2.getClass());
-        ConstantUtf8 className = (ConstantUtf8) child2;
+        assertEquals(Utf8Entry.class, child2.getClass());
+        Utf8Entry className = (Utf8Entry) child2;
         assertEquals("java/lang/Object", className.getUtf8());
 
         NodeConstant child3 = firstChildren.next();
-        assertEquals(ConstantNameAndType.class, child3.getClass());
-        ConstantNameAndType constantNameAndType = (ConstantNameAndType) child3;
+        assertEquals(NameAndTypeEntry.class, child3.getClass());
+        NameAndTypeEntry nameAndTypeEntry = (NameAndTypeEntry) child3;
 
-        Set<NodeConstant> nameAndTypeEntryChildren = constantNameAndType.getChildren();
+        Set<NodeConstant> nameAndTypeEntryChildren = nameAndTypeEntry.getChildren();
         assertEquals(2, nameAndTypeEntryChildren.size());
         Iterator<NodeConstant> nameAndTypeChildrenIterator = nameAndTypeEntryChildren.iterator();
 
         NodeConstant child4 = nameAndTypeChildrenIterator.next();
-        assertEquals(ConstantUtf8.class, child4.getClass());
-        ConstantUtf8 name = (ConstantUtf8) child4;
+        assertEquals(Utf8Entry.class, child4.getClass());
+        Utf8Entry name = (Utf8Entry) child4;
         assertEquals("<init>", name.getUtf8());
 
         NodeConstant child5 = nameAndTypeChildrenIterator.next();
-        assertEquals(ConstantUtf8.class, child5.getClass());
-        ConstantUtf8 type = (ConstantUtf8) child5;
+        assertEquals(Utf8Entry.class, child5.getClass());
+        Utf8Entry type = (Utf8Entry) child5;
         assertEquals("()V", type.getUtf8());
-    }
-
-    private BeeClass createEmptyClass() {
-        BeeConstructor constructor = BeeConstructor.builder()
-                .withAccessFlags(MethodAccessFlag.PUBLIC)
-                .withCode(
-                        line(0, LOAD, Ref.THIS),
-                        line(1, INVOKE, Ref.SUPER, "<init>", "()"),
-                        line(5, RETURN))
-                .build();
-
-        return BeeClass.builder()
-                .withClassFileVersion(Version.V14)
-                .withPackage("nl.sander.beejava.test")
-                .withAccessFlags(PUBLIC)
-                .withSimpleName("EmptyBean")
-                .withSuperClass(Object.class) // Not mandatory, like in java sourcecode
-                .withConstructors(constructor) // There's no default constructor in beejava. The user must always add them
-                .build();
     }
 
     private BeeClass createClassWithIntField() {

@@ -47,7 +47,7 @@ public abstract class NodeConstant {
      * @param u16 is assumed to be 16 bits unsigned integer
      * @return lower 8 bits as byte
      */
-    protected byte lowerFraction(int u16) {
+    protected byte lowerByte(int u16) {
         return (byte) (u16 & 0xFF);
     }
 
@@ -57,11 +57,11 @@ public abstract class NodeConstant {
      * @param u16 is assumed to be 16 bits unsigned integer
      * @return upper 8 bits as byte
      */
-    protected byte upperFraction(int u16) {
+    protected byte upperByte(int u16) {
         return (byte) (u16 << 8);
     }
 
-    protected byte rshift(long bits, int positions) {
-        return (byte) (bits >>> positions);
+    protected byte getByte(long bits, int positions) {
+        return (byte) ((bits >>> positions) & 0xFF);
     }
 }

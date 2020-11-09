@@ -42,29 +42,33 @@ public class ByteBuf {
         data.clear();
     }
 
-    public void add(final byte c) {
+    public void addU8(final byte c) {
         if (data.remaining() == 0) {
             enlarge(1);
         }
         data.put(c);
     }
 
-    public void add(final byte[] bytes) {
+    public void addU8(final byte[] bytes) {
         if (data.remaining() < bytes.length) {
             enlarge(bytes.length);
         }
         data.put(bytes);
     }
 
-    public void add(final int... ints) {
+    public void addU8(final int... ints) {
         if (data.remaining() < ints.length) {
             enlarge(ints.length);
         }
         byte[] bytes = new byte[ints.length];
         for (int i = 0; i < ints.length; i++) {
-            bytes[i] = (byte) (i & 0xFF);
+            bytes[i] = (byte) (ints[i] & 0xFF);
         }
-        add(bytes);
+        addU8(bytes);
+    }
+
+    public void addU16(int u16) {
+        addU8((u16 >>> 8) & 0xFF, u16 & 0xFF);
     }
 
     private void enlarge(final int size) {
@@ -76,11 +80,11 @@ public class ByteBuf {
         data = newData;
     }
 
-    public int length() {
-        return data.limit() - data.remaining();
-    }
-
     public byte[] toBytes() {
-        return data.array();
+        int length = data.limit() - data.remaining();
+        data.rewind();
+        byte[] arr = new byte[length];
+        data.get(arr);
+        return arr;
     }
 }

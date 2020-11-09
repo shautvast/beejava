@@ -11,39 +11,39 @@ public class TagCorrectnessTest {
     @Test
     public void testSpec() {
         assertEquals(1, utf8().getTag());
-        assertEquals(3, new ConstantInteger(0).getTag());
-        assertEquals(4, new ConstantFloat(0).getTag());
-        assertEquals(5, new ConstantLong(0).getTag());
-        assertEquals(6, new ConstantDouble(0).getTag());
+        assertEquals(3, new IntegerEntry(0).getTag());
+        assertEquals(4, new FloatEntry(0).getTag());
+        assertEquals(5, new LongEntry(0).getTag());
+        assertEquals(6, new DoubleEntry(0).getTag());
         assertEquals(7, classEntry().getTag());
-        assertEquals(8, new ConstantString(utf8()).getTag());
+        assertEquals(8, new StringEntry(utf8()).getTag());
         assertEquals(9, fieldRef().getTag());
-        assertEquals(10, new ConstantMethodRef(classEntry(), nameAndType()).getTag());
-        assertEquals(11, new ConstantInterfaceMethodRef(classEntry(), nameAndType()).getTag());
+        assertEquals(10, new MethodRefEntry(classEntry(), nameAndType()).getTag());
+        assertEquals(11, new InterfaceMethodRefEntry(classEntry(), nameAndType()).getTag());
         assertEquals(12, nameAndType().getTag());
-        assertEquals(15, new ConstantMethodHandle(0).getTag()); //TODO
-        assertEquals(16, new ConstantMethodType(utf8()).getTag()); //TODO
-        assertEquals(17, new ConstantDynamic(0, nameAndType()).getTag()); //TODO
-        assertEquals(18, new ConstantInvokeDynamic(0, nameAndType()).getTag()); //TODO
-        assertEquals(19, new ConstantModule(utf8()).getTag());
-        assertEquals(20, new ConstantPackage(utf8()).getTag());
+        assertEquals(15, new MethodHandleEntry(0).getTag()); //TODO
+        assertEquals(16, new MethodTypeEntry(utf8()).getTag()); //TODO
+        assertEquals(17, new DynamicEntry(0, nameAndType()).getTag()); //TODO
+        assertEquals(18, new InvokeDynamicEntry(0, nameAndType()).getTag()); //TODO
+        assertEquals(19, new ModuleEntry(utf8()).getTag());
+        assertEquals(20, new PackageEntry(utf8()).getTag());
 
     }
 
-    private ConstantFieldRef fieldRef() {
-        return new ConstantFieldRef(classEntry(), nameAndType());
+    private FieldRefEntry fieldRef() {
+        return new FieldRefEntry(classEntry(), nameAndType());
     }
 
-    private ConstantNameAndType nameAndType() {
-        return new ConstantNameAndType(utf8(), utf8());
+    private NameAndTypeEntry nameAndType() {
+        return new NameAndTypeEntry(utf8(), utf8());
     }
 
 
-    private ConstantClass classEntry() {
-        return new ConstantClass(utf8());
+    private ClassEntry classEntry() {
+        return new ClassEntry(utf8());
     }
 
-    private ConstantUtf8 utf8() {
-        return new ConstantUtf8("");
+    private Utf8Entry utf8() {
+        return new Utf8Entry("");
     }
 }

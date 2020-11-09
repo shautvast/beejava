@@ -1,10 +1,10 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class ConstantString extends NodeConstant {
+public class StringEntry extends NodeConstant {
     private static final byte TAG = 8;
-    private final ConstantUtf8 utf8;
+    private final Utf8Entry utf8;
 
-    public ConstantString(ConstantUtf8 utf8) {
+    public StringEntry(Utf8Entry utf8) {
         this.utf8 = utf8;
     }
 
@@ -20,6 +20,6 @@ public class ConstantString extends NodeConstant {
     }
 
     public byte[] getBytes() {
-        return new byte[]{TAG, upperFraction(getUtf8Index()), lowerFraction(getUtf8Index())};
+        return new byte[]{TAG, upperByte(getUtf8Index()), lowerByte(getUtf8Index())};
     }
 }

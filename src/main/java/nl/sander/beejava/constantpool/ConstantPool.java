@@ -24,7 +24,14 @@ public class ConstantPool {
 
     public byte[] getBytes() {
         ByteBuf bytes = new ByteBuf();
-        entries.forEach(entry -> bytes.add(entry.getBytes()));
+        entries.forEach(entry -> bytes.addU8(entry.getBytes()));
         return bytes.toBytes();
+    }
+
+    /**
+     * get the length +1
+     */
+    public int getLength() {
+        return entries.size() + 1;
     }
 }
