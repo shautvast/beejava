@@ -2,6 +2,8 @@ package nl.sander.beejava.constantpool.entry;
 
 //TODO implement later
 public class ConstantMethodHandle extends NodeConstant {
+    private static final byte TAG = 15;
+
     private final int referenceKind;
 
     // only 1 of these can be present:
@@ -25,8 +27,7 @@ public class ConstantMethodHandle extends NodeConstant {
         return 0; //TODO implement
     }
 
-    @Override
-    public int getTag() {
-        return 15;
+    public byte[] getBytes() {
+        return new byte[]{TAG};
     }
 }

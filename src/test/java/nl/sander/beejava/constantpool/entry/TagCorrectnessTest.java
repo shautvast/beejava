@@ -10,17 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TagCorrectnessTest {
     @Test
     public void testSpec() {
-        assertEquals(7, classEntry().getTag());
-        assertEquals(9, fieldRef().getTag());
-        assertEquals(10, new ConstantMethodRef(classEntry(), nameAndType()).getTag());
-        assertEquals(11, new ConstantInterfaceMethodRef(classEntry(), nameAndType()).getTag());
-        assertEquals(8, new ConstantString(utf8()).getTag());
+        assertEquals(1, utf8().getTag());
         assertEquals(3, new ConstantInteger(0).getTag());
         assertEquals(4, new ConstantFloat(0).getTag());
         assertEquals(5, new ConstantLong(0).getTag());
         assertEquals(6, new ConstantDouble(0).getTag());
+        assertEquals(7, classEntry().getTag());
+        assertEquals(8, new ConstantString(utf8()).getTag());
+        assertEquals(9, fieldRef().getTag());
+        assertEquals(10, new ConstantMethodRef(classEntry(), nameAndType()).getTag());
+        assertEquals(11, new ConstantInterfaceMethodRef(classEntry(), nameAndType()).getTag());
         assertEquals(12, nameAndType().getTag());
-        assertEquals(1, utf8().getTag());
         assertEquals(15, new ConstantMethodHandle(0).getTag()); //TODO
         assertEquals(16, new ConstantMethodType(utf8()).getTag()); //TODO
         assertEquals(17, new ConstantDynamic(0, nameAndType()).getTag()); //TODO

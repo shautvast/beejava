@@ -1,13 +1,14 @@
 package nl.sander.beejava.constantpool.entry;
 
 public class ConstantNameAndType extends NodeConstant {
+    private static final byte TAG = 12;
     private final ConstantUtf8 name;
-    private final ConstantUtf8 type;
+    private final ConstantUtf8 descriptor;
 
-    public ConstantNameAndType(ConstantUtf8 name, ConstantUtf8 type) {
-        super(name,type);
+    public ConstantNameAndType(ConstantUtf8 name, ConstantUtf8 descriptor) {
+        super(name, descriptor);
         this.name = name;
-        this.type = type;
+        this.descriptor = descriptor;
     }
 
 
@@ -15,20 +16,19 @@ public class ConstantNameAndType extends NodeConstant {
         return name.getIndex();
     }
 
-    public int getTypeIndex() {
-        return type.getIndex();
+    public int getDescriptorIndex() {
+        return descriptor.getIndex();
     }
 
     @Override
     public String toString() {
         return "NameAndTypeEntry{" +
                 "nameIndex=" + getNameIndex() +
-                ", typeIndex=" + getTypeIndex() +
+                ", typeIndex=" + getDescriptorIndex() +
                 '}';
     }
 
-    @Override
-    public int getTag() {
-        return 12;
+    public byte[] getBytes() {
+        return new byte[]{TAG, upperFraction(getNameIndex()), lowerFraction(getNameIndex()), upperFraction(getDescriptorIndex()), lowerFraction(getDescriptorIndex())};
     }
 }

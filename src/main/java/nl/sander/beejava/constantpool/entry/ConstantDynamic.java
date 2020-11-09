@@ -1,6 +1,7 @@
 package nl.sander.beejava.constantpool.entry;
 
 public class ConstantDynamic extends NodeConstant {
+    private static final byte TAG = 17;
     private final int bootstrapMethodIndex; // TODO
     private final ConstantNameAndType nameAndType;
 
@@ -10,11 +11,11 @@ public class ConstantDynamic extends NodeConstant {
     }
 
     @Override
-    public int getTag() {
-        return 17;
+    public byte[] getBytes() {
+        return new byte[]{TAG};
     }
 
-    public int getNameAndTypeIndex(){
+    public int getNameAndTypeIndex() {
         return nameAndType.getIndex();
     }
 }

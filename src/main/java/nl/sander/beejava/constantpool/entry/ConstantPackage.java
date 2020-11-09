@@ -1,6 +1,7 @@
 package nl.sander.beejava.constantpool.entry;
 
 public class ConstantPackage extends NodeConstant {
+    private static final byte TAG = 20;
     private final ConstantUtf8 name;
 
     public ConstantPackage(ConstantUtf8 name) {
@@ -12,8 +13,7 @@ public class ConstantPackage extends NodeConstant {
         return name.getIndex();
     }
 
-    @Override
-    public int getTag() {
-        return 20;
+    public byte[] getBytes() {
+        return new byte[]{TAG, upperFraction(getNameIndex()), lowerFraction(getNameIndex())};
     }
 }

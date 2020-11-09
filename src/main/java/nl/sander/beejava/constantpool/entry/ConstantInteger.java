@@ -1,6 +1,8 @@
 package nl.sander.beejava.constantpool.entry;
 
 public class ConstantInteger extends LeafConstant {
+    private static final byte TAG = 3;
+
     private final int intVal;
 
     public ConstantInteger(int integer) {
@@ -15,7 +17,7 @@ public class ConstantInteger extends LeafConstant {
     }
 
     @Override
-    public int getTag() {
-        return 3;
+    public byte[] getBytes() {
+        return new byte[]{TAG, (byte) (intVal >>> 24), (byte) (intVal >>> 16), (byte) (intVal >>> 8), (byte) (intVal & 0xFF)};
     }
 }

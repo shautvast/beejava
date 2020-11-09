@@ -1,6 +1,8 @@
 package nl.sander.beejava.constantpool.entry;
 
 public class ConstantMethodRef extends NodeConstant {
+    private static final byte TAG = 10;
+
     private final ConstantClass constantClass;
     private final ConstantNameAndType constantNameAndType;
 
@@ -18,8 +20,8 @@ public class ConstantMethodRef extends NodeConstant {
         return constantNameAndType.getIndex();
     }
 
-    @Override
-    public int getTag() {
-        return 10;
+
+    public byte[] getBytes() {
+        return new byte[]{TAG};
     }
 }
