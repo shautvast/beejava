@@ -1,6 +1,6 @@
 package nl.sander.beejava.flags;
 
-import nl.sander.beejava.flags.AccessFlag;
+import java.util.Collection;
 
 public enum ClassAccessFlag implements AccessFlag {
     PUBLIC(0x0001), // Declared public; may be accessed from outside its package.
@@ -13,10 +13,15 @@ public enum ClassAccessFlag implements AccessFlag {
     ENUM(0x4000), // Declared as an enum type.
     MODULE(0x8000); // Is a module, not a class or interface.
 
+
     private final int bytecode;
 
     ClassAccessFlag(int bytecode) {
-        this.bytecode=bytecode;
+        this.bytecode = bytecode;
+    }
+
+    public static int getSum(Collection<ClassAccessFlag> flags) {
+        return flags.stream().mapToInt(ClassAccessFlag::getBytecode).reduce(0, (result, value) -> result | value);
     }
 
     @Override

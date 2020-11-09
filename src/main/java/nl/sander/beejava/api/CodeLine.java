@@ -90,6 +90,10 @@ public class CodeLine {
         return ref;
     }
 
+    public boolean hasRef() {
+        return ref != null;
+    }
+
     public boolean hasField() {
         return field != null;
     }

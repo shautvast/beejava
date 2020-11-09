@@ -3,6 +3,7 @@ package nl.sander.beejava;
 import nl.sander.beejava.api.BeeClass;
 import nl.sander.beejava.constantpool.ConstantPool;
 import nl.sander.beejava.constantpool.entry.NodeConstant;
+import nl.sander.beejava.flags.ClassAccessFlag;
 import nl.sander.beejava.util.ByteBuf;
 
 import java.util.Set;
@@ -33,9 +34,14 @@ public class Compiler {
 
         buf.addU16(constantPool.getLength());
         buf.addU8(constantPool.getBytes());
+        buf.addU16(ClassAccessFlag.getSum(beeClass.getAccessFlags()));
+        buf.addU16(constantTreeCreator.getThisClass().getIndex());
+        buf.addU16(constantTreeCreator.getSuperClass().getIndex());
 
-
-
+        int x = 1;
+        for (NodeConstant e : constantPool) {
+            System.out.println((x++) + ":" + e);
+        }
         printBytes(buf);
 
         return buf.toBytes();
