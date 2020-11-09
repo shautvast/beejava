@@ -1,6 +1,6 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class InvokeDynamicEntry extends NodeConstant {
+public class InvokeDynamicEntry extends ConstantPoolEntry {
     private static final byte TAG = 18;
 
     private final int bootstrapMethodAttrIndex; //??

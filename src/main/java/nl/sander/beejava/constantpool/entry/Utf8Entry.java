@@ -2,7 +2,7 @@ package nl.sander.beejava.constantpool.entry;
 
 import java.nio.charset.StandardCharsets;
 
-public class Utf8Entry extends LeafConstant {
+public class Utf8Entry extends LeafConstantPoolEntry {
     private static final byte TAG = 1;
     private final String value;
 

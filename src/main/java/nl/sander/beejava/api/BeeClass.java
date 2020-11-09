@@ -67,6 +67,10 @@ public class BeeClass {
         return superClass;
     }
 
+    public Set<Class<?>> getInterfaces() {
+        return interfaces;
+    }
+
     public Set<BeeField> getFields() {
         return fields;
     }

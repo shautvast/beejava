@@ -1,6 +1,6 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class ModuleEntry extends NodeConstant {
+public class ModuleEntry extends ConstantPoolEntry {
 
     private static final byte TAG = 19;
 

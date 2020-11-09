@@ -6,9 +6,9 @@ import java.util.Set;
 /**
  * Is a constant without children
  */
-public abstract class LeafConstant extends NodeConstant {
+public abstract class LeafConstantPoolEntry extends ConstantPoolEntry {
     @Override
-    public Set<NodeConstant> getChildren() {
+    public Set<ConstantPoolEntry> getChildren() {
         return Collections.emptySet();
     }
 }

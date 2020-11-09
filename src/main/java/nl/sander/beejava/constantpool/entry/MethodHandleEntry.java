@@ -1,7 +1,7 @@
 package nl.sander.beejava.constantpool.entry;
 
 //TODO implement later
-public class MethodHandleEntry extends NodeConstant {
+public class MethodHandleEntry extends ConstantPoolEntry {
     private static final byte TAG = 15;
 
     private final int referenceKind;

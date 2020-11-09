@@ -1,14 +1,13 @@
 package nl.sander.beejava.constantpool;
 
-import nl.sander.beejava.constantpool.entry.NodeConstant;
+import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
 import nl.sander.beejava.util.ByteBuf;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ConstantPool extends ArrayList<NodeConstant>{
+public class ConstantPool extends ArrayList<ConstantPoolEntry>{
 
-    public int getIndex(NodeConstant entry) {
+    public int getIndex(ConstantPoolEntry entry) {
         for (int i = 0; i < size(); i++) {
             if (get(i) == entry) {
                 return i + 1;

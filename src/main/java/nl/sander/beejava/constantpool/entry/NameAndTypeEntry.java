@@ -1,6 +1,6 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class NameAndTypeEntry extends NodeConstant {
+public class NameAndTypeEntry extends ConstantPoolEntry {
     private static final byte TAG = 12;
     private final Utf8Entry name;
     private final Utf8Entry descriptor;

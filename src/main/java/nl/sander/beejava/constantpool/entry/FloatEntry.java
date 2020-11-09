@@ -1,6 +1,6 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class FloatEntry extends LeafConstant {
+public class FloatEntry extends LeafConstantPoolEntry {
     private static final byte TAG = 4;
 
     private final float floatVal;

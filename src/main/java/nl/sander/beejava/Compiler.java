@@ -1,64 +1,83 @@
 package nl.sander.beejava;
 
 import nl.sander.beejava.api.BeeClass;
-import nl.sander.beejava.constantpool.ConstantPool;
-import nl.sander.beejava.constantpool.entry.NodeConstant;
-import nl.sander.beejava.flags.ClassAccessFlag;
-import nl.sander.beejava.util.ByteBuf;
+import nl.sander.beejava.api.CodeLine;
+import nl.sander.beejava.api.Ref;
+import nl.sander.beejava.constantpool.entry.*;
 
-import java.util.Set;
-
+/**
+ * Builds a set of a tree of constant pool entries that refer to each other.
+ * <p>
+ * A client must supply a {@link BeeClass} containing a set of {@link CodeLine}s that is assumed to be correct.
+ * It doesn't check if a valid state is reached.
+ */
+/* So the name isn't entirely correct. Waiting for inspiration.
+ * also TODO make sure entries aren't duplicates
+ */
 public class Compiler {
+    private CompiledClass compiledClass;
 
-    private final BeeClass beeClass; // maybe not a member?
-    private final ConstantTreeCreator constantTreeCreator = new ConstantTreeCreator();
-    private final ConstantPoolCreator constantPoolCreator = new ConstantPoolCreator();
+    /**
+     * Creates a Set of nested entries that make up a single reference. For instance a class reference whose name is a utf8 reference.
+     * In the constant pool they are consecutive entries, but they are created like nodes in a tree structure that models their relation.
+     *
+     * @param beeClass the Class object for which the constant pool needs to be created
+     * @return a Set of constant pool entries
+     */
+    public CompiledClass compile(BeeClass beeClass) {
+        compiledClass = new CompiledClass(beeClass);
+        beeClass.getConstructors().forEach(this::updateConstantPool);
+        // TODO update constantTree for fields ?
+        // TODO update constantTree for methods
 
-    public Compiler(BeeClass beeClass) {
-        this.beeClass = beeClass;
+        compiledClass.setThisClass();
+        compiledClass.setInterfaces();
+
+        return compiledClass;
     }
 
-    public static byte[] compile(BeeClass beeClass) {
-        Compiler compiler = new Compiler(beeClass);
-        return compiler.doCompile();
+
+    private void updateConstantPool(ContainsCode codeContainer) {
+        codeContainer.getCode().forEach(this::updateConstantPool);
     }
 
-    private byte[] doCompile() {
-        ByteBuf buf = new ByteBuf();
-        buf.addU8(0xCA, 0xFE, 0xBA, 0xBE);
-        buf.addU16(beeClass.getClassFileVersion().getMinor());
-        buf.addU16(beeClass.getClassFileVersion().getMajor());
-
-        Set<NodeConstant> constantTree = constantTreeCreator.createConstantTree(beeClass);
-        ConstantPool constantPool = constantPoolCreator.createConstantPool(constantTree);
-
-        buf.addU16(constantPool.getLength());
-        buf.addU8(constantPool.getBytes());
-        buf.addU16(ClassAccessFlag.getSum(beeClass.getAccessFlags()));
-        buf.addU16(constantTreeCreator.getThisClass().getIndex());
-        buf.addU16(constantTreeCreator.getSuperClass().getIndex());
-
-        int x = 1;
-        for (NodeConstant e : constantPool) {
-            System.out.println((x++) + ":" + e);
+    /*
+     * scan code line for items that need adding to the constant pool
+     */
+    private void updateConstantPool(CodeLine codeline) {
+        if (codeline.hasMethod()) {
+            addMethod(codeline);
         }
-        printBytes(buf);
 
-        return buf.toBytes();
-    }
-
-    //TODO remove
-    private void printBytes(ByteBuf buf) {
-        byte[] bytes = buf.toBytes();
-        int count = 0;
-        for (byte b : bytes) {
-            System.out.print(String.format("%2s", Integer.toHexString(b & 0xFF)).replace(' ', '0') + (count % 2 == 0 ? "" : " "));
-            if (++count > 15) {
-                count = 0;
-                System.out.println();
-            }
+        if (codeline.hasField()) {
+            addField(codeline);
         }
     }
 
+    private void addMethod(CodeLine codeline) {
+        compiledClass.addConstantPoolEntry(new MethodRefEntry(getOrCreateClassEntry(codeline), createMethodNameAndType(codeline)));
+    }
+
+    private void addField(CodeLine codeline) {
+        compiledClass.addConstantPoolEntry(new FieldRefEntry(getOrCreateClassEntry(codeline), createFieldNameAndType(codeline)));
+    }
+
+    private NameAndTypeEntry createMethodNameAndType(CodeLine codeline) {
+        return new NameAndTypeEntry(new Utf8Entry(codeline.getMethodName()), new Utf8Entry(codeline.getMethodSignature()));
+    }
+
+    private NameAndTypeEntry createFieldNameAndType(CodeLine codeline) {
+        return new NameAndTypeEntry(new Utf8Entry(codeline.getField().getName()), new Utf8Entry(TypeMapper.map(codeline.getField().getType())));
+    }
+
+    private ClassEntry getOrCreateClassEntry(CodeLine codeline) {
+        if (codeline.getRef() == Ref.SUPER) {
+            return compiledClass.superClass();
+        } else if (codeline.getRef() == Ref.THIS) {
+            return compiledClass.thisClass();
+        }
+        //TODO other cases
+        throw new RuntimeException("shouldn't be here");
+    }
 
 }

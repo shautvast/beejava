@@ -1,6 +1,6 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class InterfaceMethodRefEntry extends NodeConstant {
+public class InterfaceMethodRefEntry extends ConstantPoolEntry {
     private static final byte TAG = 11;
 
     private final ClassEntry classEntry;
