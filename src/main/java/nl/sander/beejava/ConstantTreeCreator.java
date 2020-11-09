@@ -1,5 +1,8 @@
 package nl.sander.beejava;
 
+import nl.sander.beejava.api.BeeClass;
+import nl.sander.beejava.api.CodeLine;
+import nl.sander.beejava.api.Ref;
 import nl.sander.beejava.constantpool.entry.*;
 
 import java.util.LinkedHashSet;
@@ -18,6 +21,13 @@ public class ConstantTreeCreator {
     private final Set<ConstantPoolEntry> constantTree = new LinkedHashSet<>();
     private BeeClass beeClass;
 
+    /**
+     * Creates a Set of nested entries that make up a single reference. For instance a class reference whose name is a utf8 reference.
+     * In the constant pool they are consecutive entries, but they are created like nodes in a tree structure that models their relation.
+     *
+     * @param beeClass the Class object for which the constant pool needs to be created
+     * @return a Set of constant pool entries
+     */
     public Set<ConstantPoolEntry> createConstantTree(BeeClass beeClass) {
         constantTree.clear();
         this.beeClass = beeClass;
@@ -31,22 +41,24 @@ public class ConstantTreeCreator {
         codeContainer.getCode().forEach(this::updateConstantTree);
     }
 
-    // TODO construct multi root tree
+    /*
+     * scan code line for items that need adding to the constant pool
+     */
     private void updateConstantTree(CodeLine codeline) {
         if (codeline.hasMethod()){
-            addMethodRef(codeline);
+            addMethod(codeline);
         }
 
         if (codeline.hasField()) {
-            addFieldRef(codeline);
+            addField(codeline);
         }
     }
 
-    private void addMethodRef(CodeLine codeline) {
+    private void addMethod(CodeLine codeline) {
         constantTree.add(new MethodRefEntry(createClassName(codeline), createMethodNameAndType(codeline)));
     }
 
-    private void addFieldRef(CodeLine codeline) {
+    private void addField(CodeLine codeline) {
         constantTree.add(new FieldRefEntry(createClassName(codeline), createFieldNameAndType(codeline)));
     }
 
@@ -66,7 +78,7 @@ public class ConstantTreeCreator {
         if (codeline.getRef() == Ref.SUPER) {
             return beeClass.getSuperClass().getName();
         } else if (codeline.getRef() == Ref.THIS) {
-            return beeClass.getPackage() + "." + beeClass.getName();
+            return beeClass.getName();
         }
         throw new RuntimeException("shouldn't be here");
     }

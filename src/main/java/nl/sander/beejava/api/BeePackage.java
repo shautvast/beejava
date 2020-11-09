@@ -1,4 +1,4 @@
-package nl.sander.beejava;
+package nl.sander.beejava.api;
 
 class BeePackage {
 
@@ -6,5 +6,9 @@ class BeePackage {
 
     BeePackage(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

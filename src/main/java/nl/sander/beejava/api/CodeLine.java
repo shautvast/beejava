@@ -1,7 +1,7 @@
-package nl.sander.beejava;
+package nl.sander.beejava.api;
 
 
-class CodeLine {
+public class CodeLine {
     private final int linenumber;
     private final Opcode opcode;
     private Ref ref;
@@ -78,28 +78,27 @@ class CodeLine {
         return methodName;
     }
 
-    boolean hasMethod() {
+    public boolean hasMethod() {
         return methodName != null;
     }
 
-    String getMethodSignature() {
+    public String getMethodSignature() {
         return inputSignature + outputSignature;
     }
 
-    Ref getRef() {
+    public Ref getRef() {
         return ref;
     }
 
-
-    boolean hasField() {
+    public boolean hasField() {
         return field != null;
     }
 
-    BeeField getField() {
+    public BeeField getField() {
         return field;
     }
 
-    BeeParameter getParameter() {
+    public BeeParameter getParameter() {
         return parameter;
     }
 

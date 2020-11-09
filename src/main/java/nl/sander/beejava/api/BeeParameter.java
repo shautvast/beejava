@@ -1,7 +1,10 @@
-package nl.sander.beejava;
+package nl.sander.beejava.api;
 
 import java.util.Objects;
 
+/**
+ * Models a formal parameter in a method declaration.
+ */
 public class BeeParameter {
     private final Class<?> type;
     private final String name;

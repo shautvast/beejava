@@ -1,5 +1,6 @@
 package nl.sander.beejava;
 
+import nl.sander.beejava.api.BeeClass;
 import nl.sander.beejava.constantpool.ConstantPool;
 import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
 import nl.sander.beejava.util.ByteBuf;

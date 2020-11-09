@@ -1,4 +1,4 @@
-package nl.sander.beejava;
+package nl.sander.beejava.api;
 
 import nl.sander.beejava.flags.ClassAccessFlag;
 
@@ -10,19 +10,19 @@ public class BeeClass {
     private final Version classFileVersion;
     private final BeePackage beePackage;
     private final Set<ClassAccessFlag> accessFlags = new HashSet<>();
-    private final String name;
+    private final String simpleName;
     private final Class<?> superClass;
     private final Set<Class<?>> interfaces = new HashSet<>();
     private final Set<BeeField> fields = new HashSet<>();
     private final Set<BeeConstructor> constructors = new HashSet<>();
 
     private BeeClass(Version classFileVersion,
-                     BeePackage beePackage, Set<ClassAccessFlag> accessFlags, String name, Class<?> superClass,
+                     BeePackage beePackage, Set<ClassAccessFlag> accessFlags, String simpleName, Class<?> superClass,
                      Set<Class<?>> interfaces, Set<BeeField> fields, Set<BeeConstructor> constructors) {
         this.classFileVersion = classFileVersion;
         this.beePackage = beePackage;
         this.accessFlags.addAll(accessFlags);
-        this.name = name;
+        this.simpleName = simpleName;
         this.superClass = superClass;
         this.interfaces.addAll(interfaces);
         this.fields.addAll(fields);
@@ -41,8 +41,11 @@ public class BeeClass {
         return beePackage;
     }
 
-    public String getName() {
-        return name;
+    /**
+     * returns the unqualified name, like java.lang.Class
+     */
+    public String getSimpleName() {
+        return simpleName;
     }
 
     public Set<BeeConstructor> getConstructors() {
@@ -51,6 +54,13 @@ public class BeeClass {
 
     public Set<ClassAccessFlag> getAccessFlags() {
         return accessFlags;
+    }
+
+    /**
+     * returns the full name, like java.lang.Class
+     */
+    public String getName() {
+        return beePackage.getName() + "." + simpleName;
     }
 
     public Class<?> getSuperClass() {
@@ -62,20 +72,20 @@ public class BeeClass {
     }
 
     public static class Builder {
-        private Version version;
         private final Set<ClassAccessFlag> accessFlags = new HashSet<>();
         private final Set<Class<?>> interfaces = new HashSet<>();
         private final Set<BeeField> fields = new HashSet<>();
         private final Set<BeeConstructor> constructors = new HashSet<>();
+        private Version version;
         private BeePackage beePackage;
         private Class<?> superClass = Object.class;
-        private String name;
+        private String simpleName;
 
         private Builder() {
         }
 
-        public Builder withClassFileVersion(Version version){
-            this.version=version;
+        public Builder withClassFileVersion(Version version) {
+            this.version = version;
             return this;
         }
 
@@ -89,8 +99,8 @@ public class BeeClass {
             return this;
         }
 
-        public BeeClass.Builder withName(String name) {
-            this.name = name;
+        public BeeClass.Builder withSimpleName(String simpleName) {
+            this.simpleName = simpleName;
             return this;
         }
 
@@ -115,7 +125,7 @@ public class BeeClass {
         }
 
         public BeeClass build() {
-            return new BeeClass(version, beePackage, accessFlags, name, superClass, interfaces, fields, constructors);
+            return new BeeClass(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors);
         }
 
 

@@ -1,5 +1,6 @@
 package nl.sander.beejava;
 
+import nl.sander.beejava.api.*;
 import nl.sander.beejava.constantpool.entry.*;
 import nl.sander.beejava.flags.FieldAccessFlag;
 import nl.sander.beejava.flags.MethodAccessFlag;
@@ -8,13 +9,15 @@ import org.junit.jupiter.api.Test;
 import java.util.Iterator;
 import java.util.Set;
 
-import static nl.sander.beejava.CodeLine.line;
-import static nl.sander.beejava.Opcode.*;
+import static nl.sander.beejava.api.CodeLine.line;
+import static nl.sander.beejava.api.Opcode.*;
 import static nl.sander.beejava.flags.ClassAccessFlag.PUBLIC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ConstantTeeTests {
-    @Test
+public class ConstantTreeCreatorTests {
+
+    // creates simplest class possible and checks the tree, that the ConstantTreeCreator emits
+    @Test // This is not a maintainable test
     public void testMethodRefEntryForSuperConstructor() {
         BeeClass classWithIntField = createEmptyClass();
         Set<ConstantPoolEntry> constantTree = new ConstantTreeCreator().createConstantTree(classWithIntField);
@@ -72,9 +75,9 @@ public class ConstantTeeTests {
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
-                .withName("EmptyBean")
-                .withSuperClass(Object.class)
-                .withConstructors(constructor)
+                .withSimpleName("EmptyBean")
+                .withSuperClass(Object.class) // Not mandatory, like in java sourcecode
+                .withConstructors(constructor) // There's no default constructor in beejava. The user must always add them
                 .build();
     }
 
@@ -103,7 +106,7 @@ public class ConstantTeeTests {
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
-                .withName("IntBean")
+                .withSimpleName("IntBean")
                 .withSuperClass(Object.class)
                 .withFields(intField)
                 .withConstructors(constructor)

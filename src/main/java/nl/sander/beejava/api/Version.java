@@ -1,4 +1,4 @@
-package nl.sander.beejava;
+package nl.sander.beejava.api;
 
 public enum Version {
     V1_0_2(45),

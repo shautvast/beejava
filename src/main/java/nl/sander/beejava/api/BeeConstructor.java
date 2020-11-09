@@ -1,10 +1,14 @@
-package nl.sander.beejava;
+package nl.sander.beejava.api;
 
+import nl.sander.beejava.ContainsCode;
 import nl.sander.beejava.flags.MethodAccessFlag;
 
 import java.util.*;
 
-public class BeeConstructor implements ContainsCode{
+/**
+ * Models a constructor
+ */
+public class BeeConstructor implements ContainsCode {
     private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
     private final Set<BeeParameter> formalParameters = new HashSet<>();
     private final List<CodeLine> code = new LinkedList<>();

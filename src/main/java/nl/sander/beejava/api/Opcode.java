@@ -1,4 +1,4 @@
-package nl.sander.beejava;
+package nl.sander.beejava.api;
 
 public enum Opcode {
     LOAD("load"),
