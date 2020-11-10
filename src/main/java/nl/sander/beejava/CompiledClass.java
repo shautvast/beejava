@@ -28,14 +28,14 @@ public class CompiledClass {
         return thisClass.getIndex();
     }
 
-    public ClassEntry superClass() {
+    public ClassEntry addSuperClass() {
         if (superClass == null) {
             superClass = createClassEntry(beeClass.getSuperClass().getName());
         }
         return superClass;
     }
 
-    public ClassEntry thisClass() {
+    public ClassEntry addThisClass() {
         if (thisClass == null) {
             thisClass = createClassEntry(internalName(beeClass.getName()));
         }
@@ -58,15 +58,17 @@ public class CompiledClass {
         constantTree.add(interfaceEntry);
     }
 
-    public void setThisClass() {
-        constantTree.add(thisClass());
-    }
-
-    public void setInterfaces() {
+    public void addInterfaces() {
         beeClass.getInterfaces().forEach(interfase -> {
             ClassEntry interfaceEntry = new ClassEntry(new Utf8Entry(internalName(interfase.getName())));
             addInterface(interfaceEntry);
             addConstantPoolEntry(interfaceEntry);
+        });
+    }
+
+    public void addFields() {
+        beeClass.getFields().forEach(field -> {
+            // TODO
         });
     }
 

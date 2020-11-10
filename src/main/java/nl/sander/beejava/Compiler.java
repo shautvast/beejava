@@ -27,11 +27,12 @@ public class Compiler {
     public CompiledClass compile(BeeClass beeClass) {
         compiledClass = new CompiledClass(beeClass);
         beeClass.getConstructors().forEach(this::updateConstantPool);
-        // TODO update constantTree for fields ?
-        // TODO update constantTree for methods
+        // TODO update constant pool for fields ?
+        // TODO update constant pool for methods
 
-        compiledClass.setThisClass();
-        compiledClass.setInterfaces();
+        compiledClass.addThisClass();
+        compiledClass.addInterfaces();
+        compiledClass.addFields();
 
         return compiledClass;
     }
@@ -46,19 +47,19 @@ public class Compiler {
      */
     private void updateConstantPool(CodeLine codeline) {
         if (codeline.hasMethod()) {
-            addMethod(codeline);
+            addMethodToConstantPool(codeline);
         }
 
         if (codeline.hasField()) {
-            addField(codeline);
+            addFieldToConstantPool(codeline);
         }
     }
 
-    private void addMethod(CodeLine codeline) {
+    private void addMethodToConstantPool(CodeLine codeline) {
         compiledClass.addConstantPoolEntry(new MethodRefEntry(getOrCreateClassEntry(codeline), createMethodNameAndType(codeline)));
     }
 
-    private void addField(CodeLine codeline) {
+    private void addFieldToConstantPool(CodeLine codeline) {
         compiledClass.addConstantPoolEntry(new FieldRefEntry(getOrCreateClassEntry(codeline), createFieldNameAndType(codeline)));
     }
 
@@ -72,9 +73,10 @@ public class Compiler {
 
     private ClassEntry getOrCreateClassEntry(CodeLine codeline) {
         if (codeline.getRef() == Ref.SUPER) {
-            return compiledClass.superClass();
+            return compiledClass.addSuperClass();
+
         } else if (codeline.getRef() == Ref.THIS) {
-            return compiledClass.thisClass();
+            return compiledClass.addThisClass();
         }
         //TODO other cases
         throw new RuntimeException("shouldn't be here");

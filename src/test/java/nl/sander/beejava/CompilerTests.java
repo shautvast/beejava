@@ -62,38 +62,4 @@ public class CompilerTests {
         Utf8Entry type = (Utf8Entry) child5;
         assertEquals("()V", type.getUtf8());
     }
-
-    private BeeClass createClassWithIntField() {
-        BeeField intField = BeeField.builder()
-                .withAccessFlags(FieldAccessFlag.PRIVATE)
-                .withType(int.class)
-                .withName("intField")
-                .build();
-
-        BeeParameter intValueParameter = BeeParameter.create(int.class, "intValue");
-
-        BeeConstructor constructor = BeeConstructor.builder()
-                .withAccessFlags(MethodAccessFlag.PUBLIC)
-                .withFormalParameters(intValueParameter)
-                .withCode(
-                        line(0, LOAD, Ref.THIS),
-                        line(1, INVOKE, Ref.SUPER, "<init>", "()"),
-                        line(2, LOAD, Ref.THIS),
-                        line(3, LOAD, intValueParameter),
-                        line(4, PUT, intField),
-                        line(5, RETURN))
-                .build();
-
-        return BeeClass.builder()
-                .withClassFileVersion(Version.V14)
-                .withPackage("nl.sander.beejava.test")
-                .withAccessFlags(PUBLIC)
-                .withSimpleName("IntBean")
-                .withSuperClass(Object.class)
-                .withFields(intField)
-                .withConstructors(constructor)
-                .build();
-    }
-
-
 }
