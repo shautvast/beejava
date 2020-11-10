@@ -1,7 +1,9 @@
 package nl.sander.beejava.api;
 
 public enum Opcode {
-    LOAD("load"),
+    LD_VAR("ld_var"),
+    LD_CONST("ld_const"),
+    LD_FIELD("ld_field"),
     STORE("store"),
     CONST("const"),
     NEWARRAY("new"),
