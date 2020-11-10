@@ -13,8 +13,9 @@ public class DoubleEntry extends LeafEntry {
     @Override
     public byte[] getBytes() {
         long bits = Double.doubleToRawLongBits(doubleVal);
-        return new byte[]{TAG, getByte(bits, 56), getByte(bits, 48), getByte(bits, 40), getByte(bits, 32),
-                getByte(bits, 24), getByte(bits, 16), getByte(bits, 8), (byte) (bits & 0xFF)};
+        return new byte[]{TAG, getByte(bits, 7), getByte(bits, 6), getByte(bits, 5),
+                getByte(bits, 4),
+                getByte(bits, 3), getByte(bits, 2), getByte(bits, 1), (byte) (bits & 0xFF)};
     }
 
     @Override

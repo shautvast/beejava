@@ -17,10 +17,10 @@ public class TypeMapper {
         MAP.put(short.class, "S");
         MAP.put(boolean.class, "Z");
     }
-
+//TODO something with arrays
     public static String map(Class<?> type) {
         return Optional.ofNullable(MAP.get(type))
-                .orElseThrow(() -> new RuntimeException("Type " + type.getName() + " not found")); // this MUST not happen -> TODO map all types
+                .orElseThrow(() -> new RuntimeException("Type " + type.getName() + " not found"));
     }
 
 

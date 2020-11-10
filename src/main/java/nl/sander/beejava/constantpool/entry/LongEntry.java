@@ -18,8 +18,9 @@ public class LongEntry extends LeafEntry {
 
     @Override
     public byte[] getBytes() {
-        return new byte[]{TAG, getByte(longVal, 56), getByte(longVal, 48), getByte(longVal, 40), getByte(longVal, 32),
-                getByte(longVal, 24), getByte(longVal, 16), getByte(longVal, 8), (byte) (longVal & 0xFF)};
+        return new byte[]{TAG, getByte(longVal, 7), getByte(longVal, 6), getByte(longVal, 5),
+                getByte(longVal, 4), getByte(longVal, 3), getByte(longVal, 2),
+                getByte(longVal, 1), (byte) (longVal & 0xFF)};
     }
 
     @Override

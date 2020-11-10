@@ -25,7 +25,7 @@ public abstract class ConstantPoolEntry {
      *
      * @return a byte indicating the type of the constant
      */
-    byte getTag(){
+    byte getTag() {
         return getBytes()[0];
     }
 
@@ -58,10 +58,10 @@ public abstract class ConstantPoolEntry {
      * @return upper 8 bits as byte
      */
     protected byte upperByte(int u16) {
-        return (byte) (u16 << 8);
+        return (byte) (u16 >>> 8);
     }
 
     protected byte getByte(long bits, int positions) {
-        return (byte) ((bits >>> positions) & 0xFF);
+        return (byte) ((bits >>> (positions * 8)) & 0xFF);
     }
 }
