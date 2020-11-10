@@ -2,6 +2,7 @@ package nl.sander.beejava.api;
 
 import nl.sander.beejava.flags.ClassAccessFlag;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,10 +16,11 @@ public class BeeClass {
     private final Set<Class<?>> interfaces = new HashSet<>();
     private final Set<BeeField> fields = new HashSet<>();
     private final Set<BeeConstructor> constructors = new HashSet<>();
+    private final Set<BeeMethod> methods = new HashSet<>();
 
     private BeeClass(Version classFileVersion,
                      BeePackage beePackage, Set<ClassAccessFlag> accessFlags, String simpleName, Class<?> superClass,
-                     Set<Class<?>> interfaces, Set<BeeField> fields, Set<BeeConstructor> constructors) {
+                     Set<Class<?>> interfaces, Set<BeeField> fields, Set<BeeConstructor> constructors, Set<BeeMethod> methods) {
         this.classFileVersion = classFileVersion;
         this.beePackage = beePackage;
         this.accessFlags.addAll(accessFlags);
@@ -27,6 +29,7 @@ public class BeeClass {
         this.interfaces.addAll(interfaces);
         this.fields.addAll(fields);
         this.constructors.addAll(constructors);
+        this.methods.addAll(methods);
     }
 
     public static BeeClass.Builder builder() {
@@ -50,6 +53,10 @@ public class BeeClass {
 
     public Set<BeeConstructor> getConstructors() {
         return constructors;
+    }
+
+    public Set<BeeMethod> getMethods() {
+        return methods;
     }
 
     public Set<ClassAccessFlag> getAccessFlags() {
@@ -79,11 +86,12 @@ public class BeeClass {
         private final Set<ClassAccessFlag> accessFlags = new HashSet<>();
         private final Set<Class<?>> interfaces = new HashSet<>();
         private final Set<BeeField> fields = new HashSet<>();
-        private final Set<BeeConstructor> constructors = new HashSet<>();
         private Version version;
         private BeePackage beePackage;
         private Class<?> superClass = Object.class;
         private String simpleName;
+        private final Set<BeeConstructor> constructors = new HashSet<>();
+        private final Set<BeeMethod> methods = new HashSet<>();
 
         private Builder() {
         }
@@ -128,10 +136,14 @@ public class BeeClass {
             return this;
         }
 
-        public BeeClass build() {
-            return new BeeClass(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors);
+        public Builder withMethods(BeeMethod... methods) {
+            this.methods.addAll(Arrays.asList(methods));
+            return this;
         }
 
+        public BeeClass build() {
+            return new BeeClass(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors, methods);
+        }
 
     }
 }

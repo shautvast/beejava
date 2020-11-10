@@ -34,6 +34,7 @@ public class Compiler {
 
     CompiledClass compile() {
         compiledClass.getBeeClass().getConstructors().forEach(this::updateConstantPool);
+        compiledClass.getBeeClass().getMethods().forEach(this::updateConstantPool);
         // TODO update constant pool for fields ?
         // TODO update constant pool for methods
 
@@ -45,7 +46,7 @@ public class Compiler {
     }
 
 
-    private void updateConstantPool(ContainsCode codeContainer) {
+    private void updateConstantPool(CodeContainer codeContainer) {
         codeContainer.getCode().forEach(this::updateConstantPool);
     }
 
@@ -59,12 +60,16 @@ public class Compiler {
      *      So Compiled class also contains a set of unique root nodes.
      */
     private void updateConstantPool(CodeLine codeline) {
-        if (codeline.hasMethod()) {
+        if (codeline.hasMethodCall()) {
             compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateMethodRefEntry(codeline));
         }
 
-        if (codeline.hasField()) {
+        if (codeline.hasRefToOwnField() || codeline.hasRefToExternalField()) {
             compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateFieldRefEntry(codeline));
+        }
+
+        if (codeline.hasConstValue()) {
+            compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreatePrimitiveEntry(codeline));
         }
     }
 }

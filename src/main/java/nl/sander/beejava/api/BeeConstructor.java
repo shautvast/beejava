@@ -1,6 +1,6 @@
 package nl.sander.beejava.api;
 
-import nl.sander.beejava.ContainsCode;
+import nl.sander.beejava.CodeContainer;
 import nl.sander.beejava.flags.MethodAccessFlag;
 
 import java.util.*;
@@ -8,17 +8,16 @@ import java.util.*;
 /**
  * Models a constructor
  */
-public class BeeConstructor implements ContainsCode {
+public class BeeConstructor extends CodeContainer {
     private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
     private final Set<BeeParameter> formalParameters = new HashSet<>();
-    private final List<CodeLine> code = new LinkedList<>();
 
     private BeeConstructor(Set<MethodAccessFlag> accessFlags,
                            List<BeeParameter> formalParameters,
                            List<CodeLine> code) {
         this.formalParameters.addAll(formalParameters);
         this.accessFlags.addAll(accessFlags);
-        this.code.addAll(code);
+        super.code.addAll(code);
     }
 
     public static Builder builder() {
@@ -31,11 +30,6 @@ public class BeeConstructor implements ContainsCode {
 
     Set<BeeParameter> getFormalParameters() {
         return formalParameters;
-    }
-
-    @Override
-    public List<CodeLine> getCode() {
-        return code;
     }
 
     @Override

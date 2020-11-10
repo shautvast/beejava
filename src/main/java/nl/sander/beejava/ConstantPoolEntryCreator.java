@@ -1,6 +1,5 @@
 package nl.sander.beejava;
 
-import nl.sander.beejava.api.BeeClass;
 import nl.sander.beejava.api.CodeLine;
 import nl.sander.beejava.api.Ref;
 import nl.sander.beejava.constantpool.entry.*;
@@ -31,7 +30,16 @@ class ConstantPoolEntryCreator {
     }
 
     private NameAndTypeEntry createFieldNameAndType(CodeLine codeline) {
-        return cache(new NameAndTypeEntry(cache(new Utf8Entry(codeline.getField().getName())), cache(new Utf8Entry(TypeMapper.map(codeline.getField().getType())))));
+        if (codeline.hasRefToOwnField()) {
+            return cache(new NameAndTypeEntry(
+                    cache(new Utf8Entry(codeline.getOwnfield().getName())),
+                    cache(new Utf8Entry(TypeMapper.map(codeline.getOwnfield().getType()))))); // is actually a shortcut
+        } else {
+            return cache(new NameAndTypeEntry(
+                    cache(new Utf8Entry(codeline.getExternalfield())),
+                    cache(new Utf8Entry("L" + codeline.getExternalfieldClass()))
+            ));
+        }
     }
 
     private NameAndTypeEntry getOrCreateMethodNameAndType(CodeLine codeline) {
@@ -41,21 +49,26 @@ class ConstantPoolEntryCreator {
     }
 
     private ClassEntry getOrCreateClassEntry(CodeLine codeline) {
-        if (codeline.getRef() == Ref.SUPER) { //this and super are rather special
-            ClassEntry superClass = getClassEntry(compiledClass.getBeeClass().getSuperClass().getName());
-            compiledClass.setSuperClass(superClass);
-            return superClass;
+        if (codeline.hasRef()) {
+            if (codeline.getRef() == Ref.SUPER) { //this and super are rather special
+                ClassEntry superClass = getClassEntry(compiledClass.getBeeClass().getSuperClass().getName());
+                compiledClass.setSuperClass(superClass);
+                return superClass;
 
-        } else if (codeline.getRef() == Ref.THIS) {
-            addThisClass();
-            return compiledClass.getThisClass();
+            } else if (codeline.getRef() == Ref.THIS) {
+                addThisClass();
+                return compiledClass.getThisClass();
+            }
+        } else if (codeline.hasClassName()) {
+            return getClassEntry(codeline.getClassName());
         }
-        //TODO other cases
+
         throw new RuntimeException("shouldn't be here");
     }
 
-    void addThisClass(){
+    void addThisClass() {
         ClassEntry classEntry = getClassEntry(compiledClass.getBeeClass().getName());
+        compiledClass.addConstantPoolEntry(classEntry);
         compiledClass.setThisClass(classEntry);
     }
 
@@ -71,7 +84,22 @@ class ConstantPoolEntryCreator {
         });
     }
 
+    public ConstantPoolEntry getOrCreatePrimitiveEntry(CodeLine codeline) {
+        Object v = codeline.getConstValue();
 
+        if (v instanceof String) {
+            return cache(new StringEntry(cache(new Utf8Entry((String) v))));
+        } else if (v instanceof Integer) {
+            return cache(new IntegerEntry((Integer) v));
+        } else if (v instanceof Long) {
+            return cache(new LongEntry((Long) v));
+        } else if (v instanceof Float) {
+            return cache(new FloatEntry((Float) v));
+        } else if (v instanceof Double) {
+            return cache(new DoubleEntry((Double) v));
+        }
+        throw new RuntimeException(); // TODO find out why are you here
+    }
 
     public void addFields() {
         compiledClass.getBeeClass().getFields().forEach(field -> {
@@ -88,9 +116,11 @@ class ConstantPoolEntryCreator {
         // First create an object using the supplier, but if it's found in cache, return the cached entry and discard the first.
         // Can't check for equality unless you create a potential new entry first
         int hash = newEntry.hashCode();
-        return (T) cache.computeIfAbsent(hash, k -> newEntry);
+        T a = (T) cache.computeIfAbsent(hash, k -> newEntry);
+        return a;
         // a hashmap with key hash of value is weird right?
         // A HashSet is a HashMap with entry: key = value, which would work, but I cannot _get_ anything from a set.
     }
+
 
 }

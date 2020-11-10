@@ -6,10 +6,15 @@ public class CodeLine {
     private final Opcode opcode;
     private Ref ref;
     private BeeParameter parameter;
+    private String className;
     private String methodName;
     private String inputSignature;
     private String outputSignature;
-    private BeeField field;
+    private BeeField ownfield; // when you create a class with a field, you can refer to it
+    private String externalfield; // when you refer to a field from another class
+
+    private Object constValue;
+    private String externalFieldType;
 
     CodeLine(int linenumber, Opcode opcode) {
         this.linenumber = linenumber;
@@ -18,6 +23,18 @@ public class CodeLine {
 
     public static CodeLine line(int nr, Opcode opcode, Ref ref) {
         return new CodeLine(nr, opcode).withRef(ref);
+    }
+
+    public static CodeLine line(int nr, Opcode opcode, String fieldClass, String fieldName) {
+        return new CodeLine(nr, opcode).withExternalFieldRef(fieldClass, fieldName);
+    }
+
+    public static CodeLine line(int nr, Opcode opcode, Object constValue) {
+        return new CodeLine(nr, opcode).withConstValue(constValue);
+    }
+
+    public static CodeLine line(int nr, Opcode opcode, String className, String methodName, String inputSignature) {
+        return new CodeLine(nr, opcode).withClassName(className).withMethodName(methodName).withInput(inputSignature).withVoidOutput();
     }
 
     public static CodeLine line(int nr, Opcode opcode, Ref ref, String methodNameRef, String inputSignature) {
@@ -37,11 +54,16 @@ public class CodeLine {
     }
 
     public static CodeLine line(int nr, Opcode opcode, BeeField intField) {
-        return new CodeLine(nr, opcode).withRef(Ref.THIS).withField(intField);
+        return new CodeLine(nr, opcode).withRef(Ref.THIS).withOwnField(intField);
     }
 
     private CodeLine withRef(Ref ref) {
         this.ref = ref;
+        return this;
+    }
+
+    private CodeLine withClassName(String className) {
+        this.className = className;
         return this;
     }
 
@@ -69,16 +91,57 @@ public class CodeLine {
         return this;
     }
 
-    private CodeLine withField(BeeField field) {
-        this.field = field;
+    private CodeLine withConstValue(Object constValue) {
+        this.constValue = constValue;
+        return this; //TODO
+    }
+
+    private CodeLine withOwnField(BeeField beeField) {
+        this.ownfield = beeField;
         return this;
+    }
+
+    private CodeLine withExternalFieldRef(String className, String field) {
+        this.className = className;
+        this.externalFieldType = getType(className, field);
+        this.externalfield = field;
+        return this;
+
+    }
+
+    // TODO decide whether to work with Strings or class objects...
+
+    /*
+     * Look up the type of a field in a class
+     *
+     * Assumes field is accessible
+     *
+     * @param className the class containing a field
+     * @param field name of the field
+     * @return the  field type
+     */
+    private String getType(String className, String field) {
+        try {
+            return Class.forName(className).getField(field).getType().getName();
+        } catch (ClassNotFoundException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean hasClassName() {
+        return className != null;
+    }
+
+
+    public String getClassName() {
+        return className;
     }
 
     public String getMethodName() {
         return methodName;
     }
 
-    public boolean hasMethod() {
+    public boolean hasMethodCall() {
         return methodName != null;
     }
 
@@ -94,12 +157,21 @@ public class CodeLine {
         return ref != null;
     }
 
-    public boolean hasField() {
-        return field != null;
+    public boolean hasRefToOwnField() {
+        return ownfield != null;
     }
 
-    public BeeField getField() {
-        return field;
+
+    public Object getConstValue() {
+        return constValue;
+    }
+
+    public boolean hasConstValue() {
+        return constValue != null;
+    }
+
+    public BeeField getOwnfield() {
+        return ownfield;
     }
 
     public BeeParameter getParameter() {
@@ -107,4 +179,15 @@ public class CodeLine {
     }
 
 
+    public boolean hasRefToExternalField() {
+        return externalfield != null;
+    }
+
+    public String getExternalfield() {
+        return externalfield;
+    }
+
+    public String getExternalfieldClass() {
+        return externalFieldType;
+    }
 }
