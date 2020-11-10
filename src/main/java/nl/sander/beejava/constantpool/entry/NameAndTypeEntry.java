@@ -13,9 +13,16 @@ public final class NameAndTypeEntry extends ConstantPoolEntry {
         this.descriptor = descriptor;
     }
 
-
     public int getNameIndex() {
         return name.getIndex();
+    }
+
+    public String getName() {
+        return name.getUtf8();
+    }
+
+    public String getType(){
+        return descriptor.getUtf8();
     }
 
     public int getDescriptorIndex() {
@@ -42,10 +49,7 @@ public final class NameAndTypeEntry extends ConstantPoolEntry {
 
     @Override
     public String toString() {
-        return "NameAndTypeEntry{" +
-                "nameIndex=" + getNameIndex() +
-                ", typeIndex=" + getDescriptorIndex() +
-                '}';
+        return "NameAndType\t#" + getNameIndex() + ":#" + getDescriptorIndex() +"\t// "+getName()+":"+getType();
     }
 
 }

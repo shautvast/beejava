@@ -36,8 +36,6 @@ public class ModuleEntry extends ConstantPoolEntry {
 
     @Override
     public String toString() {
-        return "ModuleEntry{" +
-                "nameEntryIndex" + getNameIndex() +
-                '}';
+        return "Module\t\t#" + getNameIndex() +"\t\t // "+ nameEntry.getUtf8();
     }
 }

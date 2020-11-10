@@ -8,7 +8,12 @@ public class MethodTypeEntry extends ConstantPoolEntry {
     private final Utf8Entry methodDescriptor;
 
     public MethodTypeEntry(Utf8Entry methodDescriptor) {
+        super(methodDescriptor);
         this.methodDescriptor = methodDescriptor;
+    }
+
+    public int getMethodDescriptorIndex() {
+        return methodDescriptor.getIndex();
     }
 
     public byte[] getBytes() {
@@ -30,8 +35,6 @@ public class MethodTypeEntry extends ConstantPoolEntry {
 
     @Override
     public String toString() {
-        return "MethodTypeEntry{" +
-                "methodDescriptor=" + methodDescriptor +
-                '}';
+        return "MethodType\t#" + getMethodDescriptorIndex() + "\t\t// "+methodDescriptor.getUtf8();
     }
 }

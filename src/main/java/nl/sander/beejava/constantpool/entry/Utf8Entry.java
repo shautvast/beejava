@@ -40,8 +40,6 @@ public final class Utf8Entry extends LeafEntry {
 
     @Override
     public String toString() {
-        return "Utf8Entry{" +
-                "value='" + value + '\'' +
-                '}';
+        return "Utf8\t\t\t" + value;
     }
 }

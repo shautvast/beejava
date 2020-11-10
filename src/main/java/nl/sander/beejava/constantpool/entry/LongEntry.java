@@ -13,9 +13,7 @@ public class LongEntry extends LeafEntry {
 
     @Override
     public String toString() {
-        return "LongEntry{" +
-                "longVal=" + longVal +
-                '}';
+        return "Long\t\t" + longVal;
     }
 
     @Override

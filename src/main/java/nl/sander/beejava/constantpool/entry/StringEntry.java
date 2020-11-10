@@ -4,14 +4,15 @@ import java.util.Objects;
 
 public final class StringEntry extends ConstantPoolEntry {
     private static final byte TAG = 8;
-    private final Utf8Entry utf8;
+    private final Utf8Entry utf8Entry;
 
-    public StringEntry(Utf8Entry utf8) {
-        this.utf8 = utf8;
+    public StringEntry(Utf8Entry utf8Entry) {
+        super(utf8Entry);
+        this.utf8Entry = utf8Entry;
     }
 
     public int getUtf8Index() {
-        return utf8.getIndex();
+        return utf8Entry.getIndex();
     }
 
     public byte[] getBytes() {
@@ -23,18 +24,16 @@ public final class StringEntry extends ConstantPoolEntry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StringEntry that = (StringEntry) o;
-        return utf8.equals(that.utf8);
+        return utf8Entry.equals(that.utf8Entry);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(utf8);
+        return Objects.hash(utf8Entry);
     }
 
     @Override
     public String toString() {
-        return "StringEntry{" +
-                "utf8Index=" + getUtf8Index() +
-                '}';
+        return "String\t\t#" + getUtf8Index() +"\t\t // "+ utf8Entry.getUtf8();
     }
 }

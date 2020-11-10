@@ -24,10 +24,9 @@ public class FieldRefEntry extends ConstantPoolEntry {
 
     @Override
     public String toString() {
-        return "FieldRefEntry{" +
-                "classIndex=" + getClassIndex() +
-                ", nameAndTypeIndex=" + getNameAndTypeIndex() +
-                '}';
+        return "FieldRef\t#" + getClassIndex() +
+                ".#=" + getNameAndTypeIndex() +"\t// "+classEntry.getName()+'.'+nameAndTypeEntry.toString();
+
     }
 
     @Override

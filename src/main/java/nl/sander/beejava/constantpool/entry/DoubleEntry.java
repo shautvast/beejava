@@ -29,4 +29,9 @@ public class DoubleEntry extends LeafEntry {
     public int hashCode() {
         return Objects.hash(doubleVal);
     }
+
+    @Override
+    public String toString() {
+        return "Double\t\t" +doubleVal;
+    }
 }

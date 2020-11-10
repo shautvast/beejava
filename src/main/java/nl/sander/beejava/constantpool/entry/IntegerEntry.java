@@ -13,9 +13,7 @@ public class IntegerEntry extends LeafEntry {
 
     @Override
     public String toString() {
-        return "IntEntry{" +
-                "intVal=" + intVal +
-                '}';
+        return "Integer\t\t"+intVal;
     }
 
     @Override

@@ -43,10 +43,8 @@ public class MethodRefEntry extends ConstantPoolEntry {
 
     @Override
     public String toString() {
-        return "MethodRefEntry{" +
-                "classIndex=" + getClassIndex() +
-                ", nameAndTypeIndex=" + getNameAndTypeIndex() +
-                '}';
+        return "MethodRef \t#" + getClassIndex() + ".#" + getNameAndTypeIndex() +
+                "\t// " + classRef.getName() + '.' + nameAndType.getName() + ':' + nameAndType.getType();
     }
 
 

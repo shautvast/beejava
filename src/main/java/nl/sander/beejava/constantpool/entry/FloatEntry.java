@@ -13,9 +13,7 @@ public class FloatEntry extends LeafEntry {
 
     @Override
     public String toString() {
-        return "FloatEntry{" +
-                "floatVal=" + floatVal +
-                '}';
+        return "Float\t\t" +floatVal;
     }
 
     @Override

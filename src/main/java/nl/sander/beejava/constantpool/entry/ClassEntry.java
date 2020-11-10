@@ -17,9 +17,7 @@ public class ClassEntry extends ConstantPoolEntry {
 
     @Override
     public String toString() {
-        return "ClassEntry{" +
-                "nameIndex=" + getNameIndex() +
-                '}';
+        return "Class\t\t#" + getNameIndex() + "\t\t// " + name.getUtf8();
     }
 
     @Override
@@ -38,5 +36,9 @@ public class ClassEntry extends ConstantPoolEntry {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public String getName() {
+        return name.getUtf8();
     }
 }

@@ -8,6 +8,7 @@ public class DynamicEntry extends ConstantPoolEntry {
     private final NameAndTypeEntry nameAndType;
 
     public DynamicEntry(int bootstrapMethodIndex, NameAndTypeEntry nameAndType) {
+        super(nameAndType); // TODO
         this.bootstrapMethodIndex = bootstrapMethodIndex;
         this.nameAndType = nameAndType;
     }
@@ -34,4 +35,12 @@ public class DynamicEntry extends ConstantPoolEntry {
 //    public int hashCode() {
 //        return Objects.hash(bootstrapMethodIndex, nameAndType);
 //    }
+
+    @Override
+    public String toString() {
+        return "DynamicEntry{" +
+                "bootstrapMethodIndex=" + bootstrapMethodIndex +
+                ", nameAndType=" + nameAndType +
+                '}';
+    }
 }

@@ -12,15 +12,13 @@ public class MethodHandleEntry extends ConstantPoolEntry {
     private InterfaceMethodRefEntry interfaceMethodRefEntry;
 
     public MethodHandleEntry(int referenceKind) {
+        // super() TODO
         this.referenceKind = referenceKind;
     }
 
     @Override
     public String toString() {
-        return "MethodHandleEntry{" +
-                "referenceKind=" + referenceKind +
-                ", referenceIndex=" + getReferenceIndex() +
-                '}';
+        return "MethodHandle \treferenceKind=" + referenceKind + ", #" + getReferenceIndex() ;//TODO
     }
 
     private int getReferenceIndex() {

@@ -41,4 +41,11 @@ public class InterfaceMethodRefEntry extends ConstantPoolEntry {
     public int hashCode() {
         return Objects.hash(classEntry, nameAndTypeEntry);
     }
+
+    @Override
+    public String toString() {
+        return "InterfaceMethodRef\t#" + getClassIndex()
+                +".#" + getNameAndTypeIndex() +"\t// "+classEntry.getName()+"."+nameAndTypeEntry.getName()+":"+nameAndTypeEntry.getType();
+
+    }
 }
