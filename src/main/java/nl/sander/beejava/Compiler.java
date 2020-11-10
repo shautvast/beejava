@@ -2,8 +2,6 @@ package nl.sander.beejava;
 
 import nl.sander.beejava.api.BeeClass;
 import nl.sander.beejava.api.CodeLine;
-import nl.sander.beejava.api.Ref;
-import nl.sander.beejava.constantpool.entry.*;
 
 /**
  * Builds a set of a tree of constant pool entries that refer to each other.
@@ -15,7 +13,13 @@ import nl.sander.beejava.constantpool.entry.*;
  * also TODO make sure entries aren't duplicates
  */
 public class Compiler {
-    private CompiledClass compiledClass;
+    private final CompiledClass compiledClass;
+    private final ConstantPoolEntryCreator constantPoolEntryCreator;
+
+    Compiler(CompiledClass compiledClass) {
+        this.compiledClass = compiledClass;
+        this.constantPoolEntryCreator = new ConstantPoolEntryCreator(compiledClass);
+    }
 
     /**
      * Creates a Set of nested entries that make up a single reference. For instance a class reference whose name is a utf8 reference.
@@ -24,15 +28,18 @@ public class Compiler {
      * @param beeClass the Class object for which the constant pool needs to be created
      * @return a Set of constant pool entries
      */
-    public CompiledClass compile(BeeClass beeClass) {
-        compiledClass = new CompiledClass(beeClass);
-        beeClass.getConstructors().forEach(this::updateConstantPool);
+    public static CompiledClass compile(BeeClass beeClass) {
+        return new Compiler(new CompiledClass(beeClass)).compile();
+    }
+
+    CompiledClass compile() {
+        compiledClass.getBeeClass().getConstructors().forEach(this::updateConstantPool);
         // TODO update constant pool for fields ?
         // TODO update constant pool for methods
 
-        compiledClass.addThisClass();
-        compiledClass.addInterfaces();
-        compiledClass.addFields();
+        constantPoolEntryCreator.addThisClass();
+        constantPoolEntryCreator.addInterfaces();
+        constantPoolEntryCreator.addFields();
 
         return compiledClass;
     }
@@ -43,43 +50,21 @@ public class Compiler {
     }
 
     /*
-     * scan code line for items that need adding to the constant pool
+     * Scan code line for items that need adding to the constant pool
+     *
+     * Constantpool uniqueness is maintained in two ways:
+     * 1. ConstantPoolEntryCreator.getOrCreateMethodRefEntry (and other methods) return a tree of entries.
+     *      Sub-entries are kept in cache by the ConstantPoolEntryCreator and it returns a cached entry over a new one, if deemed equal.
+     * 2. the root node (also in aforementioned cache) is not symmetric because it is the only one that can be added to The compiledClass.
+     *      So Compiled class also contains a set of unique root nodes.
      */
     private void updateConstantPool(CodeLine codeline) {
         if (codeline.hasMethod()) {
-            addMethodToConstantPool(codeline);
+            compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateMethodRefEntry(codeline));
         }
 
         if (codeline.hasField()) {
-            addFieldToConstantPool(codeline);
+            compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateFieldRefEntry(codeline));
         }
     }
-
-    private void addMethodToConstantPool(CodeLine codeline) {
-        compiledClass.addConstantPoolEntry(new MethodRefEntry(getOrCreateClassEntry(codeline), createMethodNameAndType(codeline)));
-    }
-
-    private void addFieldToConstantPool(CodeLine codeline) {
-        compiledClass.addConstantPoolEntry(new FieldRefEntry(getOrCreateClassEntry(codeline), createFieldNameAndType(codeline)));
-    }
-
-    private NameAndTypeEntry createMethodNameAndType(CodeLine codeline) {
-        return new NameAndTypeEntry(new Utf8Entry(codeline.getMethodName()), new Utf8Entry(codeline.getMethodSignature()));
-    }
-
-    private NameAndTypeEntry createFieldNameAndType(CodeLine codeline) {
-        return new NameAndTypeEntry(new Utf8Entry(codeline.getField().getName()), new Utf8Entry(TypeMapper.map(codeline.getField().getType())));
-    }
-
-    private ClassEntry getOrCreateClassEntry(CodeLine codeline) {
-        if (codeline.getRef() == Ref.SUPER) {
-            return compiledClass.addSuperClass();
-
-        } else if (codeline.getRef() == Ref.THIS) {
-            return compiledClass.addThisClass();
-        }
-        //TODO other cases
-        throw new RuntimeException("shouldn't be here");
-    }
-
 }

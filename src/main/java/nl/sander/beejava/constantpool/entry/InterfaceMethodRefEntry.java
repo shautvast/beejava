@@ -1,5 +1,7 @@
 package nl.sander.beejava.constantpool.entry;
 
+import java.util.Objects;
+
 public class InterfaceMethodRefEntry extends ConstantPoolEntry {
     private static final byte TAG = 11;
 
@@ -24,5 +26,19 @@ public class InterfaceMethodRefEntry extends ConstantPoolEntry {
     @Override
     public byte[] getBytes() {
         return new byte[]{TAG};
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InterfaceMethodRefEntry that = (InterfaceMethodRefEntry) o;
+        return classEntry.equals(that.classEntry) &&
+                nameAndTypeEntry.equals(that.nameAndTypeEntry);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(classEntry, nameAndTypeEntry);
     }
 }

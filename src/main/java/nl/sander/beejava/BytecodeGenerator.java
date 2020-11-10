@@ -8,31 +8,30 @@ import nl.sander.beejava.util.ByteBuf;
 
 public class BytecodeGenerator {
 
-    private final BeeClass beeClass; // maybe not a member?
-    private final Compiler compiler = new Compiler();
+    private final CompiledClass compiledClass; // maybe not a member?
     private final ConstantPoolCreator constantPoolCreator = new ConstantPoolCreator();
 
-    public BytecodeGenerator(BeeClass beeClass) {
-        this.beeClass = beeClass;
+    public BytecodeGenerator(CompiledClass compiledClass) {
+        this.compiledClass = compiledClass;
     }
 
-    public static byte[] compile(BeeClass beeClass) {
-        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator(beeClass);
-        return bytecodeGenerator.doCompile();
+    public static byte[] generate(CompiledClass compiledClass) {
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator(compiledClass);
+        return bytecodeGenerator.generate();
     }
 
-    private byte[] doCompile() {
+    private byte[] generate() {
         ByteBuf buf = new ByteBuf();
         buf.addU8(0xCA, 0xFE, 0xBA, 0xBE);
-        buf.addU16(beeClass.getClassFileVersion().getMinor());
-        buf.addU16(beeClass.getClassFileVersion().getMajor());
+        buf.addU16(compiledClass.getBeeClass().getClassFileVersion().getMinor());
+        buf.addU16(compiledClass.getBeeClass().getClassFileVersion().getMajor());
 
-        CompiledClass compiledClass = compiler.compile(beeClass);
+
         ConstantPool constantPool = constantPoolCreator.createConstantPool(compiledClass.getConstantTree());
 
         buf.addU16(constantPool.getLength());
         buf.addU8(constantPool.getBytes());
-        buf.addU16(ClassAccessFlag.getSum(beeClass.getAccessFlags()));
+        buf.addU16(ClassAccessFlag.getSum(compiledClass.getBeeClass().getAccessFlags()));
         buf.addU16(compiledClass.geThisIndex());
         buf.addU16(compiledClass.getSuperIndex());
         buf.addU16(compiledClass.getInterfaces().size());

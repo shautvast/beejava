@@ -1,6 +1,8 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class DoubleEntry extends LeafConstantPoolEntry {
+import java.util.Objects;
+
+public class DoubleEntry extends LeafEntry {
     private static final byte TAG = 6;
     private final double doubleVal;
 
@@ -15,4 +17,16 @@ public class DoubleEntry extends LeafConstantPoolEntry {
                 getByte(bits, 24), getByte(bits, 16), getByte(bits, 8), (byte) (bits & 0xFF)};
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoubleEntry that = (DoubleEntry) o;
+        return Double.compare(that.doubleVal, doubleVal) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(doubleVal);
+    }
 }

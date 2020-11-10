@@ -1,6 +1,8 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class NameAndTypeEntry extends ConstantPoolEntry {
+import java.util.Objects;
+
+public final class NameAndTypeEntry extends ConstantPoolEntry {
     private static final byte TAG = 12;
     private final Utf8Entry name;
     private final Utf8Entry descriptor;
@@ -20,6 +22,24 @@ public class NameAndTypeEntry extends ConstantPoolEntry {
         return descriptor.getIndex();
     }
 
+    public byte[] getBytes() {
+        return new byte[]{TAG, upperByte(getNameIndex()), lowerByte(getNameIndex()), upperByte(getDescriptorIndex()), lowerByte(getDescriptorIndex())};
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NameAndTypeEntry that = (NameAndTypeEntry) o;
+        return name.equals(that.name) &&
+                descriptor.equals(that.descriptor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, descriptor);
+    }
+
     @Override
     public String toString() {
         return "NameAndTypeEntry{" +
@@ -28,7 +48,4 @@ public class NameAndTypeEntry extends ConstantPoolEntry {
                 '}';
     }
 
-    public byte[] getBytes() {
-        return new byte[]{TAG, upperByte(getNameIndex()), lowerByte(getNameIndex()), upperByte(getDescriptorIndex()), lowerByte(getDescriptorIndex())};
-    }
 }

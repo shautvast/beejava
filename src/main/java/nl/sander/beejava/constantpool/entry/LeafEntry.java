@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Is a constant without children
  */
-public abstract class LeafConstantPoolEntry extends ConstantPoolEntry {
+public abstract class LeafEntry extends ConstantPoolEntry {
     @Override
     public Set<ConstantPoolEntry> getChildren() {
         return Collections.emptySet();

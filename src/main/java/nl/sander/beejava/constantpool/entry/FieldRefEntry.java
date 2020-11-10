@@ -1,5 +1,7 @@
 package nl.sander.beejava.constantpool.entry;
 
+import java.util.Objects;
+
 public class FieldRefEntry extends ConstantPoolEntry {
     private static final byte TAG = 9;
 
@@ -33,4 +35,17 @@ public class FieldRefEntry extends ConstantPoolEntry {
         return new byte[]{TAG};
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FieldRefEntry that = (FieldRefEntry) o;
+        return classEntry.equals(that.classEntry) &&
+                nameAndTypeEntry.equals(that.nameAndTypeEntry);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(classEntry, nameAndTypeEntry);
+    }
 }

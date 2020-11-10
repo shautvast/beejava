@@ -30,4 +30,6 @@ public class MethodHandleEntry extends ConstantPoolEntry {
     public byte[] getBytes() {
         return new byte[]{TAG};
     }
+
+    //TODO equals and hashcode
 }

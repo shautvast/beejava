@@ -24,5 +24,7 @@ public class InvokeDynamicEntry extends ConstantPoolEntry {
     public byte[] getBytes() {
         return new byte[]{TAG};
     }
+
+    // TODO equals and hashcode
 }
 //TODO implement later

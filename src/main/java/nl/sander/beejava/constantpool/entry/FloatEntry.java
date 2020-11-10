@@ -1,6 +1,8 @@
 package nl.sander.beejava.constantpool.entry;
 
-public class FloatEntry extends LeafConstantPoolEntry {
+import java.util.Objects;
+
+public class FloatEntry extends LeafEntry {
     private static final byte TAG = 4;
 
     private final float floatVal;
@@ -14,6 +16,19 @@ public class FloatEntry extends LeafConstantPoolEntry {
         return "FloatEntry{" +
                 "floatVal=" + floatVal +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FloatEntry that = (FloatEntry) o;
+        return Float.compare(that.floatVal, floatVal) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(floatVal);
     }
 
     @Override

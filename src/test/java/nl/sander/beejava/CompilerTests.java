@@ -2,16 +2,12 @@ package nl.sander.beejava;
 
 import nl.sander.beejava.api.*;
 import nl.sander.beejava.constantpool.entry.*;
-import nl.sander.beejava.flags.FieldAccessFlag;
-import nl.sander.beejava.flags.MethodAccessFlag;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.Set;
 
 import static nl.sander.beejava.api.CodeLine.line;
-import static nl.sander.beejava.api.Opcode.*;
-import static nl.sander.beejava.flags.ClassAccessFlag.PUBLIC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CompilerTests {
@@ -20,7 +16,7 @@ public class CompilerTests {
     @Test // This is not a maintainable test
     public void testMethodRefEntryForSuperConstructor() {
         BeeClass classWithIntField = TestData.emptyClass();
-        CompiledClass compiledClass = new Compiler().compile(classWithIntField);
+        CompiledClass compiledClass = Compiler.compile(classWithIntField);
         Set<ConstantPoolEntry> constantTree = compiledClass.getConstantTree();
         assertEquals(2, constantTree.size());
         ConstantPoolEntry superConstructor = constantTree.iterator().next();
