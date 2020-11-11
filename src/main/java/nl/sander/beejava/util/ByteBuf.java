@@ -18,37 +18,6 @@ public class ByteBuf {
         data = ByteBuffer.allocate(initialSize);
     }
 
-    public String toString() {
-        return toString(StandardCharsets.UTF_8);
-    }
-
-    public String toString(Charset charset) {
-        data.flip();
-
-        CharsetDecoder decoder = charset.newDecoder(); // decode is not threadsafe, might put it in threadlocal
-        // but I don't think this (newDecoder()+config) is expensive
-
-        decoder.onMalformedInput(CodingErrorAction.REPLACE)
-                .onUnmappableCharacter(CodingErrorAction.REPLACE);
-
-        try {
-            return decoder.decode(data).toString();
-        } catch (CharacterCodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void clear() {
-        data.clear();
-    }
-
-    public void addU8(final byte c) {
-        if (data.remaining() == 0) {
-            enlarge(1);
-        }
-        data.put(c);
-    }
-
     public void addU8(final byte[] bytes) {
         if (data.remaining() < bytes.length) {
             enlarge(bytes.length);

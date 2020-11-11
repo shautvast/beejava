@@ -7,15 +7,6 @@ import java.util.ArrayList;
 
 public class ConstantPool extends ArrayList<ConstantPoolEntry>{
 
-    public int getIndex(ConstantPoolEntry entry) {
-        for (int i = 0; i < size(); i++) {
-            if (get(i) == entry) {
-                return i + 1;
-            }
-        }
-        return -1;
-    }
-
     public byte[] getBytes() {
         ByteBuf bytes = new ByteBuf();
         forEach(entry -> bytes.addU8(entry.getBytes()));
@@ -23,7 +14,10 @@ public class ConstantPool extends ArrayList<ConstantPoolEntry>{
     }
 
     /**
-     * get the length +1
+     * get the length for constant_pool_count in the class file
+     *
+     * 4.1. The ClassFile Structure
+     * The value of the constant_pool_count item is equal to the number of entries in the constant_pool table plus one
      */
     public int getLength() {
         return size() + 1;
