@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class ClassEntryTest {
     @Test
-    public void testGetChildren() {
+    public void test_GetChildren() {
         Utf8Entry name = new Utf8Entry("");
         assertSame(new ClassEntry(name).getChildren().iterator().next(), name);
     }

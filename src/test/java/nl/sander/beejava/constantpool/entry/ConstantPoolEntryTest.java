@@ -14,19 +14,19 @@ public class ConstantPoolEntryTest {
     };
 
     @Test
-    public void getSetIndex() {
+    public void test_getSetIndex() {
         int value = 2;
         entry.setIndex(value);
         assertEquals(value, entry.getIndex());
     }
 
     @Test
-    public void lowerByte() {
+    public void test_lowerByte() {
         assertEquals(1, entry.lowerByte(257));
     }
 
     @Test
-    public void upperByte() {
+    public void test_upperByte() {
         assertEquals(1, entry.upperByte(257));
     }
 }

@@ -17,11 +17,19 @@ public class TypeMapper {
         MAP.put(short.class, "S");
         MAP.put(boolean.class, "Z");
     }
-//TODO something with arrays
+
+    //TODO something with arrays
     public static String map(Class<?> type) {
-        return Optional.ofNullable(MAP.get(type))
-                .orElseThrow(() -> new RuntimeException("Type " + type.getName() + " not found"));
+        return Optional.ofNullable(MAP.get(type)).orElseGet(() -> {
+            if (type.isArray()) {
+                return internalName(type.getName());
+            } else {
+                return "L" + internalName(type.getName());
+            }
+        });
     }
 
-
+    private static String internalName(String name) {
+        return name.replaceAll("\\.", "/");
+    }
 }

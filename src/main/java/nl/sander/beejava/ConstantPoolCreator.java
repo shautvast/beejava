@@ -13,6 +13,10 @@ public class ConstantPoolCreator {
     private int index; // the current index that will be assigned to a constant pool entry. It needs to be unique for each entry.
     // References to other elements in the pool are made through indexes, so they have to be valid to guarantee that the class can be loaded by the JVM.
 
+    public static ConstantPool create(Set<ConstantPoolEntry> constantTree){
+        return new ConstantPoolCreator().createConstantPool(constantTree);
+    }
+
     public ConstantPool createConstantPool(Set<ConstantPoolEntry> constantTree) {
         constantPool = new ConstantPool();
         index = 0;

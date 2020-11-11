@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-class IntegerEntryTest {
+public class IntegerEntryTest {
 
     @Test
-    void getBytes() {
+    public void test_getBytes() {
         assertArrayEquals(new byte[]{3, 18, 52, 86, 120}, new IntegerEntry(0x12345678).getBytes());
     }
 }

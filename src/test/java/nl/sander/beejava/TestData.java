@@ -44,34 +44,43 @@ public class TestData {
                         line(3, RETURN))
                 .build();
 
+        BeeMethod print2 = BeeMethod.builder()
+                .withAccessFlags(MethodAccessFlag.PUBLIC)
+                .withCode(
+                        line(0, GET, "java.lang.System","out"),
+                        line(1, LD_CONST, "2"),
+                        line(2, INVOKE, "java.io.PrintStream", "println", "(java.lang.String)"),
+                        line(3, RETURN))
+                .build();
+
         return BeeClass.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
                 .withSimpleName("ClassWithReferences")
                 .withConstructors(createConstructor()) // There's no default constructor in beejava. The user must always add them
-                .withMethods(print1)
+                .withMethods(print1, print2)
                 .build();
     }
 
-    public static BeeClass createClassWithIntField() {
-        BeeField intField = BeeField.builder()
+    public static BeeClass createClassWithField(Class<?> fieldType) {
+        BeeField field = BeeField.builder()
                 .withAccessFlags(FieldAccessFlag.PRIVATE)
-                .withType(int.class)
-                .withName("intField")
+                .withType(fieldType)
+                .withName("field")
                 .build();
 
-        BeeParameter intValueParameter = BeeParameter.create(int.class, "intValue");
+        BeeParameter parameter = BeeParameter.create(fieldType, "value");
 
         BeeConstructor constructor = BeeConstructor.builder()
                 .withAccessFlags(MethodAccessFlag.PUBLIC)
-                .withFormalParameters(intValueParameter)
+                .withFormalParameters(parameter)
                 .withCode(
                         line(0, LD_VAR, Ref.THIS),
                         line(1, INVOKE, Ref.SUPER, "<init>", "()"),
                         line(2, LD_VAR, Ref.THIS),
-                        line(3, LD_VAR, intValueParameter),
-                        line(4, PUT, intField),
+                        line(3, LD_VAR, parameter),
+                        line(4, PUT, field),
                         line(5, RETURN))
                 .build();
 
@@ -79,9 +88,9 @@ public class TestData {
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
-                .withSimpleName("IntBean")
+                .withSimpleName("Bean")
                 .withSuperClass(Object.class)
-                .withFields(intField)
+                .withFields(field)
                 .withConstructors(constructor)
                 .build();
     }

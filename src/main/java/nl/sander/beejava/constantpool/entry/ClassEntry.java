@@ -17,7 +17,7 @@ public class ClassEntry extends ConstantPoolEntry {
 
     @Override
     public String toString() {
-        return "Class\t\t#" + getNameIndex() + "\t\t// " + name.getUtf8();
+        return "Class\t\t\t#" + getNameIndex() + "\t\t// " + name.getUtf8();
     }
 
     @Override

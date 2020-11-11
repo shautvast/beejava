@@ -15,8 +15,13 @@ public class CompilerTests {
     // creates simplest class possible and checks the tree, that the ConstantTreeCreator emits
     @Test // This is not a maintainable test
     public void testMethodRefEntryForSuperConstructor() {
+        // Arrange
         BeeClass classWithIntField = TestData.emptyClass();
+
+        // Act
         CompiledClass compiledClass = Compiler.compile(classWithIntField);
+
+        // Assert
         Set<ConstantPoolEntry> constantTree = compiledClass.getConstantTree();
         assertEquals(2, constantTree.size());
         ConstantPoolEntry superConstructor = constantTree.iterator().next();
