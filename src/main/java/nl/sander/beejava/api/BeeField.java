@@ -1,6 +1,6 @@
 package nl.sander.beejava.api;
 
-import nl.sander.beejava.flags.FieldAccessFlag;
+import nl.sander.beejava.flags.FieldAccessFlags;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,11 +9,11 @@ import java.util.Set;
 
 public class BeeField {
 
-    private final Set<FieldAccessFlag> accessFlags = new HashSet<>();
+    private final Set<FieldAccessFlags> accessFlags = new HashSet<>();
     private final Class<?> type;
     private final String name;
 
-    private BeeField(Set<FieldAccessFlag> accessFlags, Class<?> type, String name) {
+    private BeeField(Set<FieldAccessFlags> accessFlags, Class<?> type, String name) {
         this.accessFlags.addAll(accessFlags);
         this.type = type;
         this.name = name;
@@ -23,7 +23,7 @@ public class BeeField {
         return new Builder();
     }
 
-    public Set<FieldAccessFlag> getAccessFlags() {
+    public Set<FieldAccessFlags> getAccessFlags() {
         return accessFlags;
     }
 
@@ -49,7 +49,7 @@ public class BeeField {
     }
 
     public static class Builder {
-        private final Set<FieldAccessFlag> accessFlags = new HashSet<>();
+        private final Set<FieldAccessFlags> accessFlags = new HashSet<>();
         private Class<?> type;
         private String name;
 
@@ -57,7 +57,7 @@ public class BeeField {
 
         }
 
-        public BeeField.Builder withAccessFlags(FieldAccessFlag... accessFlags) {
+        public BeeField.Builder withAccessFlags(FieldAccessFlags... accessFlags) {
             this.accessFlags.addAll(Arrays.asList(accessFlags));
             return this;
         }

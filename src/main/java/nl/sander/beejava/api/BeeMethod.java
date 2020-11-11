@@ -1,16 +1,16 @@
 package nl.sander.beejava.api;
 
 import nl.sander.beejava.CodeContainer;
-import nl.sander.beejava.flags.MethodAccessFlag;
+import nl.sander.beejava.flags.MethodAccessFlags;
 
 import java.util.*;
 
 public final class BeeMethod extends CodeContainer {
-    private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
+    private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
     private final Set<BeeParameter> formalParameters = new HashSet<>();
     private final Class<?> returnType;
 
-    private BeeMethod(Set<MethodAccessFlag> accessFlags,
+    private BeeMethod(Set<MethodAccessFlags> accessFlags,
                       List<BeeParameter> formalParameters,
                       Class<?> returnType, List<CodeLine> code) {
         this.accessFlags.addAll(accessFlags);
@@ -24,7 +24,7 @@ public final class BeeMethod extends CodeContainer {
     }
 
     public static class Builder {
-        private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
+        private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
         private final List<BeeParameter> formalParameters = new LinkedList<>();
         private final List<CodeLine> code = new LinkedList<>();
         private Class<?> returnType;
@@ -32,7 +32,7 @@ public final class BeeMethod extends CodeContainer {
         private Builder() {
         }
 
-        public Builder withAccessFlags(MethodAccessFlag... accessFlags) {
+        public Builder withAccessFlags(MethodAccessFlags... accessFlags) {
             this.accessFlags.addAll(Arrays.asList(accessFlags));
             return this;
         }

@@ -1,6 +1,6 @@
 package nl.sander.beejava;
 
-import nl.sander.beejava.api.BeeClass;
+import nl.sander.beejava.api.BeeSource;
 import nl.sander.beejava.constantpool.ConstantPool;
 import nl.sander.beejava.constantpool.entry.NameAndTypeEntry;
 import org.junit.jupiter.api.Test;
@@ -13,10 +13,10 @@ public class TypeMapperTest {
     @Test
     public void test_int() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(int.class);
+        BeeSource beeSource = TestData.createClassWithField(int.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -26,10 +26,10 @@ public class TypeMapperTest {
     @Test
     public void test_double() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(double.class);
+        BeeSource beeSource = TestData.createClassWithField(double.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -39,10 +39,10 @@ public class TypeMapperTest {
     @Test
     public void test_float() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(float.class);
+        BeeSource beeSource = TestData.createClassWithField(float.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -52,10 +52,10 @@ public class TypeMapperTest {
     @Test
     public void test_byte() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(byte.class);
+        BeeSource beeSource = TestData.createClassWithField(byte.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -65,10 +65,10 @@ public class TypeMapperTest {
     @Test
     public void test_short() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(short.class);
+        BeeSource beeSource = TestData.createClassWithField(short.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -78,10 +78,10 @@ public class TypeMapperTest {
     @Test
     public void test_long() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(long.class);
+        BeeSource beeSource = TestData.createClassWithField(long.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -91,10 +91,10 @@ public class TypeMapperTest {
     @Test
     public void test_char() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(char.class);
+        BeeSource beeSource = TestData.createClassWithField(char.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -104,10 +104,10 @@ public class TypeMapperTest {
     @Test
     public void test_boolean() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(boolean.class);
+        BeeSource beeSource = TestData.createClassWithField(boolean.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -117,10 +117,10 @@ public class TypeMapperTest {
     @Test
     public void test_Object() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(Object.class);
+        BeeSource beeSource = TestData.createClassWithField(Object.class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -130,10 +130,10 @@ public class TypeMapperTest {
     @Test
     public void test_int_array() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(int[].class);
+        BeeSource beeSource = TestData.createClassWithField(int[].class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
@@ -143,18 +143,18 @@ public class TypeMapperTest {
     @Test
     public void test_Object_array() {
         // Arrange
-        BeeClass beeClass = TestData.createClassWithField(String[].class);
+        BeeSource beeSource = TestData.createClassWithField(String[].class);
 
         // Act
-        ConstantPool constantPool = createConstantPool(beeClass);
+        ConstantPool constantPool = createConstantPool(beeSource);
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
         assertEquals("[Ljava/lang/String;", fieldEntry.getType());
     }
 
-    private ConstantPool createConstantPool(BeeClass beeClass) {
-        CompiledClass compiledClass = Compiler.compile(beeClass);
+    private ConstantPool createConstantPool(BeeSource beeSource) {
+        CompiledClass compiledClass = Compiler.compile(beeSource);
         return ConstantPoolCreator.create(compiledClass.getConstantTree());
     }
 

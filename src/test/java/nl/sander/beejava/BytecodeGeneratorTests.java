@@ -21,4 +21,9 @@ public class BytecodeGeneratorTests {
     public void testInterface() {
         BytecodeGenerator.generate(Compiler.compile(TestData.emptyClassWithInterface()));
     }
+
+    @Test
+    public void testFields() {
+        BytecodeGenerator.generate(Compiler.compile(TestData.createClassWithField(int.class)));
+    }
 }

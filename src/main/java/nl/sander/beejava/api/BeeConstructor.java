@@ -1,7 +1,7 @@
 package nl.sander.beejava.api;
 
 import nl.sander.beejava.CodeContainer;
-import nl.sander.beejava.flags.MethodAccessFlag;
+import nl.sander.beejava.flags.MethodAccessFlags;
 
 import java.util.*;
 
@@ -9,10 +9,10 @@ import java.util.*;
  * Models a constructor
  */
 public class BeeConstructor extends CodeContainer {
-    private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
+    private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
     private final Set<BeeParameter> formalParameters = new HashSet<>();
 
-    private BeeConstructor(Set<MethodAccessFlag> accessFlags,
+    private BeeConstructor(Set<MethodAccessFlags> accessFlags,
                            List<BeeParameter> formalParameters,
                            List<CodeLine> code) {
         this.formalParameters.addAll(formalParameters);
@@ -24,7 +24,7 @@ public class BeeConstructor extends CodeContainer {
         return new Builder();
     }
 
-    Set<MethodAccessFlag> getAccessFlags() {
+    Set<MethodAccessFlags> getAccessFlags() {
         return accessFlags;
     }
 
@@ -53,7 +53,7 @@ public class BeeConstructor extends CodeContainer {
     }
 
     public static class Builder {
-        private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
+        private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
         private final List<BeeParameter> formalParameters = new LinkedList<>();
         private final List<CodeLine> code = new LinkedList<>();
 
@@ -66,7 +66,7 @@ public class BeeConstructor extends CodeContainer {
             return this;
         }
 
-        public Builder withAccessFlags(MethodAccessFlag... accessFlags) {
+        public Builder withAccessFlags(MethodAccessFlags... accessFlags) {
             this.accessFlags.addAll(Arrays.asList(accessFlags));
             return this;
         }

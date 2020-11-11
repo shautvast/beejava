@@ -1,6 +1,6 @@
 package nl.sander.beejava;
 
-import nl.sander.beejava.api.BeeClass;
+import nl.sander.beejava.api.BeeSource;
 import nl.sander.beejava.constantpool.ConstantPool;
 import nl.sander.beejava.constantpool.entry.ClassEntry;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ public class ConstantPoolUniquenessTests {
     @Test
     public void test() {
         // Arrange
-        BeeClass someClass = TestData.createClassWithTwoReferencesToSomeClass();
+        BeeSource someClass = TestData.createClassWithTwoReferencesToSomeClass();
 
         // Act
         CompiledClass compiledClass = Compiler.compile(someClass);

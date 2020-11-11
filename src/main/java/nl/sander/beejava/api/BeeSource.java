@@ -1,16 +1,15 @@
 package nl.sander.beejava.api;
 
-import nl.sander.beejava.flags.ClassAccessFlag;
+import nl.sander.beejava.flags.ClassAccessFlags;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BeeClass {
+public class BeeSource {
     private final Version classFileVersion;
     private final BeePackage beePackage;
-    private final Set<ClassAccessFlag> accessFlags = new HashSet<>();
+    private final Set<ClassAccessFlags> accessFlags = new HashSet<>();
     private final String simpleName;
     private final Class<?> superClass;
     private final Set<Class<?>> interfaces = new HashSet<>();
@@ -18,9 +17,9 @@ public class BeeClass {
     private final Set<BeeConstructor> constructors = new HashSet<>();
     private final Set<BeeMethod> methods = new HashSet<>();
 
-    private BeeClass(Version classFileVersion,
-                     BeePackage beePackage, Set<ClassAccessFlag> accessFlags, String simpleName, Class<?> superClass,
-                     Set<Class<?>> interfaces, Set<BeeField> fields, Set<BeeConstructor> constructors, Set<BeeMethod> methods) {
+    private BeeSource(Version classFileVersion,
+                      BeePackage beePackage, Set<ClassAccessFlags> accessFlags, String simpleName, Class<?> superClass,
+                      Set<Class<?>> interfaces, Set<BeeField> fields, Set<BeeConstructor> constructors, Set<BeeMethod> methods) {
         this.classFileVersion = classFileVersion;
         this.beePackage = beePackage;
         this.accessFlags.addAll(accessFlags);
@@ -32,7 +31,7 @@ public class BeeClass {
         this.methods.addAll(methods);
     }
 
-    public static BeeClass.Builder builder() {
+    public static BeeSource.Builder builder() {
         return new Builder();
     }
 
@@ -59,7 +58,7 @@ public class BeeClass {
         return methods;
     }
 
-    public Set<ClassAccessFlag> getAccessFlags() {
+    public Set<ClassAccessFlags> getAccessFlags() {
         return accessFlags;
     }
 
@@ -83,7 +82,7 @@ public class BeeClass {
     }
 
     public static class Builder {
-        private final Set<ClassAccessFlag> accessFlags = new HashSet<>();
+        private final Set<ClassAccessFlags> accessFlags = new HashSet<>();
         private final Set<Class<?>> interfaces = new HashSet<>();
         private final Set<BeeField> fields = new HashSet<>();
         private Version version;
@@ -101,17 +100,17 @@ public class BeeClass {
             return this;
         }
 
-        public BeeClass.Builder withPackage(String beePackage) {
+        public BeeSource.Builder withPackage(String beePackage) {
             this.beePackage = new BeePackage(beePackage);
             return this;
         }
 
-        public BeeClass.Builder withAccessFlags(ClassAccessFlag... accessFlags) {
+        public BeeSource.Builder withAccessFlags(ClassAccessFlags... accessFlags) {
             this.accessFlags.addAll(Arrays.asList(accessFlags));
             return this;
         }
 
-        public BeeClass.Builder withSimpleName(String simpleName) {
+        public BeeSource.Builder withSimpleName(String simpleName) {
             this.simpleName = simpleName;
             return this;
         }
@@ -141,8 +140,8 @@ public class BeeClass {
             return this;
         }
 
-        public BeeClass build() {
-            return new BeeClass(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors, methods);
+        public BeeSource build() {
+            return new BeeSource(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors, methods);
         }
 
     }

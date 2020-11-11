@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 public class ConstantPool extends ArrayList<ConstantPoolEntry>{
 
-    public byte[] getBytes() {
-        ByteBuf bytes = new ByteBuf();
-        forEach(entry -> bytes.addU8(entry.getBytes()));
-        return bytes.toBytes();
+    /**
+     * Add the bytes for all entries to the given ByteBuf
+     * @param buf the buffer that will contain the bytes for the constant pool
+     */
+    public void addTo(ByteBuf buf) {
+        forEach(entry -> buf.addU8(entry.getBytes()));
     }
 
     /**

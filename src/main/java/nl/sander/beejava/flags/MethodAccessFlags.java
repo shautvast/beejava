@@ -1,8 +1,6 @@
 package nl.sander.beejava.flags;
 
-import nl.sander.beejava.flags.AccessFlag;
-
-public enum MethodAccessFlag implements AccessFlag {
+public enum MethodAccessFlags implements AccessFlags {
     PUBLIC(0x0001), // Declared public; may be accessed from outside its package.
     PRIVATE(0x0002), // Declared private; accessible only within the defining class and other classes belonging to the same nest (§5.4.4).
     PROTECTED(0x0004), // Declared protected; may be accessed within subclasses.
@@ -18,7 +16,7 @@ public enum MethodAccessFlag implements AccessFlag {
 
     private final int bytecode;
 
-    MethodAccessFlag(int bytecode) {
+    MethodAccessFlags(int bytecode) {
         this.bytecode = bytecode;
     }
 

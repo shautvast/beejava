@@ -1,8 +1,6 @@
 package nl.sander.beejava.flags;
 
-import java.util.Collection;
-
-public enum ClassAccessFlag implements AccessFlag {
+public enum ClassAccessFlags implements AccessFlags {
     PUBLIC(0x0001), // Declared public; may be accessed from outside its package.
     FINAL(0x0010), // Declared final; no subclasses allowed.
     SUPER(0x0020), // Treat superclass methods specially when invoked by the invokespecial instruction.
@@ -16,13 +14,11 @@ public enum ClassAccessFlag implements AccessFlag {
 
     private final int bytecode;
 
-    ClassAccessFlag(int bytecode) {
+    ClassAccessFlags(int bytecode) {
         this.bytecode = bytecode;
     }
 
-    public static int getSum(Collection<ClassAccessFlag> flags) {
-        return flags.stream().mapToInt(ClassAccessFlag::getBytecode).reduce(0, (result, value) -> result | value);
-    }
+
 
     @Override
     public int getBytecode() {

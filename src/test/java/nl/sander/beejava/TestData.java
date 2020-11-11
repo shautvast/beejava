@@ -1,18 +1,18 @@
 package nl.sander.beejava;
 
 import nl.sander.beejava.api.*;
-import nl.sander.beejava.flags.FieldAccessFlag;
-import nl.sander.beejava.flags.MethodAccessFlag;
+import nl.sander.beejava.flags.FieldAccessFlags;
+import nl.sander.beejava.flags.MethodAccessFlags;
 
 import java.io.Serializable;
 
 import static nl.sander.beejava.api.CodeLine.line;
 import static nl.sander.beejava.api.Opcode.*;
-import static nl.sander.beejava.flags.ClassAccessFlag.PUBLIC;
+import static nl.sander.beejava.flags.ClassAccessFlags.PUBLIC;
 
 public class TestData {
-    public static BeeClass emptyClass() {
-        return BeeClass.builder()
+    public static BeeSource emptyClass() {
+        return BeeSource.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
@@ -22,8 +22,8 @@ public class TestData {
                 .build();
     }
 
-    public static BeeClass emptyClassWithInterface() {
-        return BeeClass.builder()
+    public static BeeSource emptyClassWithInterface() {
+        return BeeSource.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
@@ -34,9 +34,9 @@ public class TestData {
                 .build();
     }
 
-    public static BeeClass createClassWithTwoReferencesToSomeClass() {
+    public static BeeSource createClassWithTwoReferencesToSomeClass() {
         BeeMethod print1 = BeeMethod.builder()
-                .withAccessFlags(MethodAccessFlag.PUBLIC)
+                .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
                         line(0, GET, "java.lang.System","out"),
                         line(1, LD_CONST, "1"),
@@ -45,7 +45,7 @@ public class TestData {
                 .build();
 
         BeeMethod print2 = BeeMethod.builder()
-                .withAccessFlags(MethodAccessFlag.PUBLIC)
+                .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
                         line(0, GET, "java.lang.System","out"),
                         line(1, LD_CONST, "2"),
@@ -53,7 +53,7 @@ public class TestData {
                         line(3, RETURN))
                 .build();
 
-        return BeeClass.builder()
+        return BeeSource.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
@@ -63,9 +63,9 @@ public class TestData {
                 .build();
     }
 
-    public static BeeClass createClassWithField(Class<?> fieldType) {
+    public static BeeSource createClassWithField(Class<?> fieldType) {
         BeeField field = BeeField.builder()
-                .withAccessFlags(FieldAccessFlag.PRIVATE)
+                .withAccessFlags(FieldAccessFlags.PRIVATE)
                 .withType(fieldType)
                 .withName("field")
                 .build();
@@ -73,7 +73,7 @@ public class TestData {
         BeeParameter parameter = BeeParameter.create(fieldType, "value");
 
         BeeConstructor constructor = BeeConstructor.builder()
-                .withAccessFlags(MethodAccessFlag.PUBLIC)
+                .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withFormalParameters(parameter)
                 .withCode(
                         line(0, LD_VAR, Ref.THIS),
@@ -84,7 +84,7 @@ public class TestData {
                         line(5, RETURN))
                 .build();
 
-        return BeeClass.builder()
+        return BeeSource.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC)
@@ -97,7 +97,7 @@ public class TestData {
 
     private static BeeConstructor createConstructor() {
         return BeeConstructor.builder()
-                .withAccessFlags(MethodAccessFlag.PUBLIC)
+                .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
                         line(0, LD_VAR, Ref.THIS),
                         line(1, INVOKE, Ref.SUPER, "<init>", "()"),

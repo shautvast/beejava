@@ -16,7 +16,7 @@ public class CompilerTests {
     @Test // This is not a maintainable test
     public void testMethodRefEntryForSuperConstructor() {
         // Arrange
-        BeeClass classWithIntField = TestData.emptyClass();
+        BeeSource classWithIntField = TestData.emptyClass();
 
         // Act
         CompiledClass compiledClass = Compiler.compile(classWithIntField);

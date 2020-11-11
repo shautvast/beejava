@@ -2,6 +2,7 @@ package nl.sander.beejava;
 
 import nl.sander.beejava.api.CodeLine;
 import nl.sander.beejava.api.Ref;
+import nl.sander.beejava.classinfo.FieldInfo;
 import nl.sander.beejava.constantpool.entry.*;
 
 import java.util.HashMap;
@@ -51,13 +52,12 @@ class ConstantPoolEntryCreator {
     private ClassEntry getOrCreateClassEntry(CodeLine codeline) {
         if (codeline.hasRef()) {
             if (codeline.getRef() == Ref.SUPER) { //this and super are rather special
-                ClassEntry superClass = getClassEntry(compiledClass.getBeeClass().getSuperClass().getName());
+                ClassEntry superClass = getClassEntry(compiledClass.getSource().getSuperClass().getName());
                 compiledClass.setSuperClass(superClass);
                 return superClass;
 
             } else if (codeline.getRef() == Ref.THIS) {
-                addThisClass();
-                return compiledClass.getThisClass();
+                return addThisClass();
             }
         } else if (codeline.hasClassName()) {
             return getClassEntry(codeline.getClassName());
@@ -66,24 +66,32 @@ class ConstantPoolEntryCreator {
         throw new RuntimeException("shouldn't be here");
     }
 
-    void addThisClass() {
-        ClassEntry classEntry = getClassEntry(compiledClass.getBeeClass().getName());
+    ClassEntry addThisClass() {
+        ClassEntry classEntry = getClassEntry(compiledClass.getSource().getName());
         compiledClass.addConstantPoolEntry(classEntry);
-        compiledClass.setThisClass(classEntry);
+        return classEntry;
     }
 
     private ClassEntry getClassEntry(String externalClassName) {
         return cache(new ClassEntry(cache(new Utf8Entry(internalName(externalClassName)))));
     }
 
+    /*
+     * Adds interfaces to the constant pool as well as the class.
+     *
+     * interfaces[] in the class file is an array of cp entries
+     */
     public void addInterfaces() {
-        compiledClass.getBeeClass().getInterfaces().forEach(interfase -> {
+        compiledClass.getSource().getInterfaces().forEach(interfase -> {
             ClassEntry interfaceEntry = cache(new ClassEntry(cache(new Utf8Entry(internalName(interfase.getName())))));
             compiledClass.addInterface(interfaceEntry);
             compiledClass.addConstantPoolEntry(interfaceEntry);
         });
     }
 
+    /*
+     * If a constant is in the codeline, it needs to be added to the constant pool.
+     */
     public ConstantPoolEntry getOrCreatePrimitiveEntry(CodeLine codeline) {
         Object v = codeline.getConstValue();
 
@@ -102,9 +110,12 @@ class ConstantPoolEntryCreator {
     }
 
     public void addFields() {
-        compiledClass.getBeeClass().getFields().forEach(field -> {
-            // TODO
-        });
+        compiledClass.getSource().getFields()
+                .forEach(f -> {
+                    Utf8Entry name = cache(new Utf8Entry(f.getName()));
+                    Utf8Entry descriptor = cache(new Utf8Entry(internalName(f.getType().getName())));
+                    compiledClass.addField(new FieldInfo(name, descriptor).addAccessFlags(f.getAccessFlags()));
+                });
     }
 
     private String internalName(String name) {
@@ -116,8 +127,7 @@ class ConstantPoolEntryCreator {
         // First create an object using the supplier, but if it's found in cache, return the cached entry and discard the first.
         // Can't check for equality unless you create a potential new entry first
         int hash = newEntry.hashCode();
-        T a = (T) cache.computeIfAbsent(hash, k -> newEntry);
-        return a;
+        return (T) cache.computeIfAbsent(hash, k -> newEntry);
         // a hashmap with key hash of value is weird right?
         // A HashSet is a HashMap with entry: key = value, which would work, but I cannot _get_ anything from a set.
     }

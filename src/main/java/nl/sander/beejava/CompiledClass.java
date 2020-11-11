@@ -1,6 +1,7 @@
 package nl.sander.beejava;
 
-import nl.sander.beejava.api.BeeClass;
+import nl.sander.beejava.api.BeeSource;
+import nl.sander.beejava.classinfo.FieldInfo;
 import nl.sander.beejava.constantpool.entry.ClassEntry;
 import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
 
@@ -11,12 +12,13 @@ import java.util.Set;
 class CompiledClass {
     private final Set<ConstantPoolEntry> constantTree = new LinkedHashSet<>();
     private final Set<ClassEntry> interfaces = new HashSet<>();
-    private final BeeClass beeClass;
+    private final Set<FieldInfo> fields = new HashSet<>();
+    private final BeeSource beeSource;
     private ClassEntry thisClass;
     private ClassEntry superClass;
 
-    CompiledClass(BeeClass beeClass) {
-        this.beeClass = beeClass;
+    CompiledClass(BeeSource beeSource) {
+        this.beeSource = beeSource;
     }
 
     int getSuperIndex() {
@@ -49,17 +51,21 @@ class CompiledClass {
         interfaces.add(interfaceEntry);
     }
 
-    BeeClass getBeeClass() {
-        return beeClass;
-    }
-
-    ClassEntry getThisClass() {
-        return thisClass;
+    BeeSource getSource() {
+        return beeSource;
     }
 
     public void setThisClass(ClassEntry newThisClass) {
         if (thisClass == null) {
             thisClass = newThisClass;
         }
+    }
+
+    public void addField(FieldInfo fieldInfo) {
+        fields.add(fieldInfo);
+    }
+
+    public Set<FieldInfo> getFields() {
+        return fields;
     }
 }

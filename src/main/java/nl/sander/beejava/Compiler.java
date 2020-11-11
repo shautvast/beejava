@@ -1,12 +1,12 @@
 package nl.sander.beejava;
 
-import nl.sander.beejava.api.BeeClass;
+import nl.sander.beejava.api.BeeSource;
 import nl.sander.beejava.api.CodeLine;
 
 /**
  * Builds a set of a tree of constant pool entries that refer to each other.
  * <p>
- * A client must supply a {@link BeeClass} containing a set of {@link CodeLine}s that is assumed to be correct.
+ * A client must supply a {@link BeeSource} containing a set of {@link CodeLine}s that is assumed to be correct.
  * It doesn't check if a valid state is reached.
  */
 /* So the name isn't entirely correct. Waiting for inspiration.
@@ -16,36 +16,45 @@ public class Compiler {
     private final CompiledClass compiledClass;
     private final ConstantPoolEntryCreator constantPoolEntryCreator;
 
-    Compiler(CompiledClass compiledClass) {
+    /**
+     * construct a compiler object.
+     */
+    /*
+     * At this moment I'm not sure if this class will be able to reused.
+     */
+    public Compiler(CompiledClass compiledClass) {
         this.compiledClass = compiledClass;
         this.constantPoolEntryCreator = new ConstantPoolEntryCreator(compiledClass);
     }
 
     /**
-     * Creates a Set of nested entries that make up a single reference. For instance a class reference whose name is a utf8 reference.
-     * In the constant pool they are consecutive entries, but they are created like nodes in a tree structure that models their relation.
+     * compile a BeeSource object into a CompiledClass object.
      *
-     * @param beeClass the Class object for which the constant pool needs to be created
-     * @return a Set of constant pool entries
+     * @param beeSource the Class object for which the constant pool needs to be created
+     * @return a CompiledClass object (that can be turned into bytecode)
      */
-    public static CompiledClass compile(BeeClass beeClass) {
-        return new Compiler(new CompiledClass(beeClass)).compile();
+    public static CompiledClass compile(BeeSource beeSource) {
+        return new Compiler(new CompiledClass(beeSource)).compile();
     }
 
-    CompiledClass compile() {
-        compiledClass.getBeeClass().getConstructors().forEach(this::updateConstantPool);
-        compiledClass.getBeeClass().getMethods().forEach(this::updateConstantPool);
+    /**
+     * construct a CompiledClass object that contains all information for generating the bytecode
+     */
+    public CompiledClass compile() {
+        compiledClass.getSource().getConstructors().forEach(this::updateConstantPool);
+        compiledClass.getSource().getMethods().forEach(this::updateConstantPool);
         // TODO update constant pool for fields ?
-        // TODO update constant pool for methods
 
-        constantPoolEntryCreator.addThisClass();
+        compiledClass.setThisClass(constantPoolEntryCreator.addThisClass());
         constantPoolEntryCreator.addInterfaces();
         constantPoolEntryCreator.addFields();
 
         return compiledClass;
     }
 
-
+    /*
+     * inspect a method or constructor, extract items that need to be added, and add them to the constant pool
+     */
     private void updateConstantPool(CodeContainer codeContainer) {
         codeContainer.getCode().forEach(this::updateConstantPool);
     }
