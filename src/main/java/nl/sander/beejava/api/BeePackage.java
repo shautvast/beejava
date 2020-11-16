@@ -1,6 +1,9 @@
 package nl.sander.beejava.api;
 
-class BeePackage {
+/**
+ * Contains the name of the package for a class
+ */
+public class BeePackage {
 
     private final String name;
 

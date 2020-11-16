@@ -3,9 +3,16 @@ package nl.sander.beejava.api;
 import nl.sander.beejava.flags.ClassAccessFlags;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Contains all information needed for compilation
+ *
+ * End users need to create an instance of this class (using the Builder) and add all fields, methods etc.
+ * Once created the BeeSource object is immutable.
+ */
 public class BeeSource {
     private final Version classFileVersion;
     private final BeePackage beePackage;
@@ -31,14 +38,25 @@ public class BeeSource {
         this.methods.addAll(methods);
     }
 
+    /**
+     * Create a new BeeSource Builder class.
+     *
+     * @return a new instance of a Builder
+     */
     public static BeeSource.Builder builder() {
         return new Builder();
     }
 
+    /**
+     * @return The classfile version
+     */
     public Version getClassFileVersion() {
         return classFileVersion;
     }
 
+    /**
+     * @return The package in which the compiled class will reside.
+     */
     public BeePackage getPackage() {
         return beePackage;
     }
@@ -50,37 +68,58 @@ public class BeeSource {
         return simpleName;
     }
 
+    /**
+     * @return all constructors that are provided with the class
+     */
     public Set<BeeConstructor> getConstructors() {
-        return constructors;
+        return Collections.unmodifiableSet(constructors);
     }
 
+    /**
+     * @return all methods that are provided with the class
+     */
     public Set<BeeMethod> getMethods() {
         return methods;
     }
 
+    /**
+     * @return The access flags for the class
+     */
     public Set<ClassAccessFlags> getAccessFlags() {
-        return accessFlags;
+        return Collections.unmodifiableSet(accessFlags);
     }
 
     /**
-     * returns the full name, like java.lang.Class
+     * @return The full name, like java.lang.Class
      */
     public String getName() {
         return beePackage.getName() + "." + simpleName;
     }
 
+    /**
+     * @return The superclass
+     */
     public Class<?> getSuperClass() {
         return superClass;
     }
 
+    /**
+     * @return a list of unique interfaces that the class will implements
+     */
     public Set<Class<?>> getInterfaces() {
-        return interfaces;
+        return Collections.unmodifiableSet(interfaces);
     }
 
+    /**
+     * @return a list of unique fields that the class will contain
+     */
     public Set<BeeField> getFields() {
-        return fields;
+        return Collections.unmodifiableSet(fields);
     }
 
+    /**
+     * Helper class for creating BeeSource classes
+     */
     public static class Builder {
         private final Set<ClassAccessFlags> accessFlags = new HashSet<>();
         private final Set<Class<?>> interfaces = new HashSet<>();
