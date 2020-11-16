@@ -12,7 +12,9 @@ instead of having to choose between:
 
 developers can just write ```INVOKE``` and the compiler will figure out the correct instruction to put in the class file.
 
-project status: early stage
+__project status:__
+
+early stage
 * At this moment a complete compile cycle is guaranteed (unittested) for a really simple class. 
 
 Code example below, but the API will undoubtedly change. 
@@ -39,3 +41,11 @@ BeeConstructor createDefaultConstructor() {
             .build();
  }
 ```
+
+*Ideas about what's next*
+* MORE opcodes
+* invoke dynamic support (also in constant pool)
+* support for exceptions, class attributes
+* figure out a nicer, better api, drop the line numbers
+* or instead drop this idea and let the developer write the raw bytecode. The constant pool would then be the only thing Beejava adds.
+* create a readable file format for opcode files
