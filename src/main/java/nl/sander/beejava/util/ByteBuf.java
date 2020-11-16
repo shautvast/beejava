@@ -40,6 +40,10 @@ public class ByteBuf {
         addU8((u16 >>> 8) & 0xFF, u16 & 0xFF);
     }
 
+    public void addU32(int u32) {
+        addU8((u32 >>> 24) & 0xFF,(u32 >>> 16) & 0xFF, (u32 >>> 8) & 0xFF, u32 & 0xFF);
+    }
+
     private void enlarge(final int size) {
         final int length1 = 2 * data.limit();
         final int length2 = data.limit() + size;
@@ -56,4 +60,26 @@ public class ByteBuf {
         data.get(arr);
         return arr;
     }
+
+    public String toString() {
+        return toString(StandardCharsets.UTF_8);
+    }
+
+    public String toString(Charset charset) {
+        data.flip();
+
+        CharsetDecoder decoder = charset.newDecoder(); // decode is not threadsafe, might put it in threadlocal
+        // but I don't think this (newDecoder()+config) is expensive
+
+        decoder.onMalformedInput(CodingErrorAction.REPLACE)
+                .onUnmappableCharacter(CodingErrorAction.REPLACE);
+
+        try {
+            return decoder.decode(data).toString();
+        } catch (CharacterCodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

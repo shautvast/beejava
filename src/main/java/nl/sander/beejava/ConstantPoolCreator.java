@@ -17,6 +17,19 @@ public class ConstantPoolCreator {
         return new ConstantPoolCreator().createConstantPool(constantTree);
     }
 
+    /**
+     * Creates a ConstantPool from the tree structure provided by the {@link Compiler}
+     *
+     * @param constantTree a Set of CP entries assumed to be laid out correctly
+     * @return a ConstantPool, a list of entries
+     */
+    /*
+     * resets the current state to create a new constant pool
+     *
+     * This method is halfway at memory efficiency. Next step could be to always have just 1 ConstantPool.
+     * Downsides: no parallelism, maybe keep more track of lingering references
+     */
+    //@NotThreadSafe
     public ConstantPool createConstantPool(Set<ConstantPoolEntry> constantTree) {
         constantPool = new ConstantPool();
         index = 0;
@@ -24,25 +37,34 @@ public class ConstantPoolCreator {
         return constantPool;
     }
 
+    /*
+     * javac:
+     * - start with toplevel element (like MethodRef) -> grandparents
+     * - then add direct children -> the parents
+     * - then add grandchildren (I don't think there's more levels)
+     */
     private void updateToplevelElements(Set<ConstantPoolEntry> children) {
-        for (ConstantPoolEntry child : children) {
-            addToPool(child);
-            updateChildElements(child.getChildren());
-            // first the complete toplevel element including it's children, then next toplevel element
+        for (ConstantPoolEntry topElement : children) {
+            addToPool(topElement); // grandparents
+            updateChildElements(topElement.getChildren());
         }
     }
 
     private void updateChildElements(Set<ConstantPoolEntry> children) {
-        // first all direct children
+        // parents
         for (ConstantPoolEntry child : children) {
             addToPool(child);
         }
-        // then further lineage
+        // then grandchildren
         for (ConstantPoolEntry child : children) {
-            updateChildElements(child.getChildren());
+            updateChildElements(child.getChildren()); // no problem if there are great grand children
         }
     }
 
+    /*
+     * This just adds the next index to an entry and adds the entry to a flat structure.
+     * The tree structure makes sure all references by index will be correct
+     */
     private void addToPool(ConstantPoolEntry entry) {
         index += 1;
         entry.setIndex(index);

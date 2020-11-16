@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class TypeMapperTest {
 
     @Test
-    public void test_int() {
+    public void test_int() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(int.class);
 
@@ -24,7 +24,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_double() {
+    public void test_double() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(double.class);
 
@@ -37,7 +37,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_float() {
+    public void test_float() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(float.class);
 
@@ -50,7 +50,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_byte() {
+    public void test_byte() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(byte.class);
 
@@ -63,7 +63,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_short() {
+    public void test_short() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(short.class);
 
@@ -76,7 +76,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_long() {
+    public void test_long() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(long.class);
 
@@ -89,7 +89,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_char() {
+    public void test_char() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(char.class);
 
@@ -102,7 +102,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_boolean() {
+    public void test_boolean() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(boolean.class);
 
@@ -115,7 +115,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_Object() {
+    public void test_Object() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(Object.class);
 
@@ -124,11 +124,11 @@ public class TypeMapperTest {
 
         // Assert
         NameAndTypeEntry fieldEntry = getFieldNameAndType(constantPool);
-        assertEquals("Ljava/lang/Object", fieldEntry.getType());
+        assertEquals("Ljava/lang/Object;", fieldEntry.getType());
     }
 
     @Test
-    public void test_int_array() {
+    public void test_int_array() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(int[].class);
 
@@ -141,7 +141,7 @@ public class TypeMapperTest {
     }
 
     @Test
-    public void test_Object_array() {
+    public void test_Object_array() throws ClassNotFoundException {
         // Arrange
         BeeSource beeSource = TestData.createClassWithField(String[].class);
 

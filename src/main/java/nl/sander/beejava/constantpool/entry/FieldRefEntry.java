@@ -31,7 +31,7 @@ public class FieldRefEntry extends ConstantPoolEntry {
 
     @Override
     public byte[] getBytes() {
-        return new byte[]{TAG};
+        return new byte[]{TAG, upperByte(getClassIndex()), lowerByte(getClassIndex()), upperByte(getNameAndTypeIndex()),lowerByte(getNameAndTypeIndex())};
     }
 
     @Override

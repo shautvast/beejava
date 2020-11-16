@@ -1,20 +1,32 @@
 package nl.sander.beejava.api;
 
 
+import nl.sander.beejava.CodeContainer;
+import nl.sander.beejava.TypeMapper;
+import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CodeLine {
     private final int linenumber;
     private final Opcode opcode;
     private Ref ref;
     private BeeParameter parameter;
-    private String className;
+    private Class<?> type;
     private String methodName;
-    private String inputSignature;
+    private List<Class<?>> inputSignature;
     private String outputSignature;
     private BeeField ownfield; // when you create a class with a field, you can refer to it
-    private String externalfield; // when you refer to a field from another class
+    private Field externalfield; // when you refer to a field from another class
 
     private Object constValue;
-    private String externalFieldType;
+
+    private ConstantPoolEntry assignedEntry;
+    private CodeContainer owner;
 
     CodeLine(int linenumber, Opcode opcode) {
         this.linenumber = linenumber;
@@ -33,16 +45,31 @@ public class CodeLine {
         return new CodeLine(nr, opcode).withConstValue(constValue);
     }
 
-    public static CodeLine line(int nr, Opcode opcode, String className, String methodName, String inputSignature) {
-        return new CodeLine(nr, opcode).withClassName(className).withMethodName(methodName).withInput(inputSignature).withVoidOutput();
+    public static CodeLine line(int nr, Opcode opcode, String className, String methodName, String inputSignature) throws ClassNotFoundException {
+        return new CodeLine(nr, opcode).withClassName(className).withMethodName(methodName).withInput(parse(inputSignature)).withVoidOutput();
     }
 
-    public static CodeLine line(int nr, Opcode opcode, Ref ref, String methodNameRef, String inputSignature) {
-        return new CodeLine(nr, opcode).withRef(ref).withMethodName(methodNameRef).withInput(inputSignature).withVoidOutput();
+    private static List<Class<?>> parse(String inputSignature) throws ClassNotFoundException {
+        if ("()".equals(inputSignature)) {
+            return Collections.emptyList();
+        } else {
+            String[] params = inputSignature.split(",");
+            List<Class<?>> paramClasses = new ArrayList<>();
+            for (String param : params) {
+                paramClasses.add(Class.forName(param));
+            }
+            return paramClasses;
+        }
     }
 
-    public static CodeLine line(int nr, Opcode opcode, Ref ref, String methodNameRef, String inputSignature, String outputSignature) {
-        return new CodeLine(nr, opcode).withRef(ref).withMethodName(methodNameRef).withInput(inputSignature).withOutput(outputSignature);
+    public static CodeLine line(int nr, Opcode opcode,
+                                Ref ref, String methodNameRef, String inputSignature) throws ClassNotFoundException {
+        return new CodeLine(nr, opcode).withRef(ref).withMethodName(methodNameRef).withInput(parse(inputSignature)).withVoidOutput();
+    }
+
+    public static CodeLine line(int nr, Opcode opcode,
+                                Ref ref, String methodNameRef, String inputSignature, String outputSignature) throws ClassNotFoundException {
+        return new CodeLine(nr, opcode).withRef(ref).withMethodName(methodNameRef).withInput(parse(inputSignature)).withOutput(outputSignature);
     }
 
     public static CodeLine line(int nr, Opcode opcode) {
@@ -63,7 +90,7 @@ public class CodeLine {
     }
 
     private CodeLine withClassName(String className) {
-        this.className = className;
+        this.type = loadClass(className);
         return this;
     }
 
@@ -72,7 +99,7 @@ public class CodeLine {
         return this;
     }
 
-    private CodeLine withInput(String inputSignature) {
+    private CodeLine withInput(List<Class<?>> inputSignature) {
         this.inputSignature = inputSignature;
         return this;
     }
@@ -102,14 +129,12 @@ public class CodeLine {
     }
 
     private CodeLine withExternalFieldRef(String className, String field) {
-        this.className = className;
-        this.externalFieldType = getType(className, field);
-        this.externalfield = field;
+        this.type = loadClass(className);
+        this.externalfield = loadField(field);
         return this;
-
     }
 
-    // TODO decide whether to work with Strings or class objects...
+// TODO decide whether to work with Strings or class objects...
 
     /*
      * Look up the type of a field in a class
@@ -120,21 +145,21 @@ public class CodeLine {
      * @param field name of the field
      * @return the  field type
      */
-    private String getType(String className, String field) {
+    private Field loadField(String field) {
         try {
-            return Class.forName(className).getField(field).getType().getName();
-        } catch (ClassNotFoundException | NoSuchFieldException e) {
+            return type.getField(field);
+        } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
     }
 
     public boolean hasClassName() {
-        return className != null;
+        return type != null;
     }
 
 
     public String getClassName() {
-        return className;
+        return type.getName();
     }
 
     public String getMethodName() {
@@ -146,7 +171,9 @@ public class CodeLine {
     }
 
     public String getMethodSignature() {
-        return inputSignature + outputSignature;
+        return inputSignature.stream()
+                .map(TypeMapper::map)
+                .collect(Collectors.joining(",", "(", ")")) + outputSignature;
     }
 
     public Ref getRef() {
@@ -183,11 +210,35 @@ public class CodeLine {
         return externalfield != null;
     }
 
-    public String getExternalfield() {
+    public Field getExternalfield() {
         return externalfield;
     }
 
-    public String getExternalfieldClass() {
-        return externalFieldType;
+    public ConstantPoolEntry getAssignedEntry() {
+        return assignedEntry;
+    }
+
+    public void setAssignedEntry(ConstantPoolEntry assignedEntry) {
+        this.assignedEntry = assignedEntry;
+    }
+
+    public Opcode getOpcode() {
+        return opcode;
+    }
+
+    private Class<?> loadClass(String className) {
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e); //TODO specific exception
+        }
+    }
+
+    public CodeContainer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(CodeContainer codeContainer) {
+        this.owner = codeContainer;
     }
 }

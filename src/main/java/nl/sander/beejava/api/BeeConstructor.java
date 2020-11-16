@@ -9,8 +9,6 @@ import java.util.*;
  * Models a constructor
  */
 public class BeeConstructor extends CodeContainer {
-    private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
-    private final Set<BeeParameter> formalParameters = new HashSet<>();
 
     private BeeConstructor(Set<MethodAccessFlags> accessFlags,
                            List<BeeParameter> formalParameters,
@@ -24,12 +22,9 @@ public class BeeConstructor extends CodeContainer {
         return new Builder();
     }
 
-    Set<MethodAccessFlags> getAccessFlags() {
-        return accessFlags;
-    }
 
-    Set<BeeParameter> getFormalParameters() {
-        return formalParameters;
+    public String getName() {
+        return "<init>";
     }
 
     @Override
@@ -37,6 +32,10 @@ public class BeeConstructor extends CodeContainer {
         return "BeeConstructor{" +
                 "formalParameters=" + formalParameters +
                 '}';
+    }
+
+    public Class<?> getReturnType() {
+        return Void.class;
     }
 
     @Override
@@ -77,7 +76,9 @@ public class BeeConstructor extends CodeContainer {
         }
 
         public BeeConstructor build() {
-            return new BeeConstructor(accessFlags, formalParameters, code);
+            BeeConstructor beeConstructor = new BeeConstructor(accessFlags, formalParameters, code);
+            code.forEach(line -> line.setOwner(beeConstructor));
+            return beeConstructor;
         }
     }
 }

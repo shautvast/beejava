@@ -64,4 +64,5 @@ public abstract class ConstantPoolEntry {
     protected byte getByte(long bits, int positions) {
         return (byte) ((bits >>> (positions * 8)) & 0xFF);
     }
+
 }

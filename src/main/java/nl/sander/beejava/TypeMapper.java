@@ -16,6 +16,8 @@ public class TypeMapper {
         MAP.put(long.class, "J");
         MAP.put(short.class, "S");
         MAP.put(boolean.class, "Z");
+        MAP.put(Void.class, "V");
+
     }
 
     //TODO something with arrays
@@ -24,7 +26,7 @@ public class TypeMapper {
             if (type.isArray()) {
                 return internalName(type.getName());
             } else {
-                return "L" + internalName(type.getName());
+                return 'L' + internalName(type.getName() + ';');
             }
         });
     }

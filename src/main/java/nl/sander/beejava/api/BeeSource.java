@@ -141,7 +141,10 @@ public class BeeSource {
         }
 
         public BeeSource build() {
-            return new BeeSource(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors, methods);
+            BeeSource beeSource = new BeeSource(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors, methods);
+            constructors.forEach(c -> c.setOwner(beeSource));
+            methods.forEach(m -> m.setOwner(beeSource));
+            return beeSource;
         }
 
     }

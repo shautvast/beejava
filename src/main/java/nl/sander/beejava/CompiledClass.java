@@ -2,20 +2,25 @@ package nl.sander.beejava;
 
 import nl.sander.beejava.api.BeeSource;
 import nl.sander.beejava.classinfo.FieldInfo;
+import nl.sander.beejava.classinfo.MethodInfo;
+import nl.sander.beejava.constantpool.ConstantPool;
 import nl.sander.beejava.constantpool.entry.ClassEntry;
 import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-class CompiledClass {
+public class CompiledClass {
     private final Set<ConstantPoolEntry> constantTree = new LinkedHashSet<>();
     private final Set<ClassEntry> interfaces = new HashSet<>();
     private final Set<FieldInfo> fields = new HashSet<>();
+    private final Set<MethodInfo> methods = new HashSet<>();
     private final BeeSource beeSource;
     private ClassEntry thisClass;
     private ClassEntry superClass;
+    private ConstantPool constantPool;
 
     CompiledClass(BeeSource beeSource) {
         this.beeSource = beeSource;
@@ -67,5 +72,21 @@ class CompiledClass {
 
     public Set<FieldInfo> getFields() {
         return fields;
+    }
+
+    public void addMethod(MethodInfo methodInfo) {
+        methods.add(methodInfo);
+    }
+
+    public Set<MethodInfo> getMethods() {
+        return methods;
+    }
+
+    public void setConstantPool(ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 }

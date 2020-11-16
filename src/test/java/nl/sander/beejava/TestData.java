@@ -9,20 +9,21 @@ import java.io.Serializable;
 import static nl.sander.beejava.api.CodeLine.line;
 import static nl.sander.beejava.api.Opcode.*;
 import static nl.sander.beejava.flags.ClassAccessFlags.PUBLIC;
+import static nl.sander.beejava.flags.ClassAccessFlags.SUPER;
 
 public class TestData {
-    public static BeeSource emptyClass() {
+    public static BeeSource createEmptyClass() throws ClassNotFoundException {
         return BeeSource.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
-                .withAccessFlags(PUBLIC)
+                .withAccessFlags(PUBLIC, SUPER)
                 .withSimpleName("EmptyBean")
                 .withSuperClass(Object.class) // Not mandatory, like in java sourcecode
                 .withConstructors(createConstructor()) // There's no default constructor in beejava. The user must always add them
                 .build();
     }
 
-    public static BeeSource emptyClassWithInterface() {
+    public static BeeSource emptyClassWithInterface() throws ClassNotFoundException {
         return BeeSource.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
@@ -34,36 +35,41 @@ public class TestData {
                 .build();
     }
 
-    public static BeeSource createClassWithTwoReferencesToSomeClass() {
+    public static BeeSource createClassWithTwoReferencesToSomeClass() throws ClassNotFoundException {
         BeeMethod print1 = BeeMethod.builder()
+                .withName("print1")
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
                         line(0, GET, "java.lang.System","out"),
                         line(1, LD_CONST, "1"),
-                        line(2, INVOKE, "java.io.PrintStream", "println", "(java.lang.String)"),
+                        line(2, INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
                         line(3, RETURN))
                 .build();
 
+//        INVOKE System.out.println("1")
+
+
         BeeMethod print2 = BeeMethod.builder()
+                .withName("print2")
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
                         line(0, GET, "java.lang.System","out"),
                         line(1, LD_CONST, "2"),
-                        line(2, INVOKE, "java.io.PrintStream", "println", "(java.lang.String)"),
+                        line(2, INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
                         line(3, RETURN))
                 .build();
 
         return BeeSource.builder()
                 .withClassFileVersion(Version.V14)
                 .withPackage("nl.sander.beejava.test")
-                .withAccessFlags(PUBLIC)
+                .withAccessFlags(PUBLIC, SUPER)
                 .withSimpleName("ClassWithReferences")
                 .withConstructors(createConstructor()) // There's no default constructor in beejava. The user must always add them
                 .withMethods(print1, print2)
                 .build();
     }
 
-    public static BeeSource createClassWithField(Class<?> fieldType) {
+    public static BeeSource createClassWithField(Class<?> fieldType) throws ClassNotFoundException {
         BeeField field = BeeField.builder()
                 .withAccessFlags(FieldAccessFlags.PRIVATE)
                 .withType(fieldType)
@@ -95,7 +101,7 @@ public class TestData {
                 .build();
     }
 
-    private static BeeConstructor createConstructor() {
+    private static BeeConstructor createConstructor() throws ClassNotFoundException {
         return BeeConstructor.builder()
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(

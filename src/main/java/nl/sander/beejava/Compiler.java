@@ -2,6 +2,12 @@ package nl.sander.beejava;
 
 import nl.sander.beejava.api.BeeSource;
 import nl.sander.beejava.api.CodeLine;
+import nl.sander.beejava.classinfo.MethodInfo;
+import nl.sander.beejava.constantpool.ConstantPool;
+import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
+import nl.sander.beejava.constantpool.entry.FieldRefEntry;
+import nl.sander.beejava.constantpool.entry.MethodRefEntry;
+import nl.sander.beejava.constantpool.entry.Utf8Entry;
 
 /**
  * Builds a set of a tree of constant pool entries that refer to each other.
@@ -15,6 +21,8 @@ import nl.sander.beejava.api.CodeLine;
 public class Compiler {
     private final CompiledClass compiledClass;
     private final ConstantPoolEntryCreator constantPoolEntryCreator;
+    private final ConstantPoolCreator constantPoolCreator = new ConstantPoolCreator();
+    private Utf8Entry codeAttributeNameEntry;
 
     /**
      * construct a compiler object.
@@ -41,15 +49,56 @@ public class Compiler {
      * construct a CompiledClass object that contains all information for generating the bytecode
      */
     public CompiledClass compile() {
-        compiledClass.getSource().getConstructors().forEach(this::updateConstantPool);
-        compiledClass.getSource().getMethods().forEach(this::updateConstantPool);
-        // TODO update constant pool for fields ?
+        compiledClass.setConstantPool(createConstantPool());
 
-        compiledClass.setThisClass(constantPoolEntryCreator.addThisClass());
         constantPoolEntryCreator.addInterfaces();
         constantPoolEntryCreator.addFields();
+        addConstructors();
+        addMethods();
 
         return compiledClass;
+    }
+
+    private ConstantPool createConstantPool() {
+        compiledClass.getSource().getConstructors().forEach(this::updateConstantPool);
+        compiledClass.getSource().getMethods().forEach(this::updateConstantPool); // compiledClass.getSource() ?
+
+        compiledClass.setThisClass(constantPoolEntryCreator.addThisClass());
+
+        this.codeAttributeNameEntry = constantPoolEntryCreator.getOrCreateUtf8("Code");
+        compiledClass.addConstantPoolEntry(codeAttributeNameEntry);
+
+        ConstantPool constantPool = constantPoolCreator.createConstantPool(compiledClass.getConstantTree());
+        return constantPool;
+    }
+
+    public void addConstructors() {
+        compiledClass.getSource().getConstructors().stream()
+                .map(this::createMethod)
+                .forEach(compiledClass::addMethod);
+    }
+
+
+    /*
+     * maps methods from the source to a MethodInfo and adds that to the CompiledClass.
+     */
+    public void addMethods() {
+        compiledClass.addConstantPoolEntry(codeAttributeNameEntry);
+        compiledClass.getSource().getMethods().stream()
+                .map(this::createMethod)
+                .forEach(compiledClass::addMethod);
+    }
+
+    /*
+     * create bytecode for method
+     * create methodInfo object for classfile
+     */
+    private MethodInfo createMethod(CodeContainer method) {
+        return new MethodInfo(
+                constantPoolEntryCreator.getOrCreateUtf8(method.getName()),
+                constantPoolEntryCreator.getOrCreateUtf8(method.getSignature()))
+                .addAccessFlags(method.getAccessFlags())
+                .addAttribute(MethodCodeCreator.createCodeAttribute(codeAttributeNameEntry, method.getCode()));
     }
 
     /*
@@ -70,15 +119,21 @@ public class Compiler {
      */
     private void updateConstantPool(CodeLine codeline) {
         if (codeline.hasMethodCall()) {
-            compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateMethodRefEntry(codeline));
+            MethodRefEntry methodRefEntry = constantPoolEntryCreator.getOrCreateMethodRefEntry(codeline);
+            codeline.setAssignedEntry(methodRefEntry);
+            compiledClass.addConstantPoolEntry(methodRefEntry);
         }
 
         if (codeline.hasRefToOwnField() || codeline.hasRefToExternalField()) {
-            compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateFieldRefEntry(codeline));
+            FieldRefEntry fieldRefEntry = constantPoolEntryCreator.getOrCreateFieldRefEntry(codeline);
+            codeline.setAssignedEntry(fieldRefEntry);
+            compiledClass.addConstantPoolEntry(fieldRefEntry);
         }
 
         if (codeline.hasConstValue()) {
-            compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreatePrimitiveEntry(codeline));
+            ConstantPoolEntry primitiveEntry = constantPoolEntryCreator.getOrCreatePrimitiveEntry(codeline);
+            codeline.setAssignedEntry(primitiveEntry);
+            compiledClass.addConstantPoolEntry(primitiveEntry);
         }
     }
 }

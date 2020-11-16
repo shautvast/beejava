@@ -1,14 +1,12 @@
 package nl.sander.beejava;
 
 import nl.sander.beejava.constantpool.ConstantPool;
-import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
 import nl.sander.beejava.flags.AccessFlags;
 import nl.sander.beejava.util.ByteBuf;
 
 public class BytecodeGenerator {
 
     private final CompiledClass compiledClass; // maybe not a member?
-    private final ConstantPoolCreator constantPoolCreator = new ConstantPoolCreator();
 
     public BytecodeGenerator(CompiledClass compiledClass) {
         this.compiledClass = compiledClass;
@@ -25,10 +23,8 @@ public class BytecodeGenerator {
         buf.addU16(compiledClass.getSource().getClassFileVersion().getMinor());
         buf.addU16(compiledClass.getSource().getClassFileVersion().getMajor());
 
-        ConstantPool constantPool = constantPoolCreator.createConstantPool(compiledClass.getConstantTree());
-
-        buf.addU16(constantPool.getLength());
-        constantPool.addTo(buf);
+        buf.addU16(compiledClass.getConstantPool().getLength());
+        compiledClass.getConstantPool().addTo(buf);
         buf.addU16(AccessFlags.combine(compiledClass.getSource().getAccessFlags()));
         buf.addU16(compiledClass.geThisIndex());
         buf.addU16(compiledClass.getSuperIndex());
@@ -36,28 +32,10 @@ public class BytecodeGenerator {
         compiledClass.getInterfaces().forEach(interfase -> buf.addU16(interfase.getIndex()));
         buf.addU16(compiledClass.getFields().size());
         compiledClass.getFields().forEach(fieldInfo -> fieldInfo.addBytes(buf));
-
-        int x = 1;
-        for (ConstantPoolEntry e : constantPool) {
-            System.out.println((x++) + ":" + e);
-        }
-        printBytes(buf);
-
+        buf.addU16(compiledClass.getMethods().size());
+        compiledClass.getMethods().forEach(methodInfo -> methodInfo.addBytes(buf));
+        buf.addU16(0); //attributes count
         return buf.toBytes();
     }
-
-    //TODO remove
-    private void printBytes(ByteBuf buf) {
-        byte[] bytes = buf.toBytes();
-        int count = 0;
-        for (byte b : bytes) {
-            System.out.print(String.format("%2s", Integer.toHexString(b & 0xFF)).replace(' ', '0') + (count % 2 == 0 ? "" : " "));
-            if (++count > 15) {
-                count = 0;
-                System.out.println();
-            }
-        }
-    }
-
 
 }

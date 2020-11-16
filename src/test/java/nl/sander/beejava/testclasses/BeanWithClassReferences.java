@@ -8,12 +8,7 @@ public class BeanWithClassReferences {
     }
 
     public void print2() {
-        System.out.println(create2());
+        System.out.println("2");
     }
 
-    public String create2() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("2");
-        return stringBuilder.toString();
-    }
 }

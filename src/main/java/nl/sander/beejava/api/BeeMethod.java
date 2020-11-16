@@ -1,18 +1,21 @@
 package nl.sander.beejava.api;
 
 import nl.sander.beejava.CodeContainer;
+import nl.sander.beejava.TypeMapper;
 import nl.sander.beejava.flags.MethodAccessFlags;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class BeeMethod extends CodeContainer {
-    private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
-    private final Set<BeeParameter> formalParameters = new HashSet<>();
+    private final String name;
+
     private final Class<?> returnType;
 
-    private BeeMethod(Set<MethodAccessFlags> accessFlags,
+    private BeeMethod(String name, Set<MethodAccessFlags> accessFlags,
                       List<BeeParameter> formalParameters,
                       Class<?> returnType, List<CodeLine> code) {
+        this.name = name;
         this.accessFlags.addAll(accessFlags);
         this.formalParameters.addAll(formalParameters);
         this.returnType = returnType;
@@ -23,13 +26,36 @@ public final class BeeMethod extends CodeContainer {
         return new Builder();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Class<?> getReturnType() {
+        return returnType;
+    }
+
+    public void validate() {
+        //TODO
+        /*
+         * here we could add checks like:
+         * -If this method is in a class rather than an interface, and the name of the method is <init>, then the descriptor must denote a void method.
+         * -If the name of the method is <clinit>, then the descriptor must denote avoid method, and, in a class file whose version number is 51.0 or above,a method that takes no arguments
+         */
+    }
+
     public static class Builder {
         private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
         private final List<BeeParameter> formalParameters = new LinkedList<>();
         private final List<CodeLine> code = new LinkedList<>();
-        private Class<?> returnType;
+        private String name;
+        private Class<?> returnType = Void.class;
 
         private Builder() {
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
         }
 
         public Builder withAccessFlags(MethodAccessFlags... accessFlags) {
@@ -53,7 +79,9 @@ public final class BeeMethod extends CodeContainer {
         }
 
         public BeeMethod build() {
-            return new BeeMethod(accessFlags, formalParameters, returnType, code);
+            BeeMethod beeMethod = new BeeMethod(name, accessFlags, formalParameters, returnType, code);
+            code.forEach(line -> line.setOwner(beeMethod));
+            return beeMethod;
         }
     }
 }
