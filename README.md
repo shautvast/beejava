@@ -2,8 +2,9 @@
 compiles java 'opcode' to bytecode.
 
 What is 'opcode'?
+
 The goal of the project is to let developers use a simplified version of standard java opcodes. For instance: 
-instead of having to choose between INVOKE_SPECIAL, INVOKE_VIRTUAL, INVOKE_DYNAMIC and INVOKE_INTERFACE, developers can just write INVOKE and the compiler will figure out the correct version to put in the class file.
+instead of having to choose between INVOKE_SPECIAL, INVOKE_VIRTUAL, INVOKE_DYNAMIC and INVOKE_INTERFACE, developers can just write INVOKE and the compiler will figure out the correct instruction to put in the class file.
 
 project status: early stage
 * At this moment a complete compile cycle is guaranteed (unittested) for a really simple class. 
