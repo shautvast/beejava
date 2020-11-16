@@ -4,6 +4,8 @@ compiles java 'opcode' to bytecode.
 project status: early stage
 * At this moment a complete compile cycle is guaranteed (unittested) for a really simple class. 
 
+Code example below, but the API will change without doubt.
+
 ```
 BeeSource createEmptyClass() {
     return BeeSource.builder()
