@@ -7,6 +7,9 @@ import nl.sander.beejava.flags.MethodAccessFlags;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Models a method in a BeeClass
+ */
 public final class BeeMethod extends CodeContainer {
     private final String name;
 

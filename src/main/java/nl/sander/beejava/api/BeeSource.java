@@ -13,7 +13,7 @@ import java.util.Set;
  * End users need to create an instance of this class (using the Builder) and add all fields, methods etc.
  * Once created the BeeSource object is immutable.
  */
-public class BeeSource {
+public final class BeeSource {
     private final Version classFileVersion;
     private final BeePackage beePackage;
     private final Set<ClassAccessFlags> accessFlags = new HashSet<>();

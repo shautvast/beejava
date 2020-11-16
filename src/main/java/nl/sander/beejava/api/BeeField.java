@@ -7,7 +7,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class BeeField {
+/**
+ * Models a field in a BeeClass
+ */
+public final class BeeField {
 
     private final Set<FieldAccessFlags> accessFlags = new HashSet<>();
     private final Class<?> type;

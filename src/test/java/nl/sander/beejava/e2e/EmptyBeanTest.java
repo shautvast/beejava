@@ -5,10 +5,13 @@ import nl.sander.beejava.CompiledClass;
 import nl.sander.beejava.Compiler;
 import nl.sander.beejava.TestData;
 import nl.sander.beejava.api.BeeSource;
+import nl.sander.beejava.api.Version;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 
+import static nl.sander.beejava.flags.ClassAccessFlags.PUBLIC;
+import static nl.sander.beejava.flags.ClassAccessFlags.SUPER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -20,7 +23,7 @@ public class EmptyBeanTest {
     @Test
     public void testEmptyBean() throws Exception {
         // Arrange
-        BeeSource emptyClass = TestData.createEmptyClass();
+        BeeSource emptyClass = createEmptyClass();
 
         // Act
         CompiledClass compiledClass = Compiler.compile(emptyClass);
@@ -36,5 +39,16 @@ public class EmptyBeanTest {
         Object instance = constructor.newInstance();
         assertNotNull(instance);
 
+    }
+
+    private BeeSource createEmptyClass() throws ClassNotFoundException {
+        return BeeSource.builder()
+                .withClassFileVersion(Version.V14)
+                .withPackage("nl.sander.beejava.test")
+                .withAccessFlags(PUBLIC, SUPER)
+                .withSimpleName("EmptyBean")
+                .withSuperClass(Object.class) // Not mandatory, like in java sourcecode
+                .withConstructors(TestData.createDefaultConstructor()) // There's no default constructor in beejava. The user must always add them
+                .build();
     }
 }

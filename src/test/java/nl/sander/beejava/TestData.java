@@ -19,7 +19,7 @@ public class TestData {
                 .withAccessFlags(PUBLIC, SUPER)
                 .withSimpleName("EmptyBean")
                 .withSuperClass(Object.class) // Not mandatory, like in java sourcecode
-                .withConstructors(createConstructor()) // There's no default constructor in beejava. The user must always add them
+                .withConstructors(createDefaultConstructor()) // There's no default constructor in beejava. The user must always add them
                 .build();
     }
 
@@ -31,7 +31,7 @@ public class TestData {
                 .withSimpleName("EmptyBean")
                 .withSuperClass(Object.class) // Not mandatory, like in java sourcecode
                 .withInterfaces(Serializable.class)
-                .withConstructors(createConstructor()) // There's no default constructor in beejava. The user must always add them
+                .withConstructors(createDefaultConstructor()) // There's no default constructor in beejava. The user must always add them
                 .build();
     }
 
@@ -64,7 +64,7 @@ public class TestData {
                 .withPackage("nl.sander.beejava.test")
                 .withAccessFlags(PUBLIC, SUPER)
                 .withSimpleName("ClassWithReferences")
-                .withConstructors(createConstructor()) // There's no default constructor in beejava. The user must always add them
+                .withConstructors(createDefaultConstructor()) // There's no default constructor in beejava. The user must always add them
                 .withMethods(print1, print2)
                 .build();
     }
@@ -101,7 +101,7 @@ public class TestData {
                 .build();
     }
 
-    private static BeeConstructor createConstructor() throws ClassNotFoundException {
+    public static BeeConstructor createDefaultConstructor() throws ClassNotFoundException {
         return BeeConstructor.builder()
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(

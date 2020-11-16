@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CodeLine {
+public final class CodeLine {
     private final int linenumber;
     private final Opcode opcode;
     private Ref ref;

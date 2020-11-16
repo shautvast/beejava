@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Models a constructor
  */
-public class BeeConstructor extends CodeContainer {
+public final class BeeConstructor extends CodeContainer {
 
     private BeeConstructor(Set<MethodAccessFlags> accessFlags,
                            List<BeeParameter> formalParameters,

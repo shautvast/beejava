@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Models a formal parameter in a method declaration.
  */
-public class BeeParameter {
+public final class BeeParameter {
     private final Class<?> type;
     private final String name;
 

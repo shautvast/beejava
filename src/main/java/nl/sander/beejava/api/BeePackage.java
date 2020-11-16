@@ -3,7 +3,7 @@ package nl.sander.beejava.api;
 /**
  * Contains the name of the package for a class
  */
-public class BeePackage {
+public final class BeePackage {
 
     private final String name;
 
