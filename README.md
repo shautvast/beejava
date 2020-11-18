@@ -37,9 +37,9 @@ BeeConstructor createDefaultConstructor() {
     return BeeConstructor.builder()
             .withAccessFlags(MethodAccessFlags.PUBLIC)
             .withCode(
-                    line(0, LD_VAR, Ref.THIS),
-                    line(1, INVOKE, Ref.SUPER, "<init>", "()"),
-                    line(5, RETURN))
+                    line(LD_VAR, Ref.THIS),
+                    line(INVOKE, Ref.SUPER, "<init>", "()"),
+                    line(RETURN))
             .build();
  }
 ```
@@ -50,10 +50,10 @@ BeeMethod print2 = BeeMethod.builder()
                 .withName("print2")
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
-                        line(0, GET, "java.lang.System","out"),
-                        line(1, LD_CONST, "2"),
-                        line(2, INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
-                        line(3, RETURN))
+                        line(GET, "java.lang.System","out"),
+                        line(LD_CONST, "2"),
+                        line(INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
+                        line(RETURN))
                 .build();
 ```
 
@@ -61,6 +61,6 @@ BeeMethod print2 = BeeMethod.builder()
 * MORE opcodes
 * invoke dynamic support (also in constant pool)
 * support for exceptions, class attributes
-* figure out a nicer, better api, drop the line numbers
+* figure out a nicer, better api
 * or instead drop this idea and let the developer write the raw bytecode. The constant pool would then be the only thing Beejava adds.
 * create a readable file format for opcode files

@@ -20,6 +20,7 @@ public class OpcodeMapper {
             case LD_CONST -> loadConst(codeLine);
             case INVOKE -> invoke(codeLine);
             case RETURN -> JavaOpcode.RETURN; //TODO not complete yet
+            case PUT -> JavaOpcode.PUTFIELD;
             default -> throw new IllegalStateException("something not implemented");
         };
     }

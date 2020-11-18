@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class CodeLine {
-    private final int linenumber;
     private final Opcode opcode;
     private Ref ref;
     private BeeParameter parameter;
@@ -28,60 +27,46 @@ public final class CodeLine {
     private CodeContainer owner;
     private JavaOpcode javaOpcode;
 
-    CodeLine(int linenumber, Opcode opcode) {
-        this.linenumber = linenumber;
+    CodeLine(Opcode opcode) {
         this.opcode = opcode;
     }
 
-    public static CodeLine line(int nr, Opcode opcode, Ref ref) {
-        return new CodeLine(nr, opcode).withRef(ref);
+    public static CodeLine line(Opcode opcode, Ref ref) {
+        return new CodeLine(opcode).withRef(ref);
     }
 
-    public static CodeLine line(int nr, Opcode opcode, String fieldClass, String fieldName) {
-        return new CodeLine(nr, opcode).withExternalFieldRef(fieldClass, fieldName);
+    public static CodeLine line(Opcode opcode, String fieldClass, String fieldName) {
+        return new CodeLine(opcode).withExternalFieldRef(fieldClass, fieldName);
     }
 
-    public static CodeLine line(int nr, Opcode opcode, Object constValue) {
-        return new CodeLine(nr, opcode).withConstValue(constValue);
+    public static CodeLine line(Opcode opcode, Object constValue) {
+        return new CodeLine(opcode).withConstValue(constValue);
     }
 
-    public static CodeLine line(int nr, Opcode opcode, String className, String methodName, String inputSignature) throws ClassNotFoundException {
-        return new CodeLine(nr, opcode).withClassName(className).withMethodName(methodName).withInput(parse(inputSignature)).withVoidOutput();
+    public static CodeLine line(Opcode opcode, String className, String methodName, String inputSignature) throws ClassNotFoundException {
+        return new CodeLine(opcode).withClassName(className).withMethodName(methodName).withInput(parse(inputSignature)).withVoidOutput();
     }
 
-    private static List<Class<?>> parse(String inputSignature) throws ClassNotFoundException {
-        if ("()".equals(inputSignature)) {
-            return Collections.emptyList();
-        } else {
-            String[] params = inputSignature.split(",");
-            List<Class<?>> paramClasses = new ArrayList<>();
-            for (String param : params) {
-                paramClasses.add(Class.forName(param));
-            }
-            return paramClasses;
-        }
-    }
-
-    public static CodeLine line(int nr, Opcode opcode,
+    public static CodeLine line(Opcode opcode,
                                 Ref ref, String methodNameRef, String inputSignature) throws ClassNotFoundException {
-        return new CodeLine(nr, opcode).withRef(ref).withMethodName(methodNameRef).withInput(parse(inputSignature)).withVoidOutput();
+        return new CodeLine(opcode).withRef(ref).withMethodName(methodNameRef).withInput(parse(inputSignature)).withVoidOutput();
     }
 
-    public static CodeLine line(int nr, Opcode opcode,
+    public static CodeLine line(Opcode opcode,
                                 Ref ref, String methodNameRef, String inputSignature, String outputSignature) throws ClassNotFoundException {
-        return new CodeLine(nr, opcode).withRef(ref).withMethodName(methodNameRef).withInput(parse(inputSignature)).withOutput(outputSignature);
+        return new CodeLine(opcode).withRef(ref).withMethodName(methodNameRef).withInput(parse(inputSignature)).withOutput(outputSignature);
     }
 
-    public static CodeLine line(int nr, Opcode opcode) {
-        return new CodeLine(nr, opcode);
+    public static CodeLine line(Opcode opcode) {
+        return new CodeLine(opcode);
     }
 
-    public static CodeLine line(int nr, Opcode opcode, BeeParameter parameter) {
-        return new CodeLine(nr, opcode).withParameter(parameter);
+    public static CodeLine line(Opcode opcode, BeeParameter parameter) {
+        return new CodeLine(opcode).withParameter(parameter);
     }
 
-    public static CodeLine line(int nr, Opcode opcode, BeeField intField) {
-        return new CodeLine(nr, opcode).withRef(Ref.THIS).withOwnField(intField);
+    public static CodeLine line(Opcode opcode, BeeField intField) {
+        return new CodeLine(opcode).withRef(Ref.THIS).withOwnField(intField);
     }
 
     private CodeLine withRef(Ref ref) {
@@ -248,5 +233,18 @@ public final class CodeLine {
 
     public void setJavaOpcode(JavaOpcode javaOpcode) {
         this.javaOpcode = javaOpcode;
+    }
+
+    private static List<Class<?>> parse(String inputSignature) throws ClassNotFoundException {
+        if ("()".equals(inputSignature)) {
+            return Collections.emptyList();
+        } else {
+            String[] params = inputSignature.split(",");
+            List<Class<?>> paramClasses = new ArrayList<>();
+            for (String param : params) {
+                paramClasses.add(Class.forName(param));
+            }
+            return paramClasses;
+        }
     }
 }

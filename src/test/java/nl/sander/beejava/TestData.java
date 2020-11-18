@@ -40,10 +40,10 @@ public class TestData {
                 .withName("print1")
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
-                        line(0, GET, "java.lang.System","out"),
-                        line(1, LD_CONST, "1"),
-                        line(2, INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
-                        line(3, RETURN))
+                        line(GET, "java.lang.System","out"),
+                        line(LD_CONST, "1"),
+                        line(INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
+                        line(RETURN))
                 .build();
 
 //        INVOKE System.out.println("1")
@@ -53,10 +53,10 @@ public class TestData {
                 .withName("print2")
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
-                        line(0, GET, "java.lang.System","out"),
-                        line(1, LD_CONST, "2"),
-                        line(2, INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
-                        line(3, RETURN))
+                        line(GET, "java.lang.System","out"),
+                        line(LD_CONST, "2"),
+                        line(INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
+                        line(RETURN))
                 .build();
 
         return BeeSource.builder()
@@ -82,12 +82,12 @@ public class TestData {
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withFormalParameters(parameter)
                 .withCode(
-                        line(0, LD_VAR, Ref.THIS),
-                        line(1, INVOKE, Ref.SUPER, "<init>", "()"),
-                        line(2, LD_VAR, Ref.THIS),
-                        line(3, LD_VAR, parameter),
-                        line(4, PUT, field),
-                        line(5, RETURN))
+                        line(LD_VAR, Ref.THIS),
+                        line(INVOKE, Ref.SUPER, "<init>", "()"),
+                        line(LD_VAR, Ref.THIS),
+                        line(LD_VAR, parameter),
+                        line(PUT, field),
+                        line(RETURN))
                 .build();
 
         return BeeSource.builder()
@@ -105,9 +105,9 @@ public class TestData {
             return BeeConstructor.builder()
                     .withAccessFlags(MethodAccessFlags.PUBLIC)
                     .withCode(
-                            line(0, LD_VAR, Ref.THIS),
-                        line(1, INVOKE, Ref.SUPER, "<init>", "()"),
-                        line(5, RETURN))
+                            line(LD_VAR, Ref.THIS),
+                        line(INVOKE, Ref.SUPER, "<init>", "()"),
+                        line(RETURN))
                 .build();
     }
 }

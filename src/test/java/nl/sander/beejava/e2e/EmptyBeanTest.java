@@ -61,9 +61,9 @@ public class EmptyBeanTest {
         return BeeConstructor.builder()
                 .withAccessFlags(MethodAccessFlags.PUBLIC)
                 .withCode(
-                        line(0, LD_VAR, Ref.THIS),
-                        line(1, INVOKE, Ref.SUPER, "<init>", "()"),
-                        line(5, RETURN))
+                        line(LD_VAR, Ref.THIS),
+                        line(INVOKE, Ref.SUPER, "<init>", "()"),
+                        line(RETURN))
                 .build();
     }
 }

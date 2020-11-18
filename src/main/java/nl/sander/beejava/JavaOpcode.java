@@ -14,7 +14,10 @@ public enum JavaOpcode {
     INVOKEVIRTUAL ( 0xb6, true, -1),
     INVOKESPECIAL ( 0xb7, true, -1),
     INVOKESTATIC ( 0xb8, true, -1),
-    INVOKEDYNAMIC ( 0xba,true,-1);
+    INVOKEDYNAMIC ( 0xba,true,-1),
+
+    PUTFIELD(0xb5, true, -2);
+
 
     private final int opcode;
     private final boolean wide;

@@ -127,7 +127,7 @@ class ConstantPoolEntryCreator {
         } else if (v instanceof Double) {
             return cache(new DoubleEntry((Double) v));
         }
-        throw new RuntimeException(); // TODO find out why are you here
+        throw new IllegalStateException("shouldn't be here"); // TODO find out why are you here
     }
 
     /*
