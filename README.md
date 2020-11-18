@@ -1,9 +1,11 @@
 # beejava
-compiles java 'opcode' to bytecode.
+Beejava is a code creation library, somewhat comparable to javassist or bytebuddy.  
+* It let's you compile java 'opcode' to bytecode.
+* It does not inspect or enhance existing bytecode, though it could be part of such functionality. 
 
 What is 'opcode'?
 
-The goal of the project is to let developers use a simplified version of standard java opcodes. For instance: 
+The goal of the project is to let developers dynamically create classes, using a simplified version of standard java opcodes. For instance: 
 instead of having to choose between:
 - INVOKE_SPECIAL
 - INVOKE_VIRTUAL
