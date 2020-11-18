@@ -7,10 +7,10 @@ What is 'opcode'?
 
 The goal of the project is to let developers dynamically create classes, using a simplified version of standard java opcodes. For instance: 
 instead of having to choose between:
-- INVOKE_SPECIAL
-- INVOKE_VIRTUAL
-- INVOKE_DYNAMIC 
-- INVOKE_INTERFACE
+- ```INVOKE_SPECIAL```
+- ```INVOKE_VIRTUAL```
+- ```INVOKE_DYNAMIC``` 
+- ```INVOKE_INTERFACE```
 
 developers can just write ```INVOKE``` and the compiler will figure out the correct instruction to put in the class file.
 
