@@ -8,33 +8,33 @@ import nl.sander.beejava.flags.ClassAccessFlags;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static nl.sander.beejava.JavaOpcodes.*;
+import static nl.sander.beejava.JavaOpcode.*;
 
 public class OpcodeMapper {
 
-    public static int mapOpcode(CodeLine codeLine) {
+    public static JavaOpcode mapOpcode(CodeLine codeLine) {
         Opcode opcode = codeLine.getOpcode();
         return switch (opcode) {
             case GET -> isStatic(codeLine.getExternalfield()) ? GETSTATIC : GETFIELD;
             case LD_VAR -> ALOAD_0;
             case LD_CONST -> loadConst(codeLine);
             case INVOKE -> invoke(codeLine);
-            case RETURN -> JavaOpcodes.RETURN; //TODO not complete yet
-            default -> 0;
+            case RETURN -> JavaOpcode.RETURN; //TODO not complete yet
+            default -> throw new IllegalStateException("something not implemented");
         };
     }
 
     /* TODO cover more cases */
-    private static int invoke(CodeLine codeLine) {
+    private static JavaOpcode invoke(CodeLine codeLine) {
         BeeSource source = codeLine.getOwner().getOwner();
-        if (source.getAccessFlags().contains(ClassAccessFlags.SUPER)) {
+        if (source.getAccessFlags().contains(ClassAccessFlags.SUPER) && codeLine.getOwner().isConstructor()) {
             return INVOKESPECIAL;
         } else {
             return INVOKEVIRTUAL;
         }
     }
 
-    private static int loadConst(CodeLine codeLine) {
+    private static JavaOpcode loadConst(CodeLine codeLine) {
         Object constValue = codeLine.getConstValue();
         int index = codeLine.getAssignedEntry().getIndex();
         if (constValue instanceof Double || constValue instanceof Long) {

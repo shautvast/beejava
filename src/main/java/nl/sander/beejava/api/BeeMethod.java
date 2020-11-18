@@ -37,6 +37,11 @@ public final class BeeMethod extends CodeContainer {
         return returnType;
     }
 
+    @Override
+    public boolean isConstructor() {
+        return false;
+    }
+
     public void validate() {
         //TODO
         /*

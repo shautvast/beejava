@@ -68,8 +68,7 @@ public class Compiler {
         this.codeAttributeNameEntry = constantPoolEntryCreator.getOrCreateUtf8("Code");
         compiledClass.addConstantPoolEntry(codeAttributeNameEntry);
 
-        ConstantPool constantPool = constantPoolCreator.createConstantPool(compiledClass.getConstantTree());
-        return constantPool;
+        return constantPoolCreator.createConstantPool(compiledClass.getConstantTree());
     }
 
     public void addConstructors() {
@@ -98,13 +97,15 @@ public class Compiler {
                 constantPoolEntryCreator.getOrCreateUtf8(method.getName()),
                 constantPoolEntryCreator.getOrCreateUtf8(method.getSignature()))
                 .addAccessFlags(method.getAccessFlags())
-                .addAttribute(MethodCodeCreator.createCodeAttribute(codeAttributeNameEntry, method.getCode()));
+                .addAttribute(MethodCodeCreator.createCodeAttribute(codeAttributeNameEntry, method));
     }
 
     /*
      * inspect a method or constructor, extract items that need to be added, and add them to the constant pool
      */
     private void updateConstantPool(CodeContainer codeContainer) {
+        compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateUtf8(codeContainer.getName()));
+        compiledClass.addConstantPoolEntry(constantPoolEntryCreator.getOrCreateUtf8(codeContainer.getSignature()));
         codeContainer.getCode().forEach(this::updateConstantPool);
     }
 

@@ -8,6 +8,7 @@ public class MethodRefEntry extends ConstantPoolEntry {
     private final ClassEntry classRef;
     private final NameAndTypeEntry nameAndType;
 
+
     public MethodRefEntry(ClassEntry classRef, NameAndTypeEntry nameAndType) {
         super(classRef, nameAndType);
         this.classRef = classRef;
@@ -22,6 +23,9 @@ public class MethodRefEntry extends ConstantPoolEntry {
         return nameAndType.getIndex();
     }
 
+    public NameAndTypeEntry getNameAndType() {
+        return nameAndType;
+    }
 
     public byte[] getBytes() {
         return new byte[]{TAG, upperByte(getClassIndex()), lowerByte(getClassIndex()), upperByte(getNameAndTypeIndex()), lowerByte(getNameAndTypeIndex())};

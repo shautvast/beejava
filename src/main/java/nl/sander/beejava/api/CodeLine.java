@@ -2,6 +2,7 @@ package nl.sander.beejava.api;
 
 
 import nl.sander.beejava.CodeContainer;
+import nl.sander.beejava.JavaOpcode;
 import nl.sander.beejava.TypeMapper;
 import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
 
@@ -22,11 +23,10 @@ public final class CodeLine {
     private String outputSignature;
     private BeeField ownfield; // when you create a class with a field, you can refer to it
     private Field externalfield; // when you refer to a field from another class
-
     private Object constValue;
-
     private ConstantPoolEntry assignedEntry;
     private CodeContainer owner;
+    private JavaOpcode javaOpcode;
 
     CodeLine(int linenumber, Opcode opcode) {
         this.linenumber = linenumber;
@@ -240,5 +240,13 @@ public final class CodeLine {
 
     public void setOwner(CodeContainer codeContainer) {
         this.owner = codeContainer;
+    }
+
+    public JavaOpcode getJavaOpcode() {
+        return javaOpcode;
+    }
+
+    public void setJavaOpcode(JavaOpcode javaOpcode) {
+        this.javaOpcode = javaOpcode;
     }
 }

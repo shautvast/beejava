@@ -40,7 +40,7 @@ public class CompiledClass {
         }
     }
 
-    Set<ConstantPoolEntry> getConstantTree() {
+    public Set<ConstantPoolEntry> getConstantTree() {
         return constantTree;
     }
 

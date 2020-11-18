@@ -54,4 +54,6 @@ public abstract class CodeContainer {
         }
         this.owner = beeSource;
     }
+
+    public abstract boolean isConstructor();
 }
