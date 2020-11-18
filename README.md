@@ -44,6 +44,19 @@ BeeConstructor createDefaultConstructor() {
  }
 ```
 
+and
+```
+BeeMethod print2 = BeeMethod.builder()
+                .withName("print2")
+                .withAccessFlags(MethodAccessFlags.PUBLIC)
+                .withCode(
+                        line(0, GET, "java.lang.System","out"),
+                        line(1, LD_CONST, "2"),
+                        line(2, INVOKE, "java.io.PrintStream", "println", "java.lang.String"),
+                        line(3, RETURN))
+                .build();
+```
+
 *Ideas about what's next*
 * MORE opcodes
 * invoke dynamic support (also in constant pool)
