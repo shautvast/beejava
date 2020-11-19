@@ -2,18 +2,18 @@ package nl.sander.beejava;
 
 public class TestData2 {
 
-    public final String simpleBean= """           
-            public class simpleBean
-            field value:int
-            constructor()
-                INVOKE super()
-                RETURN
-            method getValue()
-                RETURN this.value
-            method setValue(int newVale)
-                LOAD newValue
-                PUT this.value
-                RETURN
+    public final static String simpleBean= """           
+            class com.acme.SimpleBean(V15)
+            field public final int value
+            constructor public()
+              INVOKE super()
+              RETURN
+            method public getValue() -> int
+              RETURN this.value
+            method public setValue(int newValue)
+              LOAD newValue
+              PUT this.value
+              RETURN
             """;
 
     String constructor_original = """

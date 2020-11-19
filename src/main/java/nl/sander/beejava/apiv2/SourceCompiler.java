@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class SourceCompiler {
     private final static Pattern firstBlanksplitter = Pattern.compile("(.+?) (.+)");
-    private final static Pattern parensplitter = Pattern.compile("(.+?)(\\(.*?\\))");
+    private final static Pattern parensplitter = Pattern.compile("(.+?)\\((.*?)\\)");
     private final static Pattern returntypesplitter = Pattern.compile("(.+?)->(.*?)");
     private final String sourcecode;
     private final List<Instruction> instructions = new ArrayList<>();
@@ -62,38 +62,47 @@ public class SourceCompiler {
 
     private BeeMethod parseMethod(String text) {
         String[] tokens = split(text, returntypesplitter);
-        Class<?> returnType;
-        try {
-            returnType = Class.forName(tokens[1].trim());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Not a valid type: "+tokens[1].trim());
+        final String first;
+        final Class<?> returnType;
+        if (tokens.length > 0) {
+            try {
+                returnType = Class.forName(tokens[1].trim());
+            } catch (ClassNotFoundException e) {
+                throw new IllegalArgumentException("Not a valid type: " + tokens[1].trim());
+            }
+            first = tokens[0].trim();
+        } else {
+            first = text;
+            returnType = Void.TYPE;
         }
 
-        String first = tokens[0].trim();
-        String[] flagsNameParameters = first.split(" ");
+        String[] flagsNameParameters = split(first, firstBlanksplitter);
 
         Set<MethodAccessFlag> flags = new HashSet<>();
-        int i=0;
-        Optional<MethodAccessFlag> maybeFlag = MethodAccessFlag.get(flagsNameParameters[i]);
-        while (maybeFlag.isPresent()){
+        int i = 0;
+        Optional<MethodAccessFlag> maybeFlag = MethodAccessFlag.get(flagsNameParameters[i].toUpperCase());
+        while (maybeFlag.isPresent()) {
             flags.add(maybeFlag.get());
-            i+=1;
+            i += 1;
             maybeFlag = MethodAccessFlag.get(flagsNameParameters[i]);
         }
 
         String[] nameParams = split(flagsNameParameters[i], parensplitter);
-        String methodName = nameParams[0];
-        String params = nameParams[1];
-        String[] paramTokens = params.split(",");
         Set<BeeParameter> parameters = new HashSet<>();
-        for (String paramToken : paramTokens) {
-            String[] declaration = paramToken.trim().split(" ");
-            String type = declaration[0];
-            String name = declaration[1];
-            try {
-                parameters.add(new BeeParameter(Class.forName(type), name));
-            } catch (ClassNotFoundException e) {
-                throw new IllegalArgumentException("field type " + type + " not found");
+        String methodName = "";
+        if (nameParams.length > 0) {
+            methodName = nameParams[0];
+            String params = nameParams[1];
+            String[] paramTokens = params.split(",");
+            for (String paramToken : paramTokens) {
+                String[] declaration = paramToken.trim().split(" ");
+                String type = declaration[0];
+                String name = declaration[1];
+                try {
+                    parameters.add(new BeeParameter(getType(type), name));
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalArgumentException("field type " + type + " not found");
+                }
             }
         }
         currentLine += 1;
@@ -102,28 +111,42 @@ public class SourceCompiler {
         while (nextInstruction instanceof CodeLine) {
             lines.add((CodeLine) nextInstruction);
             currentLine += 1;
+            if (currentLine >= instructions.size()){
+                break; // too tired to think
+            }
             nextInstruction = instructions.get(currentLine);
         }
 
-        return new BeeMethod(methodName,flags, parameters, returnType, lines);
+
+        return new BeeMethod(methodName, flags, parameters, returnType, lines);
+    }
+
+    private Class<?> getType(String type) throws ClassNotFoundException {
+        return switch (type) {
+            case "int" -> int.class;
+            case "double" -> double.class;
+            default -> Class.forName(type);
+        };
     }
 
     private BeeConstructor parseConstructor(String text) {
         String[] tokens = split(text, parensplitter);
         String flag = tokens[0];
-        MethodAccessFlag methodAccessFlag = MethodAccessFlag.get(flag).orElseThrow(illegalArgument("Not a valid flag " + flag));
+        MethodAccessFlag methodAccessFlag = MethodAccessFlag.get(flag.toUpperCase()).orElseThrow(illegalArgument("Not a valid flag " + flag));
 
         String params = tokens[1];
-        String[] paramTokens = params.split(",");
         Set<BeeParameter> parameters = new HashSet<>();
-        for (String paramToken : paramTokens) {
-            String[] declaration = paramToken.trim().split(" ");
-            String type = declaration[0];
-            String name = declaration[1];
-            try {
-                parameters.add(new BeeParameter(Class.forName(type), name));
-            } catch (ClassNotFoundException e) {
-                throw new IllegalArgumentException("field type " + type + " not found");
+        if (params.length() > 0) {
+            String[] paramTokens = params.split(",");
+            for (String paramToken : paramTokens) {
+                String[] declaration = paramToken.trim().split(" ");
+                String type = declaration[0];
+                String name = declaration[1];
+                try {
+                    parameters.add(new BeeParameter(Class.forName(type), name));
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalArgumentException("field type " + type + " not found");
+                }
             }
         }
         currentLine += 1;
@@ -133,8 +156,8 @@ public class SourceCompiler {
             lines.add((CodeLine) nextInstruction);
             currentLine += 1;
             nextInstruction = instructions.get(currentLine);
-        }
 
+        }
         return new BeeConstructor(Set.of(methodAccessFlag), parameters, lines);
     }
 
@@ -185,20 +208,32 @@ public class SourceCompiler {
     }
 
     private Instruction compileLine(String line) {
-        String[] tokens = split(line, firstBlanksplitter);
-        String operation = tokens[0];
-        String operand = tokens[1];
         if (!line.startsWith("  ")) {
+            String[] tokens = split(line, firstBlanksplitter);
+            String operation = tokens[0];
+            String operand = tokens[1];
             ClassOperation classOperation = ClassOperation.get(operation).orElseThrow(illegalArgument(operation));
             return new ClassInstruction(classOperation, operand);
         } else {
-            Opcode opcode = Opcode.get(operation).orElseThrow(illegalArgument(operation));
+            line = line.substring(2);
+            String operation;
+            String operand;
+            if (line.indexOf(' ') > -1) {
+                String[] tokens = split(line, firstBlanksplitter);
+
+                operation = tokens[0];
+                operand = tokens[1];
+            } else {
+                operation = line;
+                operand = null;
+            }
+            Opcode opcode = Opcode.get(operation).orElseThrow(illegalArgument("Illegal opcode: " + operation));
             return new CodeLine(opcode, operand);
         }
     }
 
     private Supplier<IllegalArgumentException> illegalArgument(String text) {
-        return () -> new IllegalArgumentException("Illegal: " + text);
+        return () -> new IllegalArgumentException(text);
     }
 
     private String[] split(String text, Pattern splitter) {
