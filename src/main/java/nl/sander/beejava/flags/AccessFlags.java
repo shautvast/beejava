@@ -9,4 +9,5 @@ public interface AccessFlags {
 
     int getBytecode();
 
+
 }

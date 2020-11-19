@@ -1,8 +1,8 @@
 package nl.sander.beejava;
 
 import nl.sander.beejava.api.*;
-import nl.sander.beejava.flags.FieldAccessFlags;
-import nl.sander.beejava.flags.MethodAccessFlags;
+import nl.sander.beejava.flags.FieldAccessFlag;
+import nl.sander.beejava.flags.MethodAccessFlag;
 
 import java.io.Serializable;
 
@@ -38,7 +38,7 @@ public class TestData {
     public static BeeSource createClassWithTwoReferencesToSomeClass() throws ClassNotFoundException {
         BeeMethod print1 = BeeMethod.builder()
                 .withName("print1")
-                .withAccessFlags(MethodAccessFlags.PUBLIC)
+                .withAccessFlags(MethodAccessFlag.PUBLIC)
                 .withCode(
                         line(GET, "java.lang.System","out"),
                         line(LD_CONST, "1"),
@@ -51,7 +51,7 @@ public class TestData {
 
         BeeMethod print2 = BeeMethod.builder()
                 .withName("print2")
-                .withAccessFlags(MethodAccessFlags.PUBLIC)
+                .withAccessFlags(MethodAccessFlag.PUBLIC)
                 .withCode(
                         line(GET, "java.lang.System","out"),
                         line(LD_CONST, "2"),
@@ -71,7 +71,7 @@ public class TestData {
 
     public static BeeSource createClassWithField(Class<?> fieldType) throws ClassNotFoundException {
         BeeField field = BeeField.builder()
-                .withAccessFlags(FieldAccessFlags.PRIVATE)
+                .withAccessFlags(FieldAccessFlag.PRIVATE)
                 .withType(fieldType)
                 .withName("field")
                 .build();
@@ -79,7 +79,7 @@ public class TestData {
         BeeParameter parameter = BeeParameter.create(fieldType, "value");
 
         BeeConstructor constructor = BeeConstructor.builder()
-                .withAccessFlags(MethodAccessFlags.PUBLIC)
+                .withAccessFlags(MethodAccessFlag.PUBLIC)
                 .withFormalParameters(parameter)
                 .withCode(
                         line(LD_VAR, Ref.THIS),
@@ -103,7 +103,7 @@ public class TestData {
 
     public static BeeConstructor createDefaultConstructor() throws ClassNotFoundException {
             return BeeConstructor.builder()
-                    .withAccessFlags(MethodAccessFlags.PUBLIC)
+                    .withAccessFlags(MethodAccessFlag.PUBLIC)
                     .withCode(
                             line(LD_VAR, Ref.THIS),
                         line(INVOKE, Ref.SUPER, "<init>", "()"),

@@ -1,7 +1,6 @@
 package nl.sander.beejava.api;
 
-import nl.sander.beejava.CodeContainer;
-import nl.sander.beejava.flags.MethodAccessFlags;
+import nl.sander.beejava.flags.MethodAccessFlag;
 
 import java.util.*;
 
@@ -10,8 +9,8 @@ import java.util.*;
  */
 public final class BeeConstructor extends CodeContainer {
 
-    private BeeConstructor(Set<MethodAccessFlags> accessFlags,
-                           List<BeeParameter> formalParameters,
+    public BeeConstructor(Set<MethodAccessFlag> accessFlags,
+                           Set<BeeParameter> formalParameters,
                            List<CodeLine> code) {
         this.formalParameters.addAll(formalParameters);
         this.accessFlags.addAll(accessFlags);
@@ -57,8 +56,8 @@ public final class BeeConstructor extends CodeContainer {
     }
 
     public static class Builder {
-        private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
-        private final List<BeeParameter> formalParameters = new LinkedList<>();
+        private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
+        private final Set<BeeParameter> formalParameters = new HashSet<>();
         private final List<CodeLine> code = new LinkedList<>();
 
         private Builder() {
@@ -70,7 +69,7 @@ public final class BeeConstructor extends CodeContainer {
             return this;
         }
 
-        public Builder withAccessFlags(MethodAccessFlags... accessFlags) {
+        public Builder withAccessFlags(MethodAccessFlag... accessFlags) {
             this.accessFlags.addAll(Arrays.asList(accessFlags));
             return this;
         }

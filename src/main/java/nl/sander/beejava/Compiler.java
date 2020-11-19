@@ -1,6 +1,8 @@
 package nl.sander.beejava;
 
+import nl.sander.beejava.api.BeeMethod;
 import nl.sander.beejava.api.BeeSource;
+import nl.sander.beejava.api.CodeContainer;
 import nl.sander.beejava.api.CodeLine;
 import nl.sander.beejava.classinfo.MethodInfo;
 import nl.sander.beejava.constantpool.ConstantPool;
@@ -83,9 +85,13 @@ public class Compiler {
      */
     public void addMethods() {
         compiledClass.addConstantPoolEntry(codeAttributeNameEntry);
-        compiledClass.getSource().getMethods().stream()
-                .map(this::createMethod)
-                .forEach(compiledClass::addMethod);
+        for (BeeMethod method : compiledClass.getSource().getMethods()) {
+            compiledClass.addMethod(createMethod(method));
+        }
+
+//        compiledClass.getSource().getMethods().stream()
+//                .map(this::createMethod)
+//                .forEach(compiledClass::addMethod);
     }
 
     /*

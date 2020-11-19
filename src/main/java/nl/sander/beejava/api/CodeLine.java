@@ -1,7 +1,6 @@
 package nl.sander.beejava.api;
 
 
-import nl.sander.beejava.CodeContainer;
 import nl.sander.beejava.JavaOpcode;
 import nl.sander.beejava.TypeMapper;
 import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
@@ -39,7 +38,7 @@ public final class CodeLine {
         return new CodeLine(opcode).withExternalFieldRef(fieldClass, fieldName);
     }
 
-    public static CodeLine line(Opcode opcode, Object constValue) {
+    public static CodeLine line(Opcode opcode, String constValue) {
         return new CodeLine(opcode).withConstValue(constValue);
     }
 

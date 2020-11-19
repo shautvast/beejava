@@ -2,19 +2,19 @@ package nl.sander.beejava.classinfo;
 
 import nl.sander.beejava.constantpool.entry.Utf8Entry;
 import nl.sander.beejava.flags.AccessFlags;
-import nl.sander.beejava.flags.MethodAccessFlags;
+import nl.sander.beejava.flags.MethodAccessFlag;
 import nl.sander.beejava.util.ByteBuf;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class MethodInfo extends Info<MethodInfo> {
-    private final Set<MethodAccessFlags> accessFlags = new HashSet<>();
+    private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
 
     public MethodInfo(Utf8Entry nameEntry, Utf8Entry descriptorEntry) {
         super(nameEntry, descriptorEntry);
     }
-    public MethodInfo addAccessFlags(Set<MethodAccessFlags> accessFlags) {
+    public MethodInfo addAccessFlags(Set<MethodAccessFlag> accessFlags) {
         this.accessFlags.addAll(accessFlags);
         return this;
     }

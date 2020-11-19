@@ -11,17 +11,15 @@ public enum ClassAccessFlags implements AccessFlags {
     ENUM(0x4000), // Declared as an enum type.
     MODULE(0x8000); // Is a module, not a class or interface.
 
-
     private final int bytecode;
 
     ClassAccessFlags(int bytecode) {
         this.bytecode = bytecode;
     }
 
-
-
     @Override
     public int getBytecode() {
         return bytecode;
     }
+
 }

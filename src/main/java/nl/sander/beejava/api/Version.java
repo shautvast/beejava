@@ -1,5 +1,9 @@
 package nl.sander.beejava.api;
 
+import nl.sander.beejava.apiv2.Opcode;
+
+import java.util.Optional;
+
 public enum Version {
     V1_0_2(45),
     V1_1(45),
@@ -30,5 +34,14 @@ public enum Version {
 
     public int getMinor(){
         return 0;
+    }
+
+    public static Optional<Version> get(String text){
+        for (Version version : Version.values()) {
+            if (version.toString().equals(text)) {
+                return Optional.of(version);
+            }
+        }
+        return Optional.empty();
     }
 }

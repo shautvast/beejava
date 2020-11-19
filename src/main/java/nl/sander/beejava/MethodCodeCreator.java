@@ -1,5 +1,6 @@
 package nl.sander.beejava;
 
+import nl.sander.beejava.api.CodeContainer;
 import nl.sander.beejava.api.CodeLine;
 import nl.sander.beejava.classinfo.attributes.CodeAttribute;
 import nl.sander.beejava.constantpool.entry.ConstantPoolEntry;
@@ -12,7 +13,7 @@ public class MethodCodeCreator {
     public static CodeAttribute createCodeAttribute(Utf8Entry codeAttributeNameEntry, CodeContainer codeContainer) {
         CodeAttribute codeAttribute = new CodeAttribute(codeAttributeNameEntry);
         codeAttribute.setMaxStack(calculateMaxStack(codeContainer));
-        codeAttribute.setMaxLocals(codeContainer.formalParameters.size() + 1);
+        codeAttribute.setMaxLocals(codeContainer.getFormalParameters().size() + 1);
         ByteBuf byteBuf = new ByteBuf();
 
         codeContainer.getCode().forEach(codeLine -> {

@@ -1,4 +1,4 @@
-package nl.sander.beejava.api;
+package nl.sander.beejava.apiv2;
 
 import nl.sander.beejava.flags.FieldAccessFlag;
 
@@ -22,7 +22,7 @@ public final class BeeField {
         this.name = name;
     }
 
-    public static BeeField.Builder builder(){
+    public static Builder builder(){
         return new Builder();
     }
 
@@ -60,17 +60,17 @@ public final class BeeField {
 
         }
 
-        public BeeField.Builder withAccessFlags(FieldAccessFlag... accessFlags) {
+        public Builder withAccessFlags(FieldAccessFlag... accessFlags) {
             this.accessFlags.addAll(Arrays.asList(accessFlags));
             return this;
         }
 
-        public BeeField.Builder withType(Class<?> type) {
+        public Builder withType(Class<?> type) {
             this.type=type;
             return this;
         }
 
-        public BeeField.Builder withName(String name) {
+        public Builder withName(String name) {
             this.name=name;
             return this;
         }

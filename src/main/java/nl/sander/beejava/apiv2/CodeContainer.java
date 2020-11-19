@@ -1,9 +1,7 @@
-package nl.sander.beejava;
+package nl.sander.beejava.apiv2;
 
-import nl.sander.beejava.api.BeeParameter;
-import nl.sander.beejava.api.BeeSource;
-import nl.sander.beejava.api.CodeLine;
-import nl.sander.beejava.flags.MethodAccessFlags;
+import nl.sander.beejava.TypeMapper;
+import nl.sander.beejava.flags.MethodAccessFlag;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -18,7 +16,7 @@ public abstract class CodeContainer {
 
     protected final List<CodeLine> code = new LinkedList<>();
     protected final Set<BeeParameter> formalParameters = new HashSet<>();
-    protected final Set<MethodAccessFlags> accessFlags = new HashSet<>();
+    protected final Set<MethodAccessFlag> accessFlags = new HashSet<>();
     private BeeSource owner;
 
     public List<CodeLine> getCode() {
@@ -40,7 +38,7 @@ public abstract class CodeContainer {
                 .collect(Collectors.joining(",", "(", ")"));
     }
 
-    public Set<MethodAccessFlags> getAccessFlags() {
+    public Set<MethodAccessFlag> getAccessFlags() {
         return accessFlags;
     }
 

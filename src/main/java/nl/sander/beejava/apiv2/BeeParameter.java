@@ -1,4 +1,4 @@
-package nl.sander.beejava.api;
+package nl.sander.beejava.apiv2;
 
 import java.util.Objects;
 
@@ -12,10 +12,6 @@ public final class BeeParameter {
     public BeeParameter(Class<?> type, String name) {
         this.type = type;
         this.name = name;
-    }
-
-    public static BeeParameter create(Class<?> type, String name) {
-        return new BeeParameter(type, Objects.requireNonNull(name));
     }
 
     public Class<?> getType() {

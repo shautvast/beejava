@@ -3,12 +3,11 @@ package nl.sander.beejava.e2e;
 import nl.sander.beejava.BytecodeGenerator;
 import nl.sander.beejava.CompiledClass;
 import nl.sander.beejava.Compiler;
-import nl.sander.beejava.TestData;
 import nl.sander.beejava.api.BeeConstructor;
 import nl.sander.beejava.api.BeeSource;
 import nl.sander.beejava.api.Ref;
 import nl.sander.beejava.api.Version;
-import nl.sander.beejava.flags.MethodAccessFlags;
+import nl.sander.beejava.flags.MethodAccessFlag;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -59,7 +58,7 @@ public class EmptyBeanTest {
 
     private BeeConstructor createDefaultConstructor() throws ClassNotFoundException {
         return BeeConstructor.builder()
-                .withAccessFlags(MethodAccessFlags.PUBLIC)
+                .withAccessFlags(MethodAccessFlag.PUBLIC)
                 .withCode(
                         line(LD_VAR, Ref.THIS),
                         line(INVOKE, Ref.SUPER, "<init>", "()"),

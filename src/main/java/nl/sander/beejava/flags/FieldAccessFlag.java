@@ -1,6 +1,8 @@
 package nl.sander.beejava.flags;
 
-public enum FieldAccessFlags implements AccessFlags {
+import java.util.Optional;
+
+public enum FieldAccessFlag implements AccessFlags {
     PUBLIC(0x0001), // Declared public; may be accessed from outside itspackage.
     PRIVATE(0x0002), // Declared   private;   accessible   only   within   the defining class and other classes belonging to the samenest (§5.4.4).
     PROTECTED(0x0004), // Declared   protected;   may   be   accessed within subclasses.
@@ -13,11 +15,20 @@ public enum FieldAccessFlags implements AccessFlags {
 
     private final int bytecode;
 
-    FieldAccessFlags(int bytecode) {
+    FieldAccessFlag(int bytecode) {
         this.bytecode = bytecode;
     }
 
     public int getBytecode() {
         return bytecode;
+    }
+
+    public static Optional<FieldAccessFlag> get(String text) {
+        for (FieldAccessFlag flag : FieldAccessFlag.values()) {
+            if (flag.toString().equals(text)) {
+                return Optional.of(flag);
+            }
+        }
+        return Optional.empty();
     }
 }
