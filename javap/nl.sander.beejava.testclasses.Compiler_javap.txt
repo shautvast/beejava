@@ -1,0 +1,699 @@
+Classfile /Users/Shautvast/IdeaProjects/beejava/target/classes/nl/sander/beejava/Compiler.class
+  Last modified 18 Nov 2020; size 6433 bytes
+  SHA-256 checksum e76616828289ace3b62f79015aeb244229c29989e2c613a0ec860f075e5e4319
+  Compiled from "Compiler.java"
+public class nl.sander.beejava.Compiler
+  minor version: 0
+  major version: 58
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #11                         // nl/sander/beejava/Compiler
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 4, methods: 9, attributes: 3
+Constant pool:
+    #1 = Methodref          #2.#3         // java/lang/Object."<init>":()V
+    #2 = Class              #4            // java/lang/Object
+    #3 = NameAndType        #5:#6         // "<init>":()V
+    #4 = Utf8               java/lang/Object
+    #5 = Utf8               <init>
+    #6 = Utf8               ()V
+    #7 = Class              #8            // nl/sander/beejava/ConstantPoolCreator
+    #8 = Utf8               nl/sander/beejava/ConstantPoolCreator
+    #9 = Methodref          #7.#3         // nl/sander/beejava/ConstantPoolCreator."<init>":()V
+   #10 = Fieldref           #11.#12       // nl/sander/beejava/Compiler.constantPoolCreator:Lnl/sander/beejava/ConstantPoolCreator;
+   #11 = Class              #13           // nl/sander/beejava/Compiler
+   #12 = NameAndType        #14:#15       // constantPoolCreator:Lnl/sander/beejava/ConstantPoolCreator;
+   #13 = Utf8               nl/sander/beejava/Compiler
+   #14 = Utf8               constantPoolCreator
+   #15 = Utf8               Lnl/sander/beejava/ConstantPoolCreator;
+   #16 = Fieldref           #11.#17       // nl/sander/beejava/Compiler.compiledClass:Lnl/sander/beejava/CompiledClass;
+   #17 = NameAndType        #18:#19       // compiledClass:Lnl/sander/beejava/CompiledClass;
+   #18 = Utf8               compiledClass
+   #19 = Utf8               Lnl/sander/beejava/CompiledClass;
+   #20 = Class              #21           // nl/sander/beejava/ConstantPoolEntryCreator
+   #21 = Utf8               nl/sander/beejava/ConstantPoolEntryCreator
+   #22 = Methodref          #20.#23       // nl/sander/beejava/ConstantPoolEntryCreator."<init>":(Lnl/sander/beejava/CompiledClass;)V
+   #23 = NameAndType        #5:#24        // "<init>":(Lnl/sander/beejava/CompiledClass;)V
+   #24 = Utf8               (Lnl/sander/beejava/CompiledClass;)V
+   #25 = Fieldref           #11.#26       // nl/sander/beejava/Compiler.constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+   #26 = NameAndType        #27:#28       // constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+   #27 = Utf8               constantPoolEntryCreator
+   #28 = Utf8               Lnl/sander/beejava/ConstantPoolEntryCreator;
+   #29 = Class              #30           // nl/sander/beejava/CompiledClass
+   #30 = Utf8               nl/sander/beejava/CompiledClass
+   #31 = Methodref          #29.#32       // nl/sander/beejava/CompiledClass."<init>":(Lnl/sander/beejava/api/BeeSource;)V
+   #32 = NameAndType        #5:#33        // "<init>":(Lnl/sander/beejava/api/BeeSource;)V
+   #33 = Utf8               (Lnl/sander/beejava/api/BeeSource;)V
+   #34 = Methodref          #11.#23       // nl/sander/beejava/Compiler."<init>":(Lnl/sander/beejava/CompiledClass;)V
+   #35 = Methodref          #11.#36       // nl/sander/beejava/Compiler.compile:()Lnl/sander/beejava/CompiledClass;
+   #36 = NameAndType        #37:#38       // compile:()Lnl/sander/beejava/CompiledClass;
+   #37 = Utf8               compile
+   #38 = Utf8               ()Lnl/sander/beejava/CompiledClass;
+   #39 = Methodref          #11.#40       // nl/sander/beejava/Compiler.createConstantPool:()Lnl/sander/beejava/constantpool/ConstantPool;
+   #40 = NameAndType        #41:#42       // createConstantPool:()Lnl/sander/beejava/constantpool/ConstantPool;
+   #41 = Utf8               createConstantPool
+   #42 = Utf8               ()Lnl/sander/beejava/constantpool/ConstantPool;
+   #43 = Methodref          #29.#44       // nl/sander/beejava/CompiledClass.setConstantPool:(Lnl/sander/beejava/constantpool/ConstantPool;)V
+   #44 = NameAndType        #45:#46       // setConstantPool:(Lnl/sander/beejava/constantpool/ConstantPool;)V
+   #45 = Utf8               setConstantPool
+   #46 = Utf8               (Lnl/sander/beejava/constantpool/ConstantPool;)V
+   #47 = Methodref          #20.#48       // nl/sander/beejava/ConstantPoolEntryCreator.addInterfaces:()V
+   #48 = NameAndType        #49:#6        // addInterfaces:()V
+   #49 = Utf8               addInterfaces
+   #50 = Methodref          #20.#51       // nl/sander/beejava/ConstantPoolEntryCreator.addFields:()V
+   #51 = NameAndType        #52:#6        // addFields:()V
+   #52 = Utf8               addFields
+   #53 = Methodref          #11.#54       // nl/sander/beejava/Compiler.addConstructors:()V
+   #54 = NameAndType        #55:#6        // addConstructors:()V
+   #55 = Utf8               addConstructors
+   #56 = Methodref          #11.#57       // nl/sander/beejava/Compiler.addMethods:()V
+   #57 = NameAndType        #58:#6        // addMethods:()V
+   #58 = Utf8               addMethods
+   #59 = Methodref          #29.#60       // nl/sander/beejava/CompiledClass.getSource:()Lnl/sander/beejava/api/BeeSource;
+   #60 = NameAndType        #61:#62       // getSource:()Lnl/sander/beejava/api/BeeSource;
+   #61 = Utf8               getSource
+   #62 = Utf8               ()Lnl/sander/beejava/api/BeeSource;
+   #63 = Methodref          #64.#65       // nl/sander/beejava/api/BeeSource.getConstructors:()Ljava/util/Set;
+   #64 = Class              #66           // nl/sander/beejava/api/BeeSource
+   #65 = NameAndType        #67:#68       // getConstructors:()Ljava/util/Set;
+   #66 = Utf8               nl/sander/beejava/api/BeeSource
+   #67 = Utf8               getConstructors
+   #68 = Utf8               ()Ljava/util/Set;
+   #69 = InvokeDynamic      #0:#70        // #0:accept:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+   #70 = NameAndType        #71:#72       // accept:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+   #71 = Utf8               accept
+   #72 = Utf8               (Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+   #73 = InterfaceMethodref #74.#75       // java/util/Set.forEach:(Ljava/util/function/Consumer;)V
+   #74 = Class              #76           // java/util/Set
+   #75 = NameAndType        #77:#78       // forEach:(Ljava/util/function/Consumer;)V
+   #76 = Utf8               java/util/Set
+   #77 = Utf8               forEach
+   #78 = Utf8               (Ljava/util/function/Consumer;)V
+   #79 = Methodref          #64.#80       // nl/sander/beejava/api/BeeSource.getMethods:()Ljava/util/Set;
+   #80 = NameAndType        #81:#68       // getMethods:()Ljava/util/Set;
+   #81 = Utf8               getMethods
+   #82 = InvokeDynamic      #1:#70        // #1:accept:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+   #83 = Methodref          #20.#84       // nl/sander/beejava/ConstantPoolEntryCreator.addThisClass:()Lnl/sander/beejava/constantpool/entry/ClassEntry;
+   #84 = NameAndType        #85:#86       // addThisClass:()Lnl/sander/beejava/constantpool/entry/ClassEntry;
+   #85 = Utf8               addThisClass
+   #86 = Utf8               ()Lnl/sander/beejava/constantpool/entry/ClassEntry;
+   #87 = Methodref          #29.#88       // nl/sander/beejava/CompiledClass.setThisClass:(Lnl/sander/beejava/constantpool/entry/ClassEntry;)V
+   #88 = NameAndType        #89:#90       // setThisClass:(Lnl/sander/beejava/constantpool/entry/ClassEntry;)V
+   #89 = Utf8               setThisClass
+   #90 = Utf8               (Lnl/sander/beejava/constantpool/entry/ClassEntry;)V
+   #91 = String             #92           // Code
+   #92 = Utf8               Code
+   #93 = Methodref          #20.#94       // nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateUtf8:(Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+   #94 = NameAndType        #95:#96       // getOrCreateUtf8:(Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+   #95 = Utf8               getOrCreateUtf8
+   #96 = Utf8               (Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+   #97 = Fieldref           #11.#98       // nl/sander/beejava/Compiler.codeAttributeNameEntry:Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+   #98 = NameAndType        #99:#100      // codeAttributeNameEntry:Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+   #99 = Utf8               codeAttributeNameEntry
+  #100 = Utf8               Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+  #101 = Methodref          #29.#102      // nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+  #102 = NameAndType        #103:#104     // addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+  #103 = Utf8               addConstantPoolEntry
+  #104 = Utf8               (Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+  #105 = Methodref          #29.#106      // nl/sander/beejava/CompiledClass.getConstantTree:()Ljava/util/Set;
+  #106 = NameAndType        #107:#68      // getConstantTree:()Ljava/util/Set;
+  #107 = Utf8               getConstantTree
+  #108 = Methodref          #7.#109       // nl/sander/beejava/ConstantPoolCreator.createConstantPool:(Ljava/util/Set;)Lnl/sander/beejava/constantpool/ConstantPool;
+  #109 = NameAndType        #41:#110      // createConstantPool:(Ljava/util/Set;)Lnl/sander/beejava/constantpool/ConstantPool;
+  #110 = Utf8               (Ljava/util/Set;)Lnl/sander/beejava/constantpool/ConstantPool;
+  #111 = InterfaceMethodref #74.#112      // java/util/Set.stream:()Ljava/util/stream/Stream;
+  #112 = NameAndType        #113:#114     // stream:()Ljava/util/stream/Stream;
+  #113 = Utf8               stream
+  #114 = Utf8               ()Ljava/util/stream/Stream;
+  #115 = InvokeDynamic      #2:#116       // #2:apply:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Function;
+  #116 = NameAndType        #117:#118     // apply:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Function;
+  #117 = Utf8               apply
+  #118 = Utf8               (Lnl/sander/beejava/Compiler;)Ljava/util/function/Function;
+  #119 = InterfaceMethodref #120.#121     // java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+  #120 = Class              #122          // java/util/stream/Stream
+  #121 = NameAndType        #123:#124     // map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+  #122 = Utf8               java/util/stream/Stream
+  #123 = Utf8               map
+  #124 = Utf8               (Ljava/util/function/Function;)Ljava/util/stream/Stream;
+  #125 = Methodref          #126.#127     // java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+  #126 = Class              #128          // java/util/Objects
+  #127 = NameAndType        #129:#130     // requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+  #128 = Utf8               java/util/Objects
+  #129 = Utf8               requireNonNull
+  #130 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #131 = InvokeDynamic      #3:#132       // #3:accept:(Lnl/sander/beejava/CompiledClass;)Ljava/util/function/Consumer;
+  #132 = NameAndType        #71:#133      // accept:(Lnl/sander/beejava/CompiledClass;)Ljava/util/function/Consumer;
+  #133 = Utf8               (Lnl/sander/beejava/CompiledClass;)Ljava/util/function/Consumer;
+  #134 = InterfaceMethodref #120.#75      // java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+  #135 = InvokeDynamic      #4:#116       // #4:apply:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Function;
+  #136 = Class              #137          // nl/sander/beejava/classinfo/MethodInfo
+  #137 = Utf8               nl/sander/beejava/classinfo/MethodInfo
+  #138 = Methodref          #139.#140     // nl/sander/beejava/CodeContainer.getName:()Ljava/lang/String;
+  #139 = Class              #141          // nl/sander/beejava/CodeContainer
+  #140 = NameAndType        #142:#143     // getName:()Ljava/lang/String;
+  #141 = Utf8               nl/sander/beejava/CodeContainer
+  #142 = Utf8               getName
+  #143 = Utf8               ()Ljava/lang/String;
+  #144 = Methodref          #139.#145     // nl/sander/beejava/CodeContainer.getSignature:()Ljava/lang/String;
+  #145 = NameAndType        #146:#143     // getSignature:()Ljava/lang/String;
+  #146 = Utf8               getSignature
+  #147 = Methodref          #136.#148     // nl/sander/beejava/classinfo/MethodInfo."<init>":(Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/constantpool/entry/Utf8Entry;)V
+  #148 = NameAndType        #5:#149       // "<init>":(Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/constantpool/entry/Utf8Entry;)V
+  #149 = Utf8               (Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/constantpool/entry/Utf8Entry;)V
+  #150 = Methodref          #139.#151     // nl/sander/beejava/CodeContainer.getAccessFlags:()Ljava/util/Set;
+  #151 = NameAndType        #152:#68      // getAccessFlags:()Ljava/util/Set;
+  #152 = Utf8               getAccessFlags
+  #153 = Methodref          #136.#154     // nl/sander/beejava/classinfo/MethodInfo.addAccessFlags:(Ljava/util/Set;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #154 = NameAndType        #155:#156     // addAccessFlags:(Ljava/util/Set;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #155 = Utf8               addAccessFlags
+  #156 = Utf8               (Ljava/util/Set;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #157 = Methodref          #158.#159     // nl/sander/beejava/MethodCodeCreator.createCodeAttribute:(Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/attributes/CodeAttribute;
+  #158 = Class              #160          // nl/sander/beejava/MethodCodeCreator
+  #159 = NameAndType        #161:#162     // createCodeAttribute:(Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/attributes/CodeAttribute;
+  #160 = Utf8               nl/sander/beejava/MethodCodeCreator
+  #161 = Utf8               createCodeAttribute
+  #162 = Utf8               (Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/attributes/CodeAttribute;
+  #163 = Methodref          #136.#164     // nl/sander/beejava/classinfo/MethodInfo.addAttribute:(Lnl/sander/beejava/classinfo/attributes/Attribute;)Lnl/sander/beejava/classinfo/Info;
+  #164 = NameAndType        #165:#166     // addAttribute:(Lnl/sander/beejava/classinfo/attributes/Attribute;)Lnl/sander/beejava/classinfo/Info;
+  #165 = Utf8               addAttribute
+  #166 = Utf8               (Lnl/sander/beejava/classinfo/attributes/Attribute;)Lnl/sander/beejava/classinfo/Info;
+  #167 = Methodref          #139.#168     // nl/sander/beejava/CodeContainer.getCode:()Ljava/util/List;
+  #168 = NameAndType        #169:#170     // getCode:()Ljava/util/List;
+  #169 = Utf8               getCode
+  #170 = Utf8               ()Ljava/util/List;
+  #171 = InvokeDynamic      #5:#70        // #5:accept:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+  #172 = InterfaceMethodref #173.#75      // java/util/List.forEach:(Ljava/util/function/Consumer;)V
+  #173 = Class              #174          // java/util/List
+  #174 = Utf8               java/util/List
+  #175 = Methodref          #176.#177     // nl/sander/beejava/api/CodeLine.hasMethodCall:()Z
+  #176 = Class              #178          // nl/sander/beejava/api/CodeLine
+  #177 = NameAndType        #179:#180     // hasMethodCall:()Z
+  #178 = Utf8               nl/sander/beejava/api/CodeLine
+  #179 = Utf8               hasMethodCall
+  #180 = Utf8               ()Z
+  #181 = Methodref          #20.#182      // nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateMethodRefEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/MethodRefEntry;
+  #182 = NameAndType        #183:#184     // getOrCreateMethodRefEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/MethodRefEntry;
+  #183 = Utf8               getOrCreateMethodRefEntry
+  #184 = Utf8               (Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/MethodRefEntry;
+  #185 = Methodref          #176.#186     // nl/sander/beejava/api/CodeLine.setAssignedEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+  #186 = NameAndType        #187:#104     // setAssignedEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+  #187 = Utf8               setAssignedEntry
+  #188 = Methodref          #176.#189     // nl/sander/beejava/api/CodeLine.hasRefToOwnField:()Z
+  #189 = NameAndType        #190:#180     // hasRefToOwnField:()Z
+  #190 = Utf8               hasRefToOwnField
+  #191 = Methodref          #176.#192     // nl/sander/beejava/api/CodeLine.hasRefToExternalField:()Z
+  #192 = NameAndType        #193:#180     // hasRefToExternalField:()Z
+  #193 = Utf8               hasRefToExternalField
+  #194 = Methodref          #20.#195      // nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateFieldRefEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/FieldRefEntry;
+  #195 = NameAndType        #196:#197     // getOrCreateFieldRefEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/FieldRefEntry;
+  #196 = Utf8               getOrCreateFieldRefEntry
+  #197 = Utf8               (Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/FieldRefEntry;
+  #198 = Methodref          #176.#199     // nl/sander/beejava/api/CodeLine.hasConstValue:()Z
+  #199 = NameAndType        #200:#180     // hasConstValue:()Z
+  #200 = Utf8               hasConstValue
+  #201 = Methodref          #20.#202      // nl/sander/beejava/ConstantPoolEntryCreator.getOrCreatePrimitiveEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;
+  #202 = NameAndType        #203:#204     // getOrCreatePrimitiveEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;
+  #203 = Utf8               getOrCreatePrimitiveEntry
+  #204 = Utf8               (Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;
+  #205 = Utf8               LineNumberTable
+  #206 = Utf8               LocalVariableTable
+  #207 = Utf8               this
+  #208 = Utf8               Lnl/sander/beejava/Compiler;
+  #209 = Utf8               (Lnl/sander/beejava/api/BeeSource;)Lnl/sander/beejava/CompiledClass;
+  #210 = Utf8               beeSource
+  #211 = Utf8               Lnl/sander/beejava/api/BeeSource;
+  #212 = Utf8               createMethod
+  #213 = Utf8               (Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #214 = Utf8               method
+  #215 = Utf8               Lnl/sander/beejava/CodeContainer;
+  #216 = Utf8               updateConstantPool
+  #217 = Utf8               (Lnl/sander/beejava/CodeContainer;)V
+  #218 = Utf8               codeContainer
+  #219 = Utf8               (Lnl/sander/beejava/api/CodeLine;)V
+  #220 = Utf8               methodRefEntry
+  #221 = Utf8               Lnl/sander/beejava/constantpool/entry/MethodRefEntry;
+  #222 = Utf8               fieldRefEntry
+  #223 = Utf8               Lnl/sander/beejava/constantpool/entry/FieldRefEntry;
+  #224 = Utf8               primitiveEntry
+  #225 = Utf8               Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;
+  #226 = Utf8               codeline
+  #227 = Utf8               Lnl/sander/beejava/api/CodeLine;
+  #228 = Utf8               StackMapTable
+  #229 = Utf8               SourceFile
+  #230 = Utf8               Compiler.java
+  #231 = Utf8               BootstrapMethods
+  #232 = MethodHandle       6:#233        // REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #233 = Methodref          #234.#235     // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #234 = Class              #236          // java/lang/invoke/LambdaMetafactory
+  #235 = NameAndType        #237:#238     // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #236 = Utf8               java/lang/invoke/LambdaMetafactory
+  #237 = Utf8               metafactory
+  #238 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #239 = MethodType         #240          //  (Ljava/lang/Object;)V
+  #240 = Utf8               (Ljava/lang/Object;)V
+  #241 = MethodHandle       7:#242        // REF_invokeSpecial nl/sander/beejava/Compiler.updateConstantPool:(Lnl/sander/beejava/CodeContainer;)V
+  #242 = Methodref          #11.#243      // nl/sander/beejava/Compiler.updateConstantPool:(Lnl/sander/beejava/CodeContainer;)V
+  #243 = NameAndType        #216:#217     // updateConstantPool:(Lnl/sander/beejava/CodeContainer;)V
+  #244 = MethodType         #245          //  (Lnl/sander/beejava/api/BeeConstructor;)V
+  #245 = Utf8               (Lnl/sander/beejava/api/BeeConstructor;)V
+  #246 = MethodType         #247          //  (Lnl/sander/beejava/api/BeeMethod;)V
+  #247 = Utf8               (Lnl/sander/beejava/api/BeeMethod;)V
+  #248 = MethodType         #130          //  (Ljava/lang/Object;)Ljava/lang/Object;
+  #249 = MethodHandle       7:#250        // REF_invokeSpecial nl/sander/beejava/Compiler.createMethod:(Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #250 = Methodref          #11.#251      // nl/sander/beejava/Compiler.createMethod:(Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #251 = NameAndType        #212:#213     // createMethod:(Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #252 = MethodType         #253          //  (Lnl/sander/beejava/api/BeeConstructor;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #253 = Utf8               (Lnl/sander/beejava/api/BeeConstructor;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #254 = MethodHandle       5:#255        // REF_invokeVirtual nl/sander/beejava/CompiledClass.addMethod:(Lnl/sander/beejava/classinfo/MethodInfo;)V
+  #255 = Methodref          #29.#256      // nl/sander/beejava/CompiledClass.addMethod:(Lnl/sander/beejava/classinfo/MethodInfo;)V
+  #256 = NameAndType        #257:#258     // addMethod:(Lnl/sander/beejava/classinfo/MethodInfo;)V
+  #257 = Utf8               addMethod
+  #258 = Utf8               (Lnl/sander/beejava/classinfo/MethodInfo;)V
+  #259 = MethodType         #258          //  (Lnl/sander/beejava/classinfo/MethodInfo;)V
+  #260 = MethodType         #261          //  (Lnl/sander/beejava/api/BeeMethod;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #261 = Utf8               (Lnl/sander/beejava/api/BeeMethod;)Lnl/sander/beejava/classinfo/MethodInfo;
+  #262 = MethodHandle       7:#263        // REF_invokeSpecial nl/sander/beejava/Compiler.updateConstantPool:(Lnl/sander/beejava/api/CodeLine;)V
+  #263 = Methodref          #11.#264      // nl/sander/beejava/Compiler.updateConstantPool:(Lnl/sander/beejava/api/CodeLine;)V
+  #264 = NameAndType        #216:#219     // updateConstantPool:(Lnl/sander/beejava/api/CodeLine;)V
+  #265 = MethodType         #219          //  (Lnl/sander/beejava/api/CodeLine;)V
+  #266 = Utf8               InnerClasses
+  #267 = Class              #268          // java/lang/invoke/MethodHandles$Lookup
+  #268 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #269 = Class              #270          // java/lang/invoke/MethodHandles
+  #270 = Utf8               java/lang/invoke/MethodHandles
+  #271 = Utf8               Lookup
+{
+  private final nl.sander.beejava.CompiledClass compiledClass;
+    descriptor: Lnl/sander/beejava/CompiledClass;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final nl.sander.beejava.ConstantPoolEntryCreator constantPoolEntryCreator;
+    descriptor: Lnl/sander/beejava/ConstantPoolEntryCreator;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final nl.sander.beejava.ConstantPoolCreator constantPoolCreator;
+    descriptor: Lnl/sander/beejava/ConstantPoolCreator;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private nl.sander.beejava.constantpool.entry.Utf8Entry codeAttributeNameEntry;
+    descriptor: Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+    flags: (0x0002) ACC_PRIVATE
+
+  public nl.sander.beejava.Compiler(nl.sander.beejava.CompiledClass);
+    descriptor: (Lnl/sander/beejava/CompiledClass;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #7                  // class nl/sander/beejava/ConstantPoolCreator
+         8: dup
+         9: invokespecial #9                  // Method nl/sander/beejava/ConstantPoolCreator."<init>":()V
+        12: putfield      #10                 // Field constantPoolCreator:Lnl/sander/beejava/ConstantPoolCreator;
+        15: aload_0
+        16: aload_1
+        17: putfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        20: aload_0
+        21: new           #20                 // class nl/sander/beejava/ConstantPoolEntryCreator
+        24: dup
+        25: aload_1
+        26: invokespecial #22                 // Method nl/sander/beejava/ConstantPoolEntryCreator."<init>":(Lnl/sander/beejava/CompiledClass;)V
+        29: putfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        32: return
+      LineNumberTable:
+        line 33: 0
+        line 24: 4
+        line 34: 15
+        line 35: 20
+        line 36: 32
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      33     0  this   Lnl/sander/beejava/Compiler;
+            0      33     1 compiledClass   Lnl/sander/beejava/CompiledClass;
+
+  public static nl.sander.beejava.CompiledClass compile(nl.sander.beejava.api.BeeSource);
+    descriptor: (Lnl/sander/beejava/api/BeeSource;)Lnl/sander/beejava/CompiledClass;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=5, locals=1, args_size=1
+         0: new           #11                 // class nl/sander/beejava/Compiler
+         3: dup
+         4: new           #29                 // class nl/sander/beejava/CompiledClass
+         7: dup
+         8: aload_0
+         9: invokespecial #31                 // Method nl/sander/beejava/CompiledClass."<init>":(Lnl/sander/beejava/api/BeeSource;)V
+        12: invokespecial #34                 // Method "<init>":(Lnl/sander/beejava/CompiledClass;)V
+        15: invokevirtual #35                 // Method compile:()Lnl/sander/beejava/CompiledClass;
+        18: areturn
+      LineNumberTable:
+        line 45: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      19     0 beeSource   Lnl/sander/beejava/api/BeeSource;
+
+  public nl.sander.beejava.CompiledClass compile();
+    descriptor: ()Lnl/sander/beejava/CompiledClass;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+         4: aload_0
+         5: invokevirtual #39                 // Method createConstantPool:()Lnl/sander/beejava/constantpool/ConstantPool;
+         8: invokevirtual #43                 // Method nl/sander/beejava/CompiledClass.setConstantPool:(Lnl/sander/beejava/constantpool/ConstantPool;)V
+        11: aload_0
+        12: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        15: invokevirtual #47                 // Method nl/sander/beejava/ConstantPoolEntryCreator.addInterfaces:()V
+        18: aload_0
+        19: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        22: invokevirtual #50                 // Method nl/sander/beejava/ConstantPoolEntryCreator.addFields:()V
+        25: aload_0
+        26: invokevirtual #53                 // Method addConstructors:()V
+        29: aload_0
+        30: invokevirtual #56                 // Method addMethods:()V
+        33: aload_0
+        34: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        37: areturn
+      LineNumberTable:
+        line 52: 0
+        line 54: 11
+        line 55: 18
+        line 56: 25
+        line 57: 29
+        line 59: 33
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      38     0  this   Lnl/sander/beejava/Compiler;
+
+  private nl.sander.beejava.constantpool.ConstantPool createConstantPool();
+    descriptor: ()Lnl/sander/beejava/constantpool/ConstantPool;
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+         4: invokevirtual #59                 // Method nl/sander/beejava/CompiledClass.getSource:()Lnl/sander/beejava/api/BeeSource;
+         7: invokevirtual #63                 // Method nl/sander/beejava/api/BeeSource.getConstructors:()Ljava/util/Set;
+        10: aload_0
+        11: invokedynamic #69,  0             // InvokeDynamic #0:accept:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+        16: invokeinterface #73,  2           // InterfaceMethod java/util/Set.forEach:(Ljava/util/function/Consumer;)V
+        21: aload_0
+        22: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        25: invokevirtual #59                 // Method nl/sander/beejava/CompiledClass.getSource:()Lnl/sander/beejava/api/BeeSource;
+        28: invokevirtual #79                 // Method nl/sander/beejava/api/BeeSource.getMethods:()Ljava/util/Set;
+        31: aload_0
+        32: invokedynamic #82,  0             // InvokeDynamic #1:accept:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+        37: invokeinterface #73,  2           // InterfaceMethod java/util/Set.forEach:(Ljava/util/function/Consumer;)V
+        42: aload_0
+        43: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        46: aload_0
+        47: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        50: invokevirtual #83                 // Method nl/sander/beejava/ConstantPoolEntryCreator.addThisClass:()Lnl/sander/beejava/constantpool/entry/ClassEntry;
+        53: invokevirtual #87                 // Method nl/sander/beejava/CompiledClass.setThisClass:(Lnl/sander/beejava/constantpool/entry/ClassEntry;)V
+        56: aload_0
+        57: aload_0
+        58: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        61: ldc           #91                 // String Code
+        63: invokevirtual #93                 // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateUtf8:(Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        66: putfield      #97                 // Field codeAttributeNameEntry:Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        69: aload_0
+        70: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        73: aload_0
+        74: getfield      #97                 // Field codeAttributeNameEntry:Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        77: invokevirtual #101                // Method nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        80: aload_0
+        81: getfield      #10                 // Field constantPoolCreator:Lnl/sander/beejava/ConstantPoolCreator;
+        84: aload_0
+        85: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        88: invokevirtual #105                // Method nl/sander/beejava/CompiledClass.getConstantTree:()Ljava/util/Set;
+        91: invokevirtual #108                // Method nl/sander/beejava/ConstantPoolCreator.createConstantPool:(Ljava/util/Set;)Lnl/sander/beejava/constantpool/ConstantPool;
+        94: areturn
+      LineNumberTable:
+        line 63: 0
+        line 64: 21
+        line 66: 42
+        line 68: 56
+        line 69: 69
+        line 71: 80
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      95     0  this   Lnl/sander/beejava/Compiler;
+
+  public void addConstructors();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+         4: invokevirtual #59                 // Method nl/sander/beejava/CompiledClass.getSource:()Lnl/sander/beejava/api/BeeSource;
+         7: invokevirtual #63                 // Method nl/sander/beejava/api/BeeSource.getConstructors:()Ljava/util/Set;
+        10: invokeinterface #111,  1          // InterfaceMethod java/util/Set.stream:()Ljava/util/stream/Stream;
+        15: aload_0
+        16: invokedynamic #115,  0            // InvokeDynamic #2:apply:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Function;
+        21: invokeinterface #119,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        26: aload_0
+        27: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        30: dup
+        31: invokestatic  #125                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+        34: pop
+        35: invokedynamic #131,  0            // InvokeDynamic #3:accept:(Lnl/sander/beejava/CompiledClass;)Ljava/util/function/Consumer;
+        40: invokeinterface #134,  2          // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+        45: return
+      LineNumberTable:
+        line 75: 0
+        line 76: 21
+        line 77: 31
+        line 78: 45
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      46     0  this   Lnl/sander/beejava/Compiler;
+
+  public void addMethods();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+         4: aload_0
+         5: getfield      #97                 // Field codeAttributeNameEntry:Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+         8: invokevirtual #101                // Method nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        11: aload_0
+        12: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        15: invokevirtual #59                 // Method nl/sander/beejava/CompiledClass.getSource:()Lnl/sander/beejava/api/BeeSource;
+        18: invokevirtual #79                 // Method nl/sander/beejava/api/BeeSource.getMethods:()Ljava/util/Set;
+        21: invokeinterface #111,  1          // InterfaceMethod java/util/Set.stream:()Ljava/util/stream/Stream;
+        26: aload_0
+        27: invokedynamic #135,  0            // InvokeDynamic #4:apply:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Function;
+        32: invokeinterface #119,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        37: aload_0
+        38: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        41: dup
+        42: invokestatic  #125                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+        45: pop
+        46: invokedynamic #131,  0            // InvokeDynamic #3:accept:(Lnl/sander/beejava/CompiledClass;)Ljava/util/function/Consumer;
+        51: invokeinterface #134,  2          // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+        56: return
+      LineNumberTable:
+        line 85: 0
+        line 86: 11
+        line 87: 32
+        line 88: 42
+        line 89: 56
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      57     0  this   Lnl/sander/beejava/Compiler;
+
+  private nl.sander.beejava.classinfo.MethodInfo createMethod(nl.sander.beejava.api.CodeContainer);
+    descriptor: (Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/MethodInfo;
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=5, locals=2, args_size=2
+         0: new           #136                // class nl/sander/beejava/classinfo/MethodInfo
+         3: dup
+         4: aload_0
+         5: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+         8: aload_1
+         9: invokevirtual #138                // Method nl/sander/beejava/CodeContainer.getName:()Ljava/lang/String;
+        12: invokevirtual #93                 // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateUtf8:(Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        15: aload_0
+        16: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        19: aload_1
+        20: invokevirtual #144                // Method nl/sander/beejava/CodeContainer.getSignature:()Ljava/lang/String;
+        23: invokevirtual #93                 // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateUtf8:(Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        26: invokespecial #147                // Method nl/sander/beejava/classinfo/MethodInfo."<init>":(Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/constantpool/entry/Utf8Entry;)V
+        29: aload_1
+        30: invokevirtual #150                // Method nl/sander/beejava/CodeContainer.getAccessFlags:()Ljava/util/Set;
+        33: invokevirtual #153                // Method nl/sander/beejava/classinfo/MethodInfo.addAccessFlags:(Ljava/util/Set;)Lnl/sander/beejava/classinfo/MethodInfo;
+        36: aload_0
+        37: getfield      #97                 // Field codeAttributeNameEntry:Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        40: aload_1
+        41: invokestatic  #157                // Method nl/sander/beejava/MethodCodeCreator.createCodeAttribute:(Lnl/sander/beejava/constantpool/entry/Utf8Entry;Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/attributes/CodeAttribute;
+        44: invokevirtual #163                // Method nl/sander/beejava/classinfo/MethodInfo.addAttribute:(Lnl/sander/beejava/classinfo/attributes/Attribute;)Lnl/sander/beejava/classinfo/Info;
+        47: checkcast     #136                // class nl/sander/beejava/classinfo/MethodInfo
+        50: areturn
+      LineNumberTable:
+        line 96: 0
+        line 97: 9
+        line 98: 20
+        line 99: 30
+        line 100: 41
+        line 96: 50
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      51     0  this   Lnl/sander/beejava/Compiler;
+            0      51     1 method   Lnl/sander/beejava/CodeContainer;
+
+  private void updateConstantPool(nl.sander.beejava.api.CodeContainer);
+    descriptor: (Lnl/sander/beejava/CodeContainer;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+         4: aload_0
+         5: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+         8: aload_1
+         9: invokevirtual #138                // Method nl/sander/beejava/CodeContainer.getName:()Ljava/lang/String;
+        12: invokevirtual #93                 // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateUtf8:(Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        15: invokevirtual #101                // Method nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        18: aload_0
+        19: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        22: aload_0
+        23: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        26: aload_1
+        27: invokevirtual #144                // Method nl/sander/beejava/CodeContainer.getSignature:()Ljava/lang/String;
+        30: invokevirtual #93                 // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateUtf8:(Ljava/lang/String;)Lnl/sander/beejava/constantpool/entry/Utf8Entry;
+        33: invokevirtual #101                // Method nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        36: aload_1
+        37: invokevirtual #167                // Method nl/sander/beejava/CodeContainer.getCode:()Ljava/util/List;
+        40: aload_0
+        41: invokedynamic #171,  0            // InvokeDynamic #5:accept:(Lnl/sander/beejava/Compiler;)Ljava/util/function/Consumer;
+        46: invokeinterface #172,  2          // InterfaceMethod java/util/List.forEach:(Ljava/util/function/Consumer;)V
+        51: return
+      LineNumberTable:
+        line 107: 0
+        line 108: 18
+        line 109: 36
+        line 110: 51
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      52     0  this   Lnl/sander/beejava/Compiler;
+            0      52     1 codeContainer   Lnl/sander/beejava/CodeContainer;
+
+  private void updateConstantPool(nl.sander.beejava.api.CodeLine);
+    descriptor: (Lnl/sander/beejava/api/CodeLine;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=2, locals=3, args_size=2
+         0: aload_1
+         1: invokevirtual #175                // Method nl/sander/beejava/api/CodeLine.hasMethodCall:()Z
+         4: ifeq          29
+         7: aload_0
+         8: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        11: aload_1
+        12: invokevirtual #181                // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateMethodRefEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/MethodRefEntry;
+        15: astore_2
+        16: aload_1
+        17: aload_2
+        18: invokevirtual #185                // Method nl/sander/beejava/api/CodeLine.setAssignedEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        21: aload_0
+        22: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        25: aload_2
+        26: invokevirtual #101                // Method nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        29: aload_1
+        30: invokevirtual #188                // Method nl/sander/beejava/api/CodeLine.hasRefToOwnField:()Z
+        33: ifne          43
+        36: aload_1
+        37: invokevirtual #191                // Method nl/sander/beejava/api/CodeLine.hasRefToExternalField:()Z
+        40: ifeq          65
+        43: aload_0
+        44: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        47: aload_1
+        48: invokevirtual #194                // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreateFieldRefEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/FieldRefEntry;
+        51: astore_2
+        52: aload_1
+        53: aload_2
+        54: invokevirtual #185                // Method nl/sander/beejava/api/CodeLine.setAssignedEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        57: aload_0
+        58: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        61: aload_2
+        62: invokevirtual #101                // Method nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        65: aload_1
+        66: invokevirtual #198                // Method nl/sander/beejava/api/CodeLine.hasConstValue:()Z
+        69: ifeq          94
+        72: aload_0
+        73: getfield      #25                 // Field constantPoolEntryCreator:Lnl/sander/beejava/ConstantPoolEntryCreator;
+        76: aload_1
+        77: invokevirtual #201                // Method nl/sander/beejava/ConstantPoolEntryCreator.getOrCreatePrimitiveEntry:(Lnl/sander/beejava/api/CodeLine;)Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;
+        80: astore_2
+        81: aload_1
+        82: aload_2
+        83: invokevirtual #185                // Method nl/sander/beejava/api/CodeLine.setAssignedEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        86: aload_0
+        87: getfield      #16                 // Field compiledClass:Lnl/sander/beejava/CompiledClass;
+        90: aload_2
+        91: invokevirtual #101                // Method nl/sander/beejava/CompiledClass.addConstantPoolEntry:(Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;)V
+        94: return
+      LineNumberTable:
+        line 122: 0
+        line 123: 7
+        line 124: 16
+        line 125: 21
+        line 128: 29
+        line 129: 43
+        line 130: 52
+        line 131: 57
+        line 134: 65
+        line 135: 72
+        line 136: 81
+        line 137: 86
+        line 139: 94
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           16      13     2 methodRefEntry   Lnl/sander/beejava/constantpool/entry/MethodRefEntry;
+           52      13     2 fieldRefEntry   Lnl/sander/beejava/constantpool/entry/FieldRefEntry;
+           81      13     2 primitiveEntry   Lnl/sander/beejava/constantpool/entry/ConstantPoolEntry;
+            0      95     0  this   Lnl/sander/beejava/Compiler;
+            0      95     1 codeline   Lnl/sander/beejava/api/CodeLine;
+      StackMapTable: number_of_entries = 4
+        frame_type = 29 /* same */
+        frame_type = 13 /* same */
+        frame_type = 21 /* same */
+        frame_type = 28 /* same */
+}
+SourceFile: "Compiler.java"
+BootstrapMethods:
+  0: #232 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #239 (Ljava/lang/Object;)V
+      #241 REF_invokeSpecial nl/sander/beejava/Compiler.updateConstantPool:(Lnl/sander/beejava/CodeContainer;)V
+      #244 (Lnl/sander/beejava/api/BeeConstructor;)V
+  1: #232 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #239 (Ljava/lang/Object;)V
+      #241 REF_invokeSpecial nl/sander/beejava/Compiler.updateConstantPool:(Lnl/sander/beejava/CodeContainer;)V
+      #246 (Lnl/sander/beejava/api/BeeMethod;)V
+  2: #232 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #248 (Ljava/lang/Object;)Ljava/lang/Object;
+      #249 REF_invokeSpecial nl/sander/beejava/Compiler.createMethod:(Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/MethodInfo;
+      #252 (Lnl/sander/beejava/api/BeeConstructor;)Lnl/sander/beejava/classinfo/MethodInfo;
+  3: #232 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #239 (Ljava/lang/Object;)V
+      #254 REF_invokeVirtual nl/sander/beejava/CompiledClass.addMethod:(Lnl/sander/beejava/classinfo/MethodInfo;)V
+      #259 (Lnl/sander/beejava/classinfo/MethodInfo;)V
+  4: #232 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #248 (Ljava/lang/Object;)Ljava/lang/Object;
+      #249 REF_invokeSpecial nl/sander/beejava/Compiler.createMethod:(Lnl/sander/beejava/CodeContainer;)Lnl/sander/beejava/classinfo/MethodInfo;
+      #260 (Lnl/sander/beejava/api/BeeMethod;)Lnl/sander/beejava/classinfo/MethodInfo;
+  5: #232 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #239 (Ljava/lang/Object;)V
+      #262 REF_invokeSpecial nl/sander/beejava/Compiler.updateConstantPool:(Lnl/sander/beejava/api/CodeLine;)V
+      #265 (Lnl/sander/beejava/api/CodeLine;)V
+InnerClasses:
+  public static final #271= #267 of #269; // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles
