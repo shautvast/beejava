@@ -4,7 +4,7 @@ public class TestData2 {
 
     public final static String simpleBean= """           
             class com.acme.SimpleBean(V15)
-            field public final int value
+            field private int value
             constructor public()
               INVOKE super()
               RETURN

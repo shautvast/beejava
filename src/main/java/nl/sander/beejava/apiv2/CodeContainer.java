@@ -3,10 +3,7 @@ package nl.sander.beejava.apiv2;
 import nl.sander.beejava.TypeMapper;
 import nl.sander.beejava.flags.MethodAccessFlag;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -54,4 +51,17 @@ public abstract class CodeContainer {
     }
 
     public abstract boolean isConstructor();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CodeContainer that = (CodeContainer) o;
+        return formalParameters.equals(that.formalParameters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(formalParameters);
+    }
 }
