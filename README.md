@@ -57,6 +57,25 @@ BeeMethod print2 = BeeMethod.builder()
                 .build();
 ```
 
+The latest commits are centered around the new feature that let's you write code like this:
+```
+class com.acme.SimpleBean(V15)
+field private int value
+constructor public()
+  INVOKE super()
+  RETURN
+method public getValue() -> int
+  RETURN this.value
+method public setValue(int newValue)
+  LOAD newValue
+  PUT this.value
+  RETURN
+```
+* text based instead of programmatic, although that will still be possible
+* abstracts away most of the intricacies of working with a stack (although like bytecode it will still be stack based)
+* indent-aware like python ;)
+
+
 *Ideas about what's next*
 * MORE opcodes
 * invoke dynamic support (also in constant pool)
