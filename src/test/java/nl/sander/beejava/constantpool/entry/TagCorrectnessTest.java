@@ -12,7 +12,7 @@ public class TagCorrectnessTest {
     public void testSpec() {
         assertEquals(1, utf8().getTag());
         assertEquals(3, new IntegerEntry(0).getTag());
-        assertEquals(4, new FloatEntry(0).getTag());
+        assertEquals(4, new FloatEntry(0F).getTag());
         assertEquals(5, new LongEntry(0).getTag());
         assertEquals(6, new DoubleEntry(0).getTag());
         assertEquals(7, classEntry().getTag());

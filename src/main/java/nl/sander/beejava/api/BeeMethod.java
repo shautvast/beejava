@@ -12,18 +12,15 @@ public final class BeeMethod extends CodeContainer {
 
     private final Class<?> returnType;
 
-    private BeeMethod(String name, Set<MethodAccessFlag> accessFlags,
-                      List<BeeParameter> formalParameters,
-                      Class<?> returnType, List<CodeLine> code) {
+    public BeeMethod(BeeSource beeSource, String name, Set<MethodAccessFlag> accessFlags,
+                     Set<BeeParameter> formalParameters,
+                     Class<?> returnType, List<CodeLine> code) {
         this.name = name;
         this.accessFlags.addAll(accessFlags);
         this.formalParameters.addAll(formalParameters);
         this.returnType = returnType;
         super.code.addAll(code);
-    }
-
-    public static Builder builder() {
-        return new Builder();
+        setOwner(beeSource);
     }
 
     public String getName() {
@@ -48,45 +45,18 @@ public final class BeeMethod extends CodeContainer {
          */
     }
 
-    public static class Builder {
-        private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
-        private final List<BeeParameter> formalParameters = new LinkedList<>();
-        private final List<CodeLine> code = new LinkedList<>();
-        private String name;
-        private Class<?> returnType = Void.class;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        BeeMethod beeMethod = (BeeMethod) o;
+        return name.equals(beeMethod.name) &&
+                returnType.equals(beeMethod.returnType);
+    }
 
-        private Builder() {
-        }
-
-        public Builder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder withAccessFlags(MethodAccessFlag... accessFlags) {
-            this.accessFlags.addAll(Arrays.asList(accessFlags));
-            return this;
-        }
-
-        public Builder withFormalParameters(BeeParameter... formalParameters) {
-            this.formalParameters.addAll(Arrays.asList(formalParameters));
-            return this;
-        }
-
-        public Builder withReturnType(Class<?> returnType) {
-            this.returnType = returnType;
-            return this;
-        }
-
-        public Builder withCode(CodeLine... lines) {
-            this.code.addAll(Arrays.asList(lines));
-            return this;
-        }
-
-        public BeeMethod build() {
-            BeeMethod beeMethod = new BeeMethod(name, accessFlags, formalParameters, returnType, code);
-            code.forEach(line -> line.setOwner(beeMethod));
-            return beeMethod;
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, returnType);
     }
 }

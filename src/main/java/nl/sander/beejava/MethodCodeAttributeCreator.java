@@ -8,7 +8,7 @@ import nl.sander.beejava.constantpool.entry.MethodRefEntry;
 import nl.sander.beejava.constantpool.entry.Utf8Entry;
 import nl.sander.beejava.util.ByteBuf;
 
-public class MethodCodeCreator {
+public class MethodCodeAttributeCreator {
 
     public static CodeAttribute createCodeAttribute(Utf8Entry codeAttributeNameEntry, CodeContainer codeContainer) {
         CodeAttribute codeAttribute = new CodeAttribute(codeAttributeNameEntry);
@@ -16,10 +16,10 @@ public class MethodCodeCreator {
         codeAttribute.setMaxLocals(codeContainer.getFormalParameters().size() + 1);
         ByteBuf byteBuf = new ByteBuf();
 
-        codeContainer.getCode().forEach(codeLine -> {
-            JavaOpcode javaOpcode = codeLine.getJavaOpcode(); // the opcode we determined in calculateMaxStack
+        codeContainer.getExpandedCode().forEach(instruction -> {
+            JavaOpcode javaOpcode = instruction.getOpcode();
             byteBuf.addU8(javaOpcode.getByteCode());
-            ConstantPoolEntry constantPoolEntry = codeLine.getAssignedEntry();
+            ConstantPoolEntry constantPoolEntry = instruction.getEntry();
             if (constantPoolEntry != null) {
                 if (javaOpcode.isWide()) {
                     byteBuf.addU16(constantPoolEntry.getIndex());
@@ -37,11 +37,9 @@ public class MethodCodeCreator {
     private static int calculateMaxStack(CodeContainer codeContainer) {
         int stackSize = 0;
         int maxStackSize = 0;
-        for (CodeLine codeLine : codeContainer.getCode()) {
-            JavaOpcode javaOpcode = OpcodeMapper.mapOpcode(codeLine);
-            codeLine.setJavaOpcode(javaOpcode); //not really nice that we mutate codeLine, but this way we don't have to calculate the JavaOpcode twice
-            stackSize += javaOpcode.getStackDif();
-            ConstantPoolEntry assignedEntry = codeLine.getAssignedEntry();
+        for (JavaInstruction instruction : codeContainer.getExpandedCode()) {
+            stackSize += instruction.getOpcode().getStackDif();
+            ConstantPoolEntry assignedEntry = instruction.getEntry();
             if (assignedEntry instanceof MethodRefEntry) {
                 MethodRefEntry methodRefEntry = (MethodRefEntry) assignedEntry;
                 String argumentTypes = methodRefEntry.getNameAndType().getType();

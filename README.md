@@ -1,9 +1,9 @@
-# beejava
-Beejava is a code creation library, somewhat comparable to javassist or bytebuddy.  
-* It let's you compile java 'opcode' to bytecode.
+# bejava
+Bejava (backend java compiler) is a code creation library, somewhat comparable to javassist or bytebuddy.  
+* It let's you compile bejava-lang' to bytecode.
 * It does not inspect or enhance existing bytecode, though it could be part of such functionality. 
 
-What is 'opcode'?
+What is 'bejava lang'?
 
 The goal of the project is to let developers dynamically create classes, using a simplified version of standard java opcodes. For instance: 
 instead of having to choose between:

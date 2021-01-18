@@ -1,9 +1,7 @@
 package nl.sander.beejava.api;
 
+import nl.sander.beejava.JavaInstruction;
 import nl.sander.beejava.TypeMapper;
-import nl.sander.beejava.api.BeeParameter;
-import nl.sander.beejava.api.BeeSource;
-import nl.sander.beejava.api.CodeLine;
 import nl.sander.beejava.flags.MethodAccessFlag;
 
 import java.util.*;
@@ -17,6 +15,7 @@ public abstract class CodeContainer {
     protected final List<CodeLine> code = new LinkedList<>();
     protected final Set<BeeParameter> formalParameters = new HashSet<>();
     protected final Set<MethodAccessFlag> accessFlags = new HashSet<>();
+    private final List<JavaInstruction> expandedCode = new ArrayList<>();
     private BeeSource owner;
 
     public List<CodeLine> getCode() {
@@ -53,9 +52,35 @@ public abstract class CodeContainer {
         this.owner = beeSource;
     }
 
+    public List<JavaInstruction> getExpandedCode() {
+        return Collections.unmodifiableList(expandedCode);
+    }
+
+    public void setExpandedCode(List<JavaInstruction> instructions) {
+        expandedCode.clear();
+        expandedCode.addAll(instructions);
+    }
+
     public abstract boolean isConstructor();
 
     public Set<BeeParameter> getFormalParameters() {
         return formalParameters;
+    }
+
+    public Optional<BeeParameter> getParameter(String parameterName) {
+        return formalParameters.stream().filter(p -> parameterName.equals(p.getName())).findAny();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CodeContainer that = (CodeContainer) o;
+        return formalParameters.equals(that.formalParameters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(formalParameters);
     }
 }

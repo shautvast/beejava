@@ -9,18 +9,14 @@ import java.util.*;
  */
 public final class BeeConstructor extends CodeContainer {
 
-    public BeeConstructor(Set<MethodAccessFlag> accessFlags,
-                           Set<BeeParameter> formalParameters,
-                           List<CodeLine> code) {
+    public BeeConstructor(BeeSource beeSource, Set<MethodAccessFlag> accessFlags,
+                          Set<BeeParameter> formalParameters,
+                          List<CodeLine> code) {
         this.formalParameters.addAll(formalParameters);
         this.accessFlags.addAll(accessFlags);
         super.code.addAll(code);
+        setOwner(beeSource);
     }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
 
     public String getName() {
         return "<init>";
@@ -34,7 +30,7 @@ public final class BeeConstructor extends CodeContainer {
     }
 
     public Class<?> getReturnType() {
-        return Void.class;
+        return void.class;
     }
 
     @Override
@@ -55,34 +51,4 @@ public final class BeeConstructor extends CodeContainer {
         return Objects.hash(formalParameters);
     }
 
-    public static class Builder {
-        private final Set<MethodAccessFlag> accessFlags = new HashSet<>();
-        private final Set<BeeParameter> formalParameters = new HashSet<>();
-        private final List<CodeLine> code = new LinkedList<>();
-
-        private Builder() {
-
-        }
-
-        public Builder withFormalParameters(BeeParameter... formalParameters) {
-            this.formalParameters.addAll(Arrays.asList(formalParameters));
-            return this;
-        }
-
-        public Builder withAccessFlags(MethodAccessFlag... accessFlags) {
-            this.accessFlags.addAll(Arrays.asList(accessFlags));
-            return this;
-        }
-
-        public Builder withCode(CodeLine... lines) {
-            this.code.addAll(Arrays.asList(lines));
-            return this;
-        }
-
-        public BeeConstructor build() {
-            BeeConstructor beeConstructor = new BeeConstructor(accessFlags, formalParameters, code);
-            code.forEach(line -> line.setOwner(beeConstructor));
-            return beeConstructor;
-        }
-    }
 }

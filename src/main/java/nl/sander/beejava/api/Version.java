@@ -1,6 +1,6 @@
 package nl.sander.beejava.api;
 
-import nl.sander.beejava.apiv2.Opcode;
+import nl.sander.beejava.api.Opcode;
 
 import java.util.Optional;
 

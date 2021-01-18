@@ -16,8 +16,7 @@ public class TypeMapper {
         MAP.put(long.class, "J");
         MAP.put(short.class, "S");
         MAP.put(boolean.class, "Z");
-        MAP.put(Void.class, "V");
-
+        MAP.put(void.class, "V");
     }
 
     //TODO something with arrays

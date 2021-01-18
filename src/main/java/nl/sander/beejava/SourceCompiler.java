@@ -1,6 +1,6 @@
-package nl.sander.beejava.apiv2;
+package nl.sander.beejava;
 
-import nl.sander.beejava.api.Version;
+import nl.sander.beejava.api.*;
 import nl.sander.beejava.flags.ClassAccessFlags;
 import nl.sander.beejava.flags.FieldAccessFlag;
 import nl.sander.beejava.flags.MethodAccessFlag;
@@ -30,9 +30,11 @@ public class SourceCompiler {
     }
 
     public BeeSource doCompile() {
-        Arrays.stream(sourcecode.split("\n")).map(this::compileLine).forEach(instructions::add);
+        Arrays.stream(sourcecode.split("\n"))
+                .map(this::compileLine)
+                .forEach(instructions::add);
 
-        BeeSource beeSource = new nl.sander.beejava.apiv2.BeeSource();
+        BeeSource beeSource = new BeeSource();
 
         for (currentLine = 0; currentLine < instructions.size(); ) {
             Instruction ins = instructions.get(currentLine);
@@ -51,15 +53,15 @@ public class SourceCompiler {
             ClassInstruction classInstruction = (ClassInstruction) instruction;
             String operand = classInstruction.getOperand();
             switch (classInstruction.getOperation()) {
-                case FIELD -> beeSource.addFields(parseField(operand));
-                case CONSTRUCTOR -> beeSource.addConstructors(parseConstructor(operand));
-                case METHOD -> beeSource.addMethods(parseMethod(operand));
+                case FIELD -> beeSource.addFields(parseField(beeSource, operand));
+                case CONSTRUCTOR -> beeSource.addConstructors(parseConstructor(beeSource, operand));
+                case METHOD -> beeSource.addMethods(parseMethod(beeSource, operand));
                 default -> throw new IllegalArgumentException("Not allowed here");
             }
         }
     }
 
-    private BeeMethod parseMethod(String text) {
+    private nl.sander.beejava.api.BeeMethod parseMethod(BeeSource beeSource, String text) {
         String[] tokens = returntypesplitter.split(text);
         final String first;
         final Class<?> returnType;
@@ -83,42 +85,41 @@ public class SourceCompiler {
         }
 
         String[] nameParams = split(flagsNameParameters[i], parensplitter);
-        Set<BeeParameter> parameters = new HashSet<>();
-        String methodName=null;
+        Set<nl.sander.beejava.api.BeeParameter> parameters = new HashSet<>();
+        String methodName = null;
         if (nameParams.length > 0) {
             methodName = nameParams[0];
             if (nameParams[1].length() > 0) {
-
+                int index = 0;
                 String params = nameParams[1];
                 String[] paramTokens = params.split(",");
                 for (String paramToken : paramTokens) {
                     String[] declaration = paramToken.trim().split(" ");
                     String type = declaration[0];
                     String name = declaration[1];
-                    parameters.add(new BeeParameter(getType(type), name));
+                    parameters.add(new nl.sander.beejava.api.BeeParameter(getType(type), name, index++));
                 }
             }
         }
-        if (methodName==null){
+        if (methodName == null) {
             throw new IllegalArgumentException("method name not found");
         }
         currentLine += 1;
-        List<CodeLine> lines = new ArrayList<>();
+        List<nl.sander.beejava.api.CodeLine> lines = new ArrayList<>();
         Instruction nextInstruction = instructions.get(currentLine);
-        while (nextInstruction instanceof CodeLine) {
-            lines.add((CodeLine) nextInstruction);
-            currentLine += 1;
-            if (currentLine >= instructions.size()) {
-                break; // too tired to think
-            }
+        while (currentLine < instructions.size() && nextInstruction instanceof CodeLine) {
             nextInstruction = instructions.get(currentLine);
+            if (nextInstruction instanceof CodeLine) {
+                lines.add((CodeLine) nextInstruction);
+                currentLine += 1;
+            }
         }
 
 
-        return new BeeMethod(methodName, flags, parameters, returnType, lines);
+        return new BeeMethod(beeSource, methodName, flags, parameters, returnType, lines);
     }
 
-    private BeeConstructor parseConstructor(String text) {
+    private nl.sander.beejava.api.BeeConstructor parseConstructor(BeeSource beeSource, String text) {
         String[] tokens = split(text, parensplitter);
         String flag = tokens[0];
         MethodAccessFlag methodAccessFlag = MethodAccessFlag.get(flag.toUpperCase()).orElseThrow(illegalArgument("Not a valid flag " + flag));
@@ -127,30 +128,29 @@ public class SourceCompiler {
         Set<BeeParameter> parameters = new HashSet<>();
         if (params.length() > 0) {
             String[] paramTokens = params.split(",");
+            int index = 0;
             for (String paramToken : paramTokens) {
                 String[] declaration = paramToken.trim().split(" ");
                 String type = declaration[0];
                 String name = declaration[1];
-                try {
-                    parameters.add(new BeeParameter(Class.forName(type), name));
-                } catch (ClassNotFoundException e) {
-                    throw new IllegalArgumentException("field type " + type + " not found");
-                }
+                parameters.add(new BeeParameter(getType(type), name, index++));
             }
         }
         currentLine += 1;
         List<CodeLine> lines = new ArrayList<>();
         Instruction nextInstruction = instructions.get(currentLine);
-        while (nextInstruction instanceof CodeLine) {
-            lines.add((CodeLine) nextInstruction);
-            currentLine += 1;
+        while (currentLine < instructions.size() && nextInstruction instanceof CodeLine) {
             nextInstruction = instructions.get(currentLine);
-
+            if (nextInstruction instanceof CodeLine) {
+                lines.add((CodeLine) nextInstruction);
+                currentLine += 1;
+            }
         }
-        return new BeeConstructor(Set.of(methodAccessFlag), parameters, lines);
+
+        return new BeeConstructor(beeSource, Set.of(methodAccessFlag), parameters, lines);
     }
 
-    private BeeField parseField(String operand) {
+    private nl.sander.beejava.api.BeeField parseField(BeeSource beeSource, String operand) {
         String[] tokens = operand.split(" ");
         Set<FieldAccessFlag> flags = new HashSet<>();
         String type = null;
@@ -168,19 +168,29 @@ public class SourceCompiler {
             }
         }
         currentLine += 1;
-        return new BeeField(flags, getType(type), name);
+        return new BeeField(beeSource.getName(), flags, getType(type), name);
     }
 
-    private void parseClassDeclaration(Instruction firstLine, BeeSource beeSource) {
-        if (firstLine instanceof ClassInstruction) {
-            ClassInstruction classDeclaration = (ClassInstruction) firstLine;
+    private void parseClassDeclaration(Instruction instruction, BeeSource beeSource) {
+        if (instruction instanceof ClassInstruction) {
+            ClassInstruction classDeclaration = (ClassInstruction) instruction;
             ClassOperation operation = classDeclaration.getOperation();
             switch (operation) {
                 case CLASS -> {
+                    beeSource.addAccessFlags(ClassAccessFlags.SUPER);
+                    beeSource.setClassFileVersion(getVersion(classDeclaration));
+
                     String[] tokens = split(classDeclaration.getOperand(), parensplitter);
-                    beeSource.addAccessFlags(ClassAccessFlags.PUBLIC, ClassAccessFlags.SUPER);
-                    beeSource.setName(tokens[0]);
-                    beeSource.setClassFileVersion(Version.get(tokens[1]).orElseThrow(illegalArgument(tokens[1])));
+                    String rightHand = classDeclaration.getOperand();
+                    if (tokens.length > 0) { // has Version tag
+                        rightHand = tokens[0];
+                    }
+                    tokens = rightHand.split(" ");
+
+                    if (tokens.length == 2) { // has access flag
+                        beeSource.addAccessFlags(ClassAccessFlags.valueOf(tokens[0].toUpperCase()));
+                    }
+                    beeSource.setName(getClassName(tokens));
                 }
                 case INTERFACE -> {
                 }//TODO
@@ -194,6 +204,23 @@ public class SourceCompiler {
         currentLine += 1;
     }
 
+    private Version getVersion(ClassInstruction classDeclaration) {
+        String[] tokens2 = split(classDeclaration.getOperand(), parensplitter);
+        if (tokens2.length == 0) {
+            return Version.V8;
+        } else {
+            return Version.get(tokens2[1]).orElseThrow(illegalArgument(tokens2[1]));
+        }
+    }
+
+    private String getClassName(String[] tokens) {
+        if (tokens.length == 2) {
+            return tokens[1];
+        } else {
+            return tokens[0];
+        }
+    }
+
     private Instruction compileLine(String line) {
         if (!line.startsWith("  ")) {
             String[] tokens = split(line, firstBlanksplitter);
@@ -203,6 +230,9 @@ public class SourceCompiler {
             return new ClassInstruction(classOperation, operand);
         } else {
             line = line.substring(2);
+            if (line.startsWith(" ")) {
+                throw new IllegalArgumentException("Illegal indent -> must be 2 spaces");
+            }
             String operation;
             String operand;
             if (line.indexOf(' ') > -1) {
@@ -236,7 +266,13 @@ public class SourceCompiler {
         try {
             return switch (type) {
                 case "int" -> int.class;
+                case "short" -> short.class;
+                case "byte" -> byte.class;
+                case "long" -> long.class;
+                case "float" -> float.class;
                 case "double" -> double.class;
+                case "boolean" -> boolean.class;
+                case "char" -> char.class;
                 default -> Class.forName(type);
             };
         } catch (ClassNotFoundException e) {

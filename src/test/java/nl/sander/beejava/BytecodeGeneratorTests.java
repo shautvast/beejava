@@ -24,6 +24,6 @@ public class BytecodeGeneratorTests {
 
     @Test
     public void testFields() throws ClassNotFoundException {
-        BytecodeGenerator.generate(Compiler.compile(TestData.createClassWithField(int.class)));
+        BytecodeGenerator.generate(Compiler.compile(TestData.createClassWithField(Integer.class)));
     }
 }

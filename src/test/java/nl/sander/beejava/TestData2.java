@@ -3,10 +3,10 @@ package nl.sander.beejava;
 public class TestData2 {
 
     public final static String simpleBean= """           
-            class com.acme.SimpleBean(V15)
+            class public com.acme.SimpleBean(V15)
             field private int value
             constructor public()
-              INVOKE super()
+              INVOKE this.super()
               RETURN
             method public getValue() -> int
               RETURN this.value
@@ -40,7 +40,7 @@ public class TestData2 {
 
     String constructor_opcope = """
             constructor nl.sander.beejava.Compiler(nl.sander.beejava.CompiledClass arg_0);
-               INVOKE super()
+               INVOKE this.super()
                
                NEW nl.sander.beejava.ConstantPoolCreator()
                PUT this.constantPoolCreator

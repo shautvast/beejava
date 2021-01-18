@@ -1,4 +1,4 @@
-package nl.sander.beejava.apiv2;
+package nl.sander.beejava.api;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ public enum ClassOperation {
     CONSTRUCTOR,
     METHOD;
 
-    static Optional<ClassOperation> get(String text){
+    public static Optional<ClassOperation> get(String text){
         String upper = text.toUpperCase();
         for (ClassOperation val: ClassOperation.values()){
             if (val.toString().equals(upper)){

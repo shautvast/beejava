@@ -7,8 +7,12 @@ public class IntegerEntry extends LeafEntry {
 
     private final int intVal;
 
-    public IntegerEntry(int integer) {
-        this.intVal = integer;
+    public IntegerEntry(String integerVal) {
+        this.intVal = Integer.parseInt(integerVal);
+    }
+
+    public IntegerEntry(int integerVal) {
+        this.intVal = integerVal;
     }
 
     @Override

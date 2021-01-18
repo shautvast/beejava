@@ -2,7 +2,6 @@ package nl.sander.beejava.api;
 
 import nl.sander.beejava.flags.FieldAccessFlag;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -12,18 +11,23 @@ import java.util.Set;
  */
 public final class BeeField {
 
+    private final String declaringClass;
     private final Set<FieldAccessFlag> accessFlags = new HashSet<>();
     private final Class<?> type;
     private final String name;
 
-    public BeeField(Set<FieldAccessFlag> accessFlags, Class<?> type, String name) {
+    /**
+     *
+     * @param declaringClass class that declares the field. Can be existing class, or the one that is under construction
+     * @param accessFlags
+     * @param type field type. Must be existing type.
+     * @param name
+     */
+    public BeeField(String declaringClass, Set<FieldAccessFlag> accessFlags, Class<?> type, String name) {
+        this.declaringClass = declaringClass;
         this.accessFlags.addAll(accessFlags);
         this.type = type;
         this.name = name;
-    }
-
-    public static BeeField.Builder builder(){
-        return new Builder();
     }
 
     public Set<FieldAccessFlag> getAccessFlags() {
@@ -36,6 +40,10 @@ public final class BeeField {
 
     public String getName() {
         return name;
+    }
+
+    public String getDeclaringClass() {
+        return declaringClass;
     }
 
     @Override
@@ -51,32 +59,5 @@ public final class BeeField {
         return Objects.hash(name);
     }
 
-    public static class Builder {
-        private final Set<FieldAccessFlag> accessFlags = new HashSet<>();
-        private Class<?> type;
-        private String name;
 
-        private Builder(){
-
-        }
-
-        public BeeField.Builder withAccessFlags(FieldAccessFlag... accessFlags) {
-            this.accessFlags.addAll(Arrays.asList(accessFlags));
-            return this;
-        }
-
-        public BeeField.Builder withType(Class<?> type) {
-            this.type=type;
-            return this;
-        }
-
-        public BeeField.Builder withName(String name) {
-            this.name=name;
-            return this;
-        }
-
-        public BeeField build() {
-            return new BeeField(accessFlags, type, name);
-        }
-    }
 }

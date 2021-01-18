@@ -7,13 +7,17 @@ public class FloatEntry extends LeafEntry {
 
     private final float floatVal;
 
+    public FloatEntry(String floatVal) {
+        this.floatVal = Float.parseFloat(floatVal);
+    }
+
     public FloatEntry(float floatVal) {
         this.floatVal = floatVal;
     }
 
     @Override
     public String toString() {
-        return "Float\t\t" +floatVal;
+        return "Float\t\t" + floatVal;
     }
 
     @Override

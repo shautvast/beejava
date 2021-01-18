@@ -8,14 +8,18 @@ import java.util.Objects;
 public final class BeeParameter {
     private final Class<?> type;
     private final String name;
+    private final int index;
 
     public BeeParameter(Class<?> type, String name) {
         this.type = type;
         this.name = name;
+        this.index = -1;
     }
 
-    public static BeeParameter create(Class<?> type, String name) {
-        return new BeeParameter(type, Objects.requireNonNull(name));
+    public BeeParameter(Class<?> type, String name, int index) {
+        this.type = type;
+        this.name = name;
+        this.index = index;
     }
 
     public Class<?> getType() {
@@ -32,6 +36,10 @@ public final class BeeParameter {
         if (o == null || getClass() != o.getClass()) return false;
         BeeParameter that = (BeeParameter) o;
         return name.equals(that.name);
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     @Override

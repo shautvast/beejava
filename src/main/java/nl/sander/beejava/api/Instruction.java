@@ -1,4 +1,4 @@
-package nl.sander.beejava.apiv2;
+package nl.sander.beejava.api;
 
 public class Instruction {
     protected final String operand;

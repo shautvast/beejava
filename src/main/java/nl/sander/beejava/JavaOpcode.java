@@ -5,8 +5,20 @@ public enum JavaOpcode {
     LDC_W(0x13,true, +1),
     LDC2_W ( 0x14, true, +2),
 
+    ALOAD ( 0x19, false, +1),
     ALOAD_0 ( 0x2a, false, +1),
+    ALOAD_1 ( 0x2b, false, +1),
+    ALOAD_2 ( 0x2c, false, +1),
+    ALOAD_3 ( 0x2d, false, +1),
+
+    IRETURN ( 0xac,false, -1),
+    LRETURN(0xad, false, -2),
+    FRETURN(0xae,false,-1),
+    DRETURN(0xaf,false,-2),
+    ARETURN ( 0xb0,false, -1),
+
     RETURN ( 0xb1,false, 0),
+
     GETSTATIC ( 0xb2,true, +1),
     GETFIELD ( 0xb4,true, +1),
 

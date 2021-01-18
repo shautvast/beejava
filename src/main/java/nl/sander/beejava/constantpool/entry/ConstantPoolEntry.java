@@ -29,10 +29,19 @@ public abstract class ConstantPoolEntry {
         return getBytes()[0];
     }
 
+    /**
+     * The output of this ends up in the class file as the constantpool index of the entry.
+     *
+     * @return the cp index of the entry.
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * With this the ConstantPoolCreator sets the calculated index.
+     * @param index the cp index to assign to the entry
+     */
     public void setIndex(int index) {
         this.index = index;
     }
@@ -61,8 +70,20 @@ public abstract class ConstantPoolEntry {
         return (byte) (u16 >>> 8);
     }
 
-    protected byte getByte(long bits, int positions) {
-        return (byte) ((bits >>> (positions * 8)) & 0xFF);
+    /**
+     * get the Nth byte in an "array" of bits encoded in a long (i64). Used to create the stream representation of 64bit numbers
+     *
+     * @param bits     a long in which a long or a double is encoded.
+     * @param position the index of the byte (0..7) in the array of bits
+     * @return the Nth byte in the long
+     */
+    protected byte getByte(long bits, int position) {
+        if (position > 0 && position < 8) {
+            return (byte) ((bits >>> (position * 8)) & 0xFF);
+        } else {
+            throw new IllegalArgumentException("position must be 0..7");
+        }
+
     }
 
 }

@@ -1,6 +1,9 @@
 package nl.sander.beejava;
 
-import nl.sander.beejava.apiv2.*;
+import nl.sander.beejava.api.BeeField;
+import nl.sander.beejava.api.BeeMethod;
+import nl.sander.beejava.api.BeeParameter;
+import nl.sander.beejava.api.BeeSource;
 import nl.sander.beejava.flags.AccessFlags;
 import nl.sander.beejava.flags.ClassAccessFlags;
 import nl.sander.beejava.flags.FieldAccessFlag;
@@ -20,11 +23,16 @@ public class SourceCompilerTest {
         BeeSource beeSource = new SourceCompiler(TestData2.simpleBean).doCompile();
         assertEquals("com.acme.SimpleBean", beeSource.getName());
         assertEquals(ClassAccessFlags.SUPER.getBytecode() | ClassAccessFlags.PUBLIC.getBytecode(), AccessFlags.combine(beeSource.getAccessFlags()));
-        assertTrue(beeSource.getFields().contains(new BeeField(Set.of(FieldAccessFlag.PRIVATE), int.class, "value")));
+        assertTrue(beeSource.getFields().contains(new BeeField(beeSource.getName(), Set.of(FieldAccessFlag.PRIVATE), int.class, "value")));
         assertEquals(1, beeSource.getConstructors().size());
         Set<BeeMethod> methods = beeSource.getMethods();
         assertEquals(2, methods.size());
-        assertTrue(methods.contains(new BeeMethod("getValue", Set.of(MethodAccessFlag.PUBLIC), Set.of(), int.class, List.of())));
-        assertTrue(methods.contains(new BeeMethod("setValue", Set.of(MethodAccessFlag.PUBLIC), Set.of(new BeeParameter(int.class, "newValue")), Void.TYPE, List.of())));
+        assertTrue(methods.contains(new BeeMethod(beeSource, "getValue", Set.of(MethodAccessFlag.PUBLIC), Set.of(), int.class, List.of())));
+        assertTrue(methods.contains(new BeeMethod(beeSource, "setValue", Set.of(MethodAccessFlag.PUBLIC), Set.of(new BeeParameter(int.class, "newValue")), Void.TYPE, List.of())));
+
+        OpcodeTranslator.translate(beeSource);
+
+        Compiler.compile(beeSource);
+
     }
 }

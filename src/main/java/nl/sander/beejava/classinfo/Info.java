@@ -6,7 +6,7 @@ import nl.sander.beejava.constantpool.entry.Utf8Entry;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Info<T extends Info> {
+public abstract class Info<T extends Info<T>> {
 
     protected final Utf8Entry nameEntry;
     protected final Utf8Entry descriptorEntry;

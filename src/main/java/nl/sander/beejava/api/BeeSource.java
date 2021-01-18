@@ -2,50 +2,22 @@ package nl.sander.beejava.api;
 
 import nl.sander.beejava.flags.ClassAccessFlags;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Contains all information needed for compilation
- *
- * End users need to create an instance of this class (using the Builder) and add all fields, methods etc.
- * Once created the BeeSource object is immutable.
+ * Contains parsed class elements like constructors and methods, but the opcode is not compiled to bytecode yet.
  */
 public final class BeeSource {
-    private final Version classFileVersion;
-    private final BeePackage beePackage;
     private final Set<ClassAccessFlags> accessFlags = new HashSet<>();
-    private final String simpleName;
-    private final Class<?> superClass;
     private final Set<Class<?>> interfaces = new HashSet<>();
     private final Set<BeeField> fields = new HashSet<>();
     private final Set<BeeConstructor> constructors = new HashSet<>();
     private final Set<BeeMethod> methods = new HashSet<>();
-
-    private BeeSource(Version classFileVersion,
-                      BeePackage beePackage, Set<ClassAccessFlags> accessFlags, String simpleName, Class<?> superClass,
-                      Set<Class<?>> interfaces, Set<BeeField> fields, Set<BeeConstructor> constructors, Set<BeeMethod> methods) {
-        this.classFileVersion = classFileVersion;
-        this.beePackage = beePackage;
-        this.accessFlags.addAll(accessFlags);
-        this.simpleName = simpleName;
-        this.superClass = superClass;
-        this.interfaces.addAll(interfaces);
-        this.fields.addAll(fields);
-        this.constructors.addAll(constructors);
-        this.methods.addAll(methods);
-    }
-
-    /**
-     * Create a new BeeSource Builder class.
-     *
-     * @return a new instance of a Builder
-     */
-    public static BeeSource.Builder builder() {
-        return new Builder();
-    }
+    private Version classFileVersion;
+    private String name;
+    private Class<?> superClass = Object.class;
 
     /**
      * @return The classfile version
@@ -54,18 +26,8 @@ public final class BeeSource {
         return classFileVersion;
     }
 
-    /**
-     * @return The package in which the compiled class will reside.
-     */
-    public BeePackage getPackage() {
-        return beePackage;
-    }
-
-    /**
-     * returns the unqualified name, like java.lang.Class
-     */
-    public String getSimpleName() {
-        return simpleName;
+    public void setClassFileVersion(Version classFileVersion) {
+        this.classFileVersion = classFileVersion;
     }
 
     /**
@@ -75,11 +37,19 @@ public final class BeeSource {
         return Collections.unmodifiableSet(constructors);
     }
 
+    public void addConstructors(BeeConstructor... constructors) {
+        this.constructors.addAll(Set.of(constructors));
+    }
+
     /**
      * @return all methods that are provided with the class
      */
     public Set<BeeMethod> getMethods() {
         return methods;
+    }
+
+    public void addMethods(BeeMethod... methods) {
+        this.methods.addAll(Set.of(methods));
     }
 
     /**
@@ -89,11 +59,19 @@ public final class BeeSource {
         return Collections.unmodifiableSet(accessFlags);
     }
 
+    public void addAccessFlags(ClassAccessFlags... classAccessFlags) {
+        this.accessFlags.addAll(Set.of(classAccessFlags));
+    }
+
     /**
      * @return The full name, like java.lang.Class
      */
     public String getName() {
-        return beePackage.getName() + "." + simpleName;
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -103,11 +81,19 @@ public final class BeeSource {
         return superClass;
     }
 
+    public void setSuperClass(Class<?> superClass) {
+        this.superClass = superClass;
+    }
+
     /**
      * @return a list of unique interfaces that the class will implements
      */
     public Set<Class<?>> getInterfaces() {
         return Collections.unmodifiableSet(interfaces);
+    }
+
+    public void addInterfaces(Class<?>... interfaces) {
+        this.interfaces.addAll(Set.of(interfaces));
     }
 
     /**
@@ -117,74 +103,14 @@ public final class BeeSource {
         return Collections.unmodifiableSet(fields);
     }
 
-    /**
-     * Helper class for creating BeeSource classes
-     */
-    public static class Builder {
-        private final Set<ClassAccessFlags> accessFlags = new HashSet<>();
-        private final Set<Class<?>> interfaces = new HashSet<>();
-        private final Set<BeeField> fields = new HashSet<>();
-        private Version version;
-        private BeePackage beePackage;
-        private Class<?> superClass = Object.class;
-        private String simpleName;
-        private final Set<BeeConstructor> constructors = new HashSet<>();
-        private final Set<BeeMethod> methods = new HashSet<>();
+    public void addFields(BeeField... fields) {
+        this.fields.addAll(Set.of(fields));
+    }
 
-        private Builder() {
-        }
-
-        public Builder withClassFileVersion(Version version) {
-            this.version = version;
-            return this;
-        }
-
-        public BeeSource.Builder withPackage(String beePackage) {
-            this.beePackage = new BeePackage(beePackage);
-            return this;
-        }
-
-        public BeeSource.Builder withAccessFlags(ClassAccessFlags... accessFlags) {
-            this.accessFlags.addAll(Arrays.asList(accessFlags));
-            return this;
-        }
-
-        public BeeSource.Builder withSimpleName(String simpleName) {
-            this.simpleName = simpleName;
-            return this;
-        }
-
-        public Builder withSuperClass(Class<?> superClass) {
-            this.superClass = superClass;
-            return this;
-        }
-
-        public Builder withInterfaces(Class<?>... interfaces) {
-            this.interfaces.addAll(Arrays.asList(interfaces));
-            return this;
-        }
-
-        public Builder withFields(BeeField... fields) {
-            this.fields.addAll(Arrays.asList(fields));
-            return this;
-        }
-
-        public Builder withConstructors(BeeConstructor... constructors) {
-            this.constructors.addAll(Arrays.asList(constructors));
-            return this;
-        }
-
-        public Builder withMethods(BeeMethod... methods) {
-            this.methods.addAll(Arrays.asList(methods));
-            return this;
-        }
-
-        public BeeSource build() {
-            BeeSource beeSource = new BeeSource(version, beePackage, accessFlags, simpleName, superClass, interfaces, fields, constructors, methods);
-            constructors.forEach(c -> c.setOwner(beeSource));
-            methods.forEach(m -> m.setOwner(beeSource));
-            return beeSource;
-        }
-
+    public BeeField getField(String fieldName) {
+        return fields.stream()
+                .filter(f -> f.getName().equals(fieldName))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("field " + fieldName + " not found in " + getName()));
     }
 }
