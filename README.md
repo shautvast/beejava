@@ -1,6 +1,8 @@
-# bejava
-Bejava (backend java compiler) is a code creation library, somewhat comparable to javassist or bytebuddy.  
-* It let's you compile bejava-lang' to bytecode.
+# bejava compiler
+Bejava (backend java) compiler is a code creation library, somewhat comparable to javassist or bytebuddy.  
+* It let's you compile bejava-lang' to bytecode. As an alternative a BeSource object can be created programmatically and then compiled.
+* In this way it is a backend compiler. 
+* Handles creation of the constant pool
 * It does not inspect or enhance existing bytecode, though it could be part of such functionality. 
 
 What is 'bejava lang'?

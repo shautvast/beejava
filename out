@@ -241,7 +241,7 @@ Constant pool:
   #229 = Utf8               this
   #230 = Utf8               Lnl/sander/beejava/Compiler;
   #231 = Utf8               (Lnl/sander/beejava/api/BeeSource;)Lnl/sander/beejava/CompiledClass;
-  #232 = Utf8               beeSource
+  #232 = Utf8               beSource
   #233 = Utf8               Lnl/sander/beejava/api/BeeSource;
   #234 = Utf8               method
   #235 = Utf8               Lnl/sander/beejava/api/BeeMethod;
@@ -362,7 +362,7 @@ Constant pool:
         line 46: 0
       LocalVariableTable:
         Start  Length  Slot  Name   Signature
-            0      19     0 beeSource   Lnl/sander/beejava/api/BeeSource;
+            0      19     0 beSource   Lnl/sander/beejava/api/BeeSource;
 
   public nl.sander.beejava.CompiledClass compile();
     descriptor: ()Lnl/sander/beejava/CompiledClass;
